@@ -36,7 +36,7 @@ export default class FurnitureConfigurator {
         this.scene = new THREE.Scene();
 
         // model
-        new GLTFLoader().setPath("../static/models/").load("SheenChair.glb", (gltf) => {
+        new GLTFLoader().setPath("../static/models/").load("Chair-v3.glb", (gltf) => {
             this.scene.add(gltf.scene);
 
             const object = gltf.scene.getObjectByName("SheenChair_fabric");

@@ -58,11 +58,11 @@ export default class FurnitureConfigurator {
             this.scene.add(gltf.scene);
 
             const object = gltf.scene.getObjectByName("SheenChair_fabric");
-            console.log(object);
+            console.log(object.material.sheen);
 
             const gui = new GUI();
 
-            gui.add(object.material, "sheen", 0, 1);
+            gui.add(object.material, "sheenRoughness", 0, 1);
             gui.open();
         });
 
