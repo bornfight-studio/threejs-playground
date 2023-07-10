@@ -19,8 +19,10 @@ export default class FurnitureConfigurator {
             return;
         }
 
-        this.loadModel();
         this.init();
+        this.loadModel();
+        this.addEnvironmentLight();
+        this.addFloor();
     }
 
     init() {
@@ -28,6 +30,8 @@ export default class FurnitureConfigurator {
         this.container.appendChild(this.renderer.domElement);
         this.camera.position.set(-0.75, 0.7, 1.25);
 
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -37,7 +41,7 @@ export default class FurnitureConfigurator {
         const environment = new RoomEnvironment(this.renderer);
         const pmremGenerator = new THREE.PMREMGenerator(this.renderer);
 
-        this.scene.background = new THREE.Color(0xbbbbbb);
+        this.scene.background = new THREE.Color(0xffffff);
         this.scene.environment = pmremGenerator.fromScene(environment).texture;
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -55,18 +59,41 @@ export default class FurnitureConfigurator {
 
         loader.setPath(this.modelPath);
         loader.load(this.modelName, (gltf) => {
-            this.scene.add(gltf.scene);
+            const model = gltf.scene;
+
+            model.traverse((child) => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+            });
+            this.scene.add(model);
 
             const object = gltf.scene.getObjectByName("SheenChair_fabric");
-            console.log(object.material.sheen);
+
+            console.log(object.material);
 
             const gui = new GUI();
 
-            gui.add(object.material, "sheenRoughness", 0, 1);
+            gui.add(object.material, "sheen", 0, 1);
             gui.open();
         });
 
         this.animate();
+    }
+
+    addEnvironmentLight() {
+        const light = new THREE.AmbientLight(0xffffff, 0.5);
+        this.scene.add(light);
+    }
+
+    addFloor() {
+        const geometry = new THREE.PlaneGeometry(10, 10);
+        const material = new THREE.MeshStandardMaterial({ color: 0x808080 });
+        const floor = new THREE.Mesh(geometry, material);
+        floor.rotation.x = -Math.PI / 2;
+        floor.receiveShadow = true;
+        this.scene.add(floor);
     }
 
     animate() {
