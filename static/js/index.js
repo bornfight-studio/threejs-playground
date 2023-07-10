@@ -9,11 +9,11 @@
  */
 /* start-strip-code */
 import GridHelper from "./helpers/GridHelper";
-import TemplateComponent from "./components/TemplateComponent";
 /* end-strip-code */
 /**
  * Components
  */
+import FurnitureConfigurator from "./components/FurnitureConfigurator";
 
 /**
  * Check if document is ready cross-browser
@@ -74,5 +74,5 @@ ready(() => {
      * COMPONENTS INIT
      */
 
-    const temp = new TemplateComponent();
+    const furnitureConfigurator = new FurnitureConfigurator();
 });
