@@ -74,5 +74,7 @@ ready(() => {
      * COMPONENTS INIT
      */
 
-    const furnitureConfigurator = new FurnitureConfigurator();
+    // const furnitureConfigurator = new FurnitureConfigurator();
+
+    const furnitureConfigurator = new FurnitureConfigurator(".js-furniture-configurator", "../static/models/", "Chair.glb");
 });
