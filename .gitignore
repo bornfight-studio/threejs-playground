@@ -2,9 +2,8 @@ wp
 .idea/
 .DS_Store
 *.log
-static/node_modules/
+node_modules
 .idea_modules/
 .sass-cache/*
 node_modules/*
 bower_components/*
-/node_modules/*
