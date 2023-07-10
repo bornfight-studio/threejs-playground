@@ -1,0 +1,10 @@
+.o-container {
+    width: 100%;
+    @include fluidValue("padding-left", "s-container-padding");
+    @include fluidValue("padding-right", "s-container-padding");
+
+    &--wide {
+        @include fluidValue("padding-left", "s-container-wide-padding");
+        @include fluidValue("padding-right", "s-container-wide-padding");
+    }
+}

@@ -1,0 +1,52 @@
+@include font-face("PPFragment-SansRegular", "PPFragment-SansRegular");
+@include font-face("PPFragment-SerifRegular", "PPFragment-SerifRegular");
+
+/**
+ * Font variables
+ */
+$PPFragment-sans: "PPFragment-SansRegular", sans-serif;
+$PPFragment-serif: "PPFragment-SerifRegular", sans-serif;
+$font-primary: $PPFragment-sans;
+$font-secondary: $PPFragment-serif;
+
+/**
+ * Font size map
+ */
+$settings-typography: (
+    "a5": (
+        $breakpoint-sm: 39px,
+        $breakpoint-xl: 100px,
+    ),
+    "a4": (
+        $breakpoint-sm: 39px,
+        $breakpoint-xl: 80px,
+    ),
+    "a3": (
+        $breakpoint-sm: 39px,
+        $breakpoint-xl: 60px,
+    ),
+    "a2": (
+        $breakpoint-sm: 24px,
+        $breakpoint-xl: 46px,
+    ),
+    "a1": (
+        $breakpoint-sm: 29px,
+        $breakpoint-xl: 29px,
+    ),
+    "b0": (
+        $breakpoint-sm: 19px,
+        $breakpoint-xl: 27px,
+    ),
+    "b1": (
+        $breakpoint-sm: 16px,
+        $breakpoint-xl: 16px,
+    ),
+    "b2": (
+        $breakpoint-sm: 16px,
+        $breakpoint-xl: 16px,
+    ),
+    "b3": (
+        $breakpoint-sm: 12px,
+        $breakpoint-xl: 12px,
+    ),
+);

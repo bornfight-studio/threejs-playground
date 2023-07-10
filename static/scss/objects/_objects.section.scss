@@ -1,0 +1,29 @@
+.o-section {
+    &__bg {
+        display: block;
+        position: absolute;
+        width: 90%;
+        height: 40%;
+        left: 50%;
+        top: 50%;
+        background: $mystic-green;
+        opacity: 0.3;
+        filter: blur(130px);
+        transform: translate(-50%, -50%) rotate(8deg);
+        border-radius: 50%;
+        z-index: 0;
+    }
+
+    &--has-bg {
+        @include fluidValue("padding-top", "s-160");
+        @include fluidValue("padding-bottom", "s-160");
+        position: relative;
+        backface-visibility: hidden;
+
+        //overrides
+        .o-container {
+            position: relative;
+            z-index: 2;
+        }
+    }
+}

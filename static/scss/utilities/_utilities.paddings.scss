@@ -1,0 +1,47 @@
+.u-pt-0 {
+    padding-top: 0;
+}
+
+.u-pb-0 {
+    padding-bottom: 0;
+}
+
+.u-pt-xs {
+    @include fluidValue("padding-top", "s-20");
+}
+
+.u-pb-xs {
+    @include fluidValue("padding-bottom", "s-20");
+}
+
+.u-pt-sm {
+    @include fluidValue("padding-top", "s-40");
+}
+
+.u-pb-sm {
+    @include fluidValue("padding-bottom", "s-40");
+}
+
+.u-pt-md {
+    @include fluidValue("padding-top", "s-80");
+}
+
+.u-pb-md {
+    @include fluidValue("padding-bottom", "s-80");
+}
+
+.u-pt-lg {
+    @include fluidValue("padding-top", "s-100");
+}
+
+.u-pb-lg {
+    @include fluidValue("padding-bottom", "s-100");
+}
+
+.u-pt-xl {
+    @include fluidValue("padding-top", "s-120");
+}
+
+.u-pb-xl {
+    @include fluidValue("padding-bottom", "s-120");
+}
