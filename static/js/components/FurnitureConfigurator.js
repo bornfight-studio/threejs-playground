@@ -16,15 +16,15 @@ export default class FurnitureConfigurator {
         this.init();
         this.animate();
 
-        this.container = document.querySelector(".js-furniture-configurator");
+        this.configurator = document.querySelector(".js-furniture-configurator");
     }
 
     /**
      * Init
      */
     init() {
-        if (this.container !== null) {
-            console.log(this.container);
+        if (this.configurator !== null) {
+            console.log(this.configurator);
 
             const container = document.createElement("div");
             document.body.appendChild(container);
