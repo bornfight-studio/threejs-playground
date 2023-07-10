@@ -211,14 +211,14 @@
  */
 @font-face {
   font-family: "PPFragment-SansRegular";
-  src: url("./wp-content/themes/elibse-web-2023/static/fonts/PPFragment-SansRegular.woff2?1") format("woff2"), url("./wp-content/themes/elibse-web-2023/static/fonts/PPFragment-SansRegular.woff?1") format("woff");
+  src: url("../fonts/PPFragment-SansRegular.woff2?1") format("woff2"), url("../fonts/PPFragment-SansRegular.woff?1") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "PPFragment-SerifRegular";
-  src: url("./wp-content/themes/elibse-web-2023/static/fonts/PPFragment-SerifRegular.woff2?1") format("woff2"), url("./wp-content/themes/elibse-web-2023/static/fonts/PPFragment-SerifRegular.woff?1") format("woff");
+  src: url("../fonts/PPFragment-SerifRegular.woff2?1") format("woff2"), url("../fonts/PPFragment-SerifRegular.woff?1") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
