@@ -1,10 +1,10 @@
 import * as THREE from "three";
 
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
+import {RoomEnvironment} from "three/addons/environments/RoomEnvironment.js";
 
-import { GUI } from "three/addons/libs/lil-gui.module.min.js";
+import {GUI} from "three/addons/libs/lil-gui.module.min.js";
 
 export default class FurnitureConfigurator {
     constructor(container, modelPath, modelName) {
@@ -13,7 +13,7 @@ export default class FurnitureConfigurator {
         this.modelName = modelName;
         this.scene = new THREE.Scene();
         this.camera = this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 20);
-        this.renderer = new THREE.WebGLRenderer({ antialias: true });
+        this.renderer = new THREE.WebGLRenderer({antialias: true});
 
         if (this.container === null) {
             return;
@@ -51,7 +51,7 @@ export default class FurnitureConfigurator {
         this.controls.target.set(0, 0.35, 0);
         this.controls.update();
 
-        window.addEventListener("resize", this.onWindowResize);
+        window.addEventListener("resize", () => this.onWindowResize());
     }
 
     loadModel() {
@@ -89,7 +89,7 @@ export default class FurnitureConfigurator {
 
     addFloor() {
         const geometry = new THREE.PlaneGeometry(10, 10);
-        const material = new THREE.MeshStandardMaterial({ color: 0x808080 });
+        const material = new THREE.MeshBasicMaterial({color: 0x808080});
         const floor = new THREE.Mesh(geometry, material);
         floor.rotation.x = -Math.PI / 2;
         floor.receiveShadow = true;
