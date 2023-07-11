@@ -89,7 +89,7 @@ export default class FurnitureConfigurator {
 
     addFloor() {
         const geometry = new THREE.PlaneGeometry(10, 10);
-        const material = new THREE.MeshBasicMaterial({color: 0x808080});
+        const material = new THREE.MeshBasicMaterial({ color: 0x808080 });
         const floor = new THREE.Mesh(geometry, material);
         floor.rotation.x = -Math.PI / 2;
         floor.receiveShadow = true;
