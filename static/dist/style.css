@@ -210,26 +210,16 @@
  * Z-index map
  */
 @font-face {
-  font-family: "PPFragment-SansRegular";
-  src: url("../fonts/PPFragment-SansRegular.woff2?1") format("woff2"), url("../fonts/PPFragment-SansRegular.woff?1") format("woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "PPFragment-SerifRegular";
-  src: url("../fonts/PPFragment-SerifRegular.woff2?1") format("woff2"), url("../fonts/PPFragment-SerifRegular.woff?1") format("woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+  font-family: "SourceCodePro-Variable";
+  src: url("../fonts/SourceCodePro-Variable.ttf") format("truetype-variations");
+  font-weight: 1 999;
 }
 /**
  * Font variables
  */
 /**
  * Font size map
- */
-/**
+ */ /**
  * Third party settings
  */ /**
  * Generics
@@ -813,7 +803,7 @@ body {
 
 .u-a5 {
   font-size: 39px;
-  font-family: "PPFragment-SerifRegular", sans-serif;
+  font-family: "SourceCodePro-Variable", sans-serif;
   font-weight: normal;
   line-height: 1;
   letter-spacing: -0.01em;
@@ -836,7 +826,7 @@ body {
 
 .u-a4 {
   font-size: 39px;
-  font-family: "PPFragment-SerifRegular", sans-serif;
+  font-family: "SourceCodePro-Variable", sans-serif;
   font-weight: normal;
   line-height: 1;
   letter-spacing: -0.03em;
@@ -859,7 +849,7 @@ body {
 
 .u-a3 {
   font-size: 39px;
-  font-family: "PPFragment-SerifRegular", sans-serif;
+  font-family: "SourceCodePro-Variable", sans-serif;
   font-weight: normal;
   line-height: 1;
   letter-spacing: -0.02em;
@@ -882,7 +872,7 @@ body {
 
 .u-a2 {
   font-size: 24px;
-  font-family: "PPFragment-SansRegular", sans-serif;
+  font-family: "SourceCodePro-Variable", sans-serif;
   font-weight: normal;
   line-height: 116%;
   letter-spacing: -0.03em;
@@ -905,7 +895,7 @@ body {
 
 .u-a1 {
   font-size: 29px;
-  font-family: "PPFragment-SerifRegular", sans-serif;
+  font-family: "SourceCodePro-Variable", sans-serif;
   font-weight: normal;
   line-height: 91%;
   letter-spacing: -0.01em;
@@ -926,12 +916,12 @@ body {
   }
 }
 .u-a1--sans {
-  font-family: "PPFragment-SansRegular", sans-serif;
+  font-family: "SourceCodePro-Variable", sans-serif;
 }
 
 .u-b0, body {
   font-size: 19px;
-  font-family: "PPFragment-SerifRegular", sans-serif;
+  font-family: "SourceCodePro-Variable", sans-serif;
   font-weight: normal;
   line-height: 120%;
   letter-spacing: -0.01em;
@@ -954,7 +944,7 @@ body {
 
 .u-b1 {
   font-size: 16px;
-  font-family: "PPFragment-SerifRegular", sans-serif;
+  font-family: "SourceCodePro-Variable", sans-serif;
   font-weight: normal;
   line-height: 120%;
   letter-spacing: 0.02em;
@@ -977,7 +967,7 @@ body {
 
 .u-b2 {
   font-size: 16px;
-  font-family: "PPFragment-SansRegular", sans-serif;
+  font-family: "SourceCodePro-Variable", sans-serif;
   line-height: 120%;
   letter-spacing: -0.02em;
 }
@@ -999,7 +989,7 @@ body {
 
 .u-b3 {
   font-size: 12px;
-  font-family: "PPFragment-SansRegular", sans-serif;
+  font-family: "SourceCodePro-Variable", sans-serif;
   line-height: 91%;
   letter-spacing: 0.02em;
 }
@@ -1113,7 +1103,7 @@ body {
 
 .c-form .wpcf7-not-valid-tip {
   font-size: 12px;
-  font-family: "PPFragment-SansRegular", sans-serif;
+  font-family: "SourceCodePro-Variable", sans-serif;
   line-height: 91%;
   letter-spacing: 0.02em;
 }
@@ -1134,7 +1124,7 @@ body {
 }
 .c-form .wpcf7 form .wpcf7-response-output {
   font-size: 16px;
-  font-family: "PPFragment-SerifRegular", sans-serif;
+  font-family: "SourceCodePro-Variable", sans-serif;
   font-weight: normal;
   line-height: 110%;
   letter-spacing: 0.02em;

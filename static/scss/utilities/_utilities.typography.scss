@@ -3,7 +3,7 @@
 .u-a5 {
     @include fontSize("a5");
 
-    font-family: $font-secondary;
+    font-family: $font-primary;
     font-weight: normal;
     line-height: 1;
     letter-spacing: -0.01em;
@@ -12,7 +12,7 @@
 .u-a4 {
     @include fontSize("a4");
 
-    font-family: $font-secondary;
+    font-family: $font-primary;
     font-weight: normal;
     line-height: 1;
     letter-spacing: -0.03em;
@@ -21,7 +21,7 @@
 .u-a3 {
     @include fontSize("a3");
 
-    font-family: $font-secondary;
+    font-family: $font-primary;
     font-weight: normal;
     line-height: 1;
     letter-spacing: -0.02em;
@@ -39,7 +39,7 @@
 .u-a1 {
     @include fontSize("a1");
 
-    font-family: $font-secondary;
+    font-family: $font-primary;
     font-weight: normal;
     line-height: 91%;
     letter-spacing: -0.01em;
@@ -52,7 +52,7 @@
 .u-b0 {
     @include fontSize("b0");
 
-    font-family: $font-secondary;
+    font-family: $font-primary;
     font-weight: normal;
     line-height: 120%;
     letter-spacing: -0.01em;
@@ -61,7 +61,7 @@
 .u-b1 {
     @include fontSize("b1");
 
-    font-family: $font-secondary;
+    font-family: $font-primary;
     font-weight: normal;
     line-height: 120%;
     letter-spacing: 0.02em;
@@ -186,7 +186,7 @@
     .wpcf7 form .wpcf7-response-output {
         @include fontSize("b1");
 
-        font-family: $font-secondary;
+        font-family: $font-primary;
         font-weight: normal;
         line-height: 110%;
         letter-spacing: 0.02em;

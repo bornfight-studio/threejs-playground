@@ -1,13 +1,10 @@
-@include font-face("PPFragment-SansRegular", "PPFragment-SansRegular");
-@include font-face("PPFragment-SerifRegular", "PPFragment-SerifRegular");
+@include font-face-ttf("SourceCodePro-Variable", "SourceCodePro-Variable");
 
 /**
  * Font variables
  */
-$PPFragment-sans: "PPFragment-SansRegular", sans-serif;
-$PPFragment-serif: "PPFragment-SerifRegular", sans-serif;
-$font-primary: $PPFragment-sans;
-$font-secondary: $PPFragment-serif;
+$source-pro: "SourceCodePro-Variable", sans-serif;
+$font-primary: $source-pro;
 
 /**
  * Font size map
