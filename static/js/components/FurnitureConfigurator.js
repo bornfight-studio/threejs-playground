@@ -19,8 +19,8 @@ export default class FurnitureConfigurator {
         if (this.modelContainer !== null) {
             console.log("GLTFModelController init()");
 
-            this.width = this.modelContainer.offsetWidth;
-            this.height = this.modelContainer.offsetHeight;
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
 
             THREE.Cache.enabled = true;
 
@@ -81,7 +81,7 @@ export default class FurnitureConfigurator {
         this.renderer.setSize(this.width, this.height);
         this.renderer.shadowMap.enabled = true;
         this.renderer.gammaFactor = 2.2;
-        this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+        this.renderer.outputColorSpace = "srgb-linear";
         this.renderer.useLegacyLights = false;
         this.renderer.shadowMap.type = THREE.PCFShadowMap;
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -120,53 +120,53 @@ export default class FurnitureConfigurator {
         const materials = {
             mat1: {
                 base: this.texture.load("../static/models/mat1/base.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 height: this.texture.load("../static/models/mat1/height.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 ao: this.texture.load("../static/models/mat1/ao.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 norm: this.texture.load("../static/models/mat1/norm.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 rough: this.texture.load("../static/models/mat1/rough.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
             },
             mat2: {
                 base: this.texture.load("../static/models/mat2/base.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 height: this.texture.load("../static/models/mat2/height.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 ao: this.texture.load("../static/models/mat2/ao.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 norm: this.texture.load("../static/models/mat2/norm.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 rough: this.texture.load("../static/models/mat2/rough.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
             },
             mat3: {
                 base: this.texture.load("../static/models/matLion/base.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 height: this.texture.load("../static/models/matLion/height.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 ao: this.texture.load("../static/models/matLion/ao.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 norm: this.texture.load("../static/models/matLion/norm.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 rough: this.texture.load("../static/models/matLion/rough.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
             },
         };
@@ -241,53 +241,53 @@ export default class FurnitureConfigurator {
         const materials = {
             mat1: {
                 base: this.texture.load("../static/models/mat1/base.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 height: this.texture.load("../static/models/mat1/height.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 ao: this.texture.load("../static/models/mat1/ao.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 norm: this.texture.load("../static/models/mat1/norm.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 rough: this.texture.load("../static/models/mat1/rough.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
             },
             mat2: {
                 base: this.texture.load("../static/models/mat2/base.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 height: this.texture.load("../static/models/mat2/height.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 ao: this.texture.load("../static/models/mat2/ao.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 norm: this.texture.load("../static/models/mat2/norm.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 rough: this.texture.load("../static/models/mat2/rough.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
             },
             mat3: {
                 base: this.texture.load("../static/models/matLion/base.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 height: this.texture.load("../static/models/matLion/height.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 ao: this.texture.load("../static/models/matLion/ao.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 norm: this.texture.load("../static/models/matLion/norm.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
                 rough: this.texture.load("../static/models/matLion/rough.jpg", (tex) => {
-                    tex.colorSpace = THREE.sRGBEncoding;
+                    tex.colorSpace = "srgb-linear";
                 }),
             },
         };
@@ -326,7 +326,7 @@ export default class FurnitureConfigurator {
                 Material3: 3,
             })
             .onChange((value) => {
-                this.transformMaterial(value, material, materials, 4);
+                this.transformMaterial(value, material, materials, 1);
             });
 
         setTimeout(() => {
@@ -341,7 +341,7 @@ export default class FurnitureConfigurator {
         this.scene.add(sphere);
 
         gsap.to(sphere.rotation, {
-            duration: 20,
+            duration: 40,
             ease: "none",
             y: Math.PI * 2,
             repeat: -1,
