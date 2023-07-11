@@ -23,8 +23,8 @@ export default class FurnitureConfigurator {
         this.loadModel();
         this.addEnvironmentLight();
         this.addLights();
-        this.addGrid();
         this.addFloor();
+        this.addGrid();
     }
 
     init() {
