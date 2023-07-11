@@ -14,6 +14,7 @@ import GridHelper from "./helpers/GridHelper";
  * Components
  */
 // import FurnitureConfigurator from "./components/__FurnitureConfigurator";
+// import FurnitureConfigurator from "./components/_FurnitureConfigurator";
 import FurnitureConfigurator from "./components/FurnitureConfigurator";
 
 /**
@@ -77,7 +78,8 @@ ready(() => {
 
     // const furnitureConfigurator = new FurnitureConfigurator();
 
-    const furnitureConfigurator = new FurnitureConfigurator(".js-furniture-configurator", "../static/models/", "Chair-v4.glb");
+    // const furnitureConfigurator = new FurnitureConfigurator(".js-furniture-configurator", "../static/models/", "Chair-v4.glb");
 
-    // const furnitureConfigurator = new FurnitureConfigurator();
+    const furnitureConfigurator = new FurnitureConfigurator();
+    furnitureConfigurator.init();
 });
