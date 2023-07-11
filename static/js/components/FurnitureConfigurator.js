@@ -22,6 +22,8 @@ export default class FurnitureConfigurator {
         this.init();
         this.loadModel();
         this.addEnvironmentLight();
+        this.addLights();
+        this.addGrid();
         this.addFloor();
     }
 
@@ -76,6 +78,7 @@ export default class FurnitureConfigurator {
             const gui = new GUI();
 
             gui.add(object.material, "sheen", 0, 1);
+            gui.add(object.material, "metalness", 0, 1);
             gui.open();
         });
 
@@ -83,7 +86,7 @@ export default class FurnitureConfigurator {
     }
 
     addEnvironmentLight() {
-        const light = new THREE.AmbientLight(0xffffff, 0.5);
+        const light = new THREE.AmbientLight(0xffffff, 2);
         this.scene.add(light);
     }
 
@@ -94,6 +97,26 @@ export default class FurnitureConfigurator {
         floor.rotation.x = -Math.PI / 2;
         floor.receiveShadow = true;
         this.scene.add(floor);
+    }
+
+    addLights() {
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(10, 10, 10);
+        directionalLight.castShadow = true;
+        this.scene.add(directionalLight);
+
+        const pointLight = new THREE.PointLight(0xffffff, 0.3);
+        pointLight.position.set(-5, 5, 5);
+        pointLight.castShadow = true;
+        this.scene.add(pointLight);
+    }
+
+    addGrid() {
+        const size = 10;
+        const divisions = 10;
+
+        const gridHelper = new THREE.GridHelper(size, divisions);
+        this.scene.add(gridHelper);
     }
 
     animate() {
