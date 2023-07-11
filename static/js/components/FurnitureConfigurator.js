@@ -1,10 +1,10 @@
 import * as THREE from "three";
 
-import {OrbitControls} from "three/addons/controls/OrbitControls.js";
-import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
-import {RoomEnvironment} from "three/addons/environments/RoomEnvironment.js";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
-import {GUI} from "three/addons/libs/lil-gui.module.min.js";
+import { GUI } from "three/addons/libs/lil-gui.module.min.js";
 
 export default class FurnitureConfigurator {
     constructor(container, modelPath, modelName) {
@@ -13,7 +13,7 @@ export default class FurnitureConfigurator {
         this.modelName = modelName;
         this.scene = new THREE.Scene();
         this.camera = this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 20);
-        this.renderer = new THREE.WebGLRenderer({antialias: true});
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
 
         if (this.container === null) {
             return;
