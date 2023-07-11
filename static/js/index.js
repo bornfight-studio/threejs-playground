@@ -77,7 +77,7 @@ ready(() => {
 
     // const furnitureConfigurator = new FurnitureConfigurator();
 
-    const furnitureConfigurator = new FurnitureConfigurator(".js-furniture-configurator", "../static/models/", "Chair-v3.glb");
+    const furnitureConfigurator = new FurnitureConfigurator(".js-furniture-configurator", "../static/models/", "Chair-v4.glb");
 
     // const furnitureConfigurator = new FurnitureConfigurator();
 });

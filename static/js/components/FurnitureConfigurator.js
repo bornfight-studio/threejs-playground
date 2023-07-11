@@ -2,6 +2,7 @@ import * as THREE from "three";
 
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+// import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
 import { GUI } from "three/addons/libs/lil-gui.module.min.js";
@@ -21,10 +22,10 @@ export default class FurnitureConfigurator {
 
         this.init();
         this.loadModel();
-        this.addEnvironmentLight();
-        this.addLights();
         this.addFloor();
         this.addGrid();
+        this.addEnvironmentLight();
+        this.addLights();
     }
 
     init() {
@@ -39,17 +40,20 @@ export default class FurnitureConfigurator {
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
         this.renderer.toneMappingExposure = 1;
         this.renderer.useLegacyLights = false;
+        this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+        THREE.ColorManagement.enabled = true;
 
         const environment = new RoomEnvironment(this.renderer);
         const pmremGenerator = new THREE.PMREMGenerator(this.renderer);
 
-        this.scene.background = new THREE.Color(0xffffff);
+        this.scene.background = new THREE.Color(0x808080);
         this.scene.environment = pmremGenerator.fromScene(environment).texture;
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableDamping = true;
-        this.controls.minDistance = 1;
-        this.controls.maxDistance = 10;
+        this.controls.minDistance = 0.5;
+        this.controls.maxDistance = 5;
         this.controls.target.set(0, 0.35, 0);
         this.controls.update();
 
@@ -57,7 +61,11 @@ export default class FurnitureConfigurator {
     }
 
     loadModel() {
+        // const dracoLoader = new DRACOLoader();
+        // dracoLoader.setDecoderPath("../static/js/vendors/draco/");
         const loader = new GLTFLoader();
+
+        // loader.setDRACOLoader(dracoLoader);
 
         loader.setPath(this.modelPath);
         loader.load(this.modelName, (gltf) => {
@@ -75,10 +83,22 @@ export default class FurnitureConfigurator {
 
             console.log(object.material);
 
+            const params = {
+                sheenColor: "#53745c",
+            };
+
             const gui = new GUI();
+
+            object.material.sheen = 0.447;
+            object.material.metalness = 0.275;
+            object.material.sheenColor.set(params.color);
 
             gui.add(object.material, "sheen", 0, 1);
             gui.add(object.material, "metalness", 0, 1);
+            gui.addColor(params, "sheenColor").onChange(() => {
+                object.material.sheenColor.set(params.sheenColor);
+            });
+
             gui.open();
         });
 
@@ -86,13 +106,13 @@ export default class FurnitureConfigurator {
     }
 
     addEnvironmentLight() {
-        const light = new THREE.AmbientLight(0xffffff, 2);
+        const light = new THREE.AmbientLight(0x808080, 15);
         this.scene.add(light);
     }
 
     addFloor() {
         const geometry = new THREE.PlaneGeometry(10, 10);
-        const material = new THREE.MeshBasicMaterial({ color: 0x808080 });
+        const material = new THREE.MeshStandardMaterial({ color: 0x808080 });
         const floor = new THREE.Mesh(geometry, material);
         floor.rotation.x = -Math.PI / 2;
         floor.receiveShadow = true;
@@ -100,8 +120,10 @@ export default class FurnitureConfigurator {
     }
 
     addLights() {
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-        directionalLight.position.set(10, 10, 10);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 4);
+        directionalLight.position.set(1, 1, 1);
+        const helper = new THREE.DirectionalLightHelper(directionalLight, 1);
+        this.scene.add(helper);
         directionalLight.castShadow = true;
         this.scene.add(directionalLight);
 
@@ -112,7 +134,7 @@ export default class FurnitureConfigurator {
     }
 
     addGrid() {
-        const size = 10;
+        const size = 2;
         const divisions = 10;
 
         const gridHelper = new THREE.GridHelper(size, divisions);
@@ -121,7 +143,6 @@ export default class FurnitureConfigurator {
 
     animate() {
         requestAnimationFrame(() => this.animate());
-
         this.render();
     }
 
