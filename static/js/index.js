@@ -16,6 +16,7 @@ import GridHelper from "./helpers/GridHelper";
 // import FurnitureConfigurator from "./components/__FurnitureConfigurator";
 // import FurnitureConfigurator from "./components/_FurnitureConfigurator";
 import FurnitureConfigurator from "./components/FurnitureConfigurator";
+import TextureViewer from "./components/TextureViewer";
 
 /**
  * Check if document is ready cross-browser
@@ -82,4 +83,7 @@ ready(() => {
 
     const furnitureConfigurator = new FurnitureConfigurator();
     furnitureConfigurator.init();
+
+    const textureViewer = new TextureViewer();
+    textureViewer.animate();
 });
