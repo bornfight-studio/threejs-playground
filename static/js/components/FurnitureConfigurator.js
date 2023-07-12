@@ -39,7 +39,7 @@ export default class FurnitureConfigurator {
                 grid: {
                     showGrid: true,
                 },
-                sofaMaterial: "Material3",
+                sofaMaterial: "Material1",
                 sphereMaterial: "Material1",
             };
 
@@ -172,13 +172,13 @@ export default class FurnitureConfigurator {
         };
 
         let material = new THREE.MeshPhysicalMaterial({
-            map: materials.mat3.base,
-            aoMap: materials.mat3.ao,
+            map: materials.mat1.base,
+            aoMap: materials.mat1.ao,
             aoMapIntensity: 1,
-            normalMap: materials.mat3.norm,
-            displacementMap: materials.mat3.height,
+            normalMap: materials.mat1.norm,
+            displacementMap: materials.mat1.height,
             displacementScale: 0,
-            roughnessMap: materials.mat3.rough,
+            roughnessMap: materials.mat1.rough,
             metalness: 0,
             clearcoat: 0,
             flatShading: false,
@@ -358,8 +358,6 @@ export default class FurnitureConfigurator {
         } else {
             mat = materials.mat1;
         }
-
-        console.log(index);
 
         mat.base.minFilter = THREE.NearestFilter;
         mat.base.generateMipmaps = false;
