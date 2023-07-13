@@ -6,4 +6,6 @@
     padding-bottom: 10px;
     padding-top: 10px;
     border-bottom: 1px solid $black-20;
+    background-color: $white-30;
+    backdrop-filter: blur(5px);
 }
