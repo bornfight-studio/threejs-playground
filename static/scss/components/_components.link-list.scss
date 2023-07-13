@@ -1,0 +1,4 @@
+.c-link-list {
+    list-style: none;
+    @include fluidValue("padding-top", "s-60");
+}
