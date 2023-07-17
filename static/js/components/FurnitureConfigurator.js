@@ -114,7 +114,7 @@ export default class FurnitureConfigurator {
         this.controls.Rotate = this.guiConf.Rotate;
         this.controls.autoRotateSpeed = 1;
         this.controls.enableDamping = true;
-        this.controls.minDistance = 6;
+        this.controls.minDistance = 8;
         this.controls.maxDistance = 16;
         this.controls.maxPolarAngle = Math.PI / 2;
         this.controls.minPolarAngle = 0;
