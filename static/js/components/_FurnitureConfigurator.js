@@ -32,6 +32,7 @@ export default class FurnitureConfigurator {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.container.appendChild(this.renderer.domElement);
         this.camera.position.set(-0.75, 0.7, 1.25);
+        this.camera.rotation.x = -Math.PI / 2;
 
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;

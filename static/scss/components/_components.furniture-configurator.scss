@@ -1,0 +1,53 @@
+.c-furniture-configurator {
+    position: relative;
+
+    &__options {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 20px;
+        max-width: 320px;
+        list-style: none;
+        margin: 0;
+    }
+
+    li {
+        margin-bottom: 5px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+
+.c-option {
+    display: flex;
+    align-items: center;
+    border: 1px solid $black-20;
+    padding: 5px;
+    cursor: pointer;
+    background-color: $white-20;
+    backdrop-filter: blur(5px);
+    transition: all 0.2s;
+
+    img {
+        max-width: 50px;
+        pointer-events: none;
+    }
+
+    span {
+        pointer-events: none;
+        padding-left: 20px;
+        padding-right: 10px;
+    }
+
+    &.is-active {
+        border: 1px solid $black-50;
+    }
+
+    &.is-active,
+    &:hover {
+        background-color: $white-50;
+    }
+}

@@ -9,15 +9,32 @@
 </head>
 <body>
 <nav class="c-navigation">
-    <a href="../index.html" class="c-back-link">
-        <i><</i>
-        <span>Back</span>
-    </a>
+    <div class="o-container">
+        <a href="../index.html" class="c-back-link u-b3">
+            <i><</i>
+            <span>Back</span>
+        </a>
+    </div>
 </nav>
 <header class="c-header"></header>
 <section class="o-section o-section--fullscreen">
-    <div class="c-furniture-configurator js-furniture-configurator" data-model-source="../static/models/sofa_chair-v2.glb" data-map-location="../static/models/">
+    <div class="c-furniture-configurator js-furniture-configurator" data-model-source="../static/models/cameleonda-v8.glb" data-map-location="../static/models/">
             <!-- CANVAS ELEMENT WILL BE INJECTED HERE -->
+
+        <ul class="c-furniture-configurator__options">
+            <li>
+                <button class="c-option js-furniture-configurator-option is-active">
+                    <img src="../static/models/mat1/base.jpg" alt="Titan 135">
+                    <span class="u-b3 u-uppercase">Titan 135</span>
+                </button>
+            </li>
+            <li>
+                <button class="c-option js-furniture-configurator-option">
+                    <img src="../static/models/mat2/base.jpg" alt="Titan 108">
+                    <span class="u-b3 u-uppercase">Titan 108</span>
+                </button>
+            </li>
+        </ul>
     </div>
 </section>
 
