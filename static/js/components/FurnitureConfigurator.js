@@ -37,10 +37,12 @@ export default class FurnitureConfigurator {
             //lights
             this.lightHelpers = false;
 
+            //objects
+            this.modelObjects = JSON.parse(this.modelContainer.dataset.modelObjects);
+
             // gui
             this.gui = new GUI();
 
-            console.log(this.gui);
             this.gui.name = "Scene option";
             this.gui.close();
             this.gui.$title.innerText = "Options";
@@ -129,7 +131,7 @@ export default class FurnitureConfigurator {
     }
 
     loadModel() {
-        const materialScale = 2.25;
+        const materialScale = this.modelContainer.dataset.materialScale;
 
         const materials = {
             mat1: {
@@ -194,7 +196,13 @@ export default class FurnitureConfigurator {
             model.scene.position.x = 0;
             material.color.convertSRGBToLinear();
 
-            const objects = [model.scene.getObjectByName("headrest"), model.scene.getObjectByName("seat")];
+            const objects = [];
+
+            this.modelObjects.forEach((modelObject) => {
+                objects.push(model.scene.getObjectByName(modelObject));
+            });
+
+            console.log(objects);
 
             objects.forEach((object) => {
                 object.castShadow = true;

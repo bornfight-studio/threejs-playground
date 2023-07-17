@@ -170,11 +170,11 @@ export default class FurnitureConfigurator {
 
         const materials = {
             mat: {
-                base: this.texture.load("../static/models/mat2/base.jpg"),
-                height: this.texture.load("../static/models/mat2/height.jpg"),
-                ao: this.texture.load("../static/models/mat2/ao.jpg"),
-                norm: this.texture.load("../static/models/mat2/norm.jpg"),
-                rough: this.texture.load("../static/models/mat2/rough.jpg"),
+                base: this.texture.load("../static/models/mat1/base.jpg"),
+                height: this.texture.load("../static/models/mat1/height.jpg"),
+                ao: this.texture.load("../static/models/mat1/ao.jpg"),
+                norm: this.texture.load("../static/models/mat1/norm.jpg"),
+                rough: this.texture.load("../static/models/mat1/rough.jpg"),
             },
         };
 
@@ -184,7 +184,7 @@ export default class FurnitureConfigurator {
             aoMapIntensity: 0.5,
             normalMap: materials.mat.norm,
             displacementMap: materials.mat.height,
-            displacementScale: 0.25,
+            displacementScale: 0,
             roughnessMap: materials.mat.rough,
             metalness: 0.15,
             flatShading: false,
