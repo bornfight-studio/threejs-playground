@@ -202,6 +202,23 @@ export default class FurnitureConfigurator {
                 objects.push(model.scene.getObjectByName(modelObject));
             });
 
+            // reversi specific
+
+            if (model.scene.getObjectByName("pillow_left")) {
+                model.scene.getObjectByName("pillow_left").castShadow = true;
+                model.scene.getObjectByName("pillow_left").recieveShadow = true;
+            }
+
+            if (model.scene.getObjectByName("pillow_center")) {
+                model.scene.getObjectByName("pillow_center").castShadow = true;
+                model.scene.getObjectByName("pillow_center").recieveShadow = true;
+            }
+
+            if (model.scene.getObjectByName("pillow_right")) {
+                model.scene.getObjectByName("pillow_right").castShadow = true;
+                model.scene.getObjectByName("pillow_right").recieveShadow = true;
+            }
+
             console.log(objects);
 
             objects.forEach((object) => {
