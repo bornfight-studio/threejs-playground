@@ -17,6 +17,7 @@ import GridHelper from "./helpers/GridHelper";
 // import FurnitureConfigurator from "./components/_FurnitureConfigurator";
 import FurnitureConfigurator from "./components/FurnitureConfigurator";
 import FabricViewer from "./components/FabricViewer";
+import ModelViewer from "./components/ModelViewer";
 
 /**
  * Check if document is ready cross-browser
@@ -86,4 +87,7 @@ ready(() => {
 
     const fabricViewer = new FabricViewer();
     fabricViewer.init();
+
+    const modelViewer = new ModelViewer();
+    modelViewer.init();
 });

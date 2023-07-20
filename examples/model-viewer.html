@@ -1,0 +1,45 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Three.js playground — Home</title>
+    <link rel="stylesheet" href="../static/dist/style.css">
+</head>
+<body>
+<nav class="c-navigation">
+    <div class="o-container">
+        <a href="../index.html" class="c-back-link u-b3">
+            <i><</i>
+            <span>Back</span>
+        </a>
+    </div>
+</nav>
+<section class="o-section o-section--fullscreen">
+    <div class="c-model-viewer-wrapper">
+        <model-viewer
+            id="sofa"
+            class="c-model-viewer"
+            alt="Reversi"
+            src="../static/models/reversi-v5.glb"
+            ar
+            shadow-intensity="0.5"
+            camera-controls
+            touch-action="pan-y"
+            camera-orbit="-55deg 80deg 18m"
+            max-camera-orbit='auto 85deg auto'
+        ></model-viewer>
+        <div class="c-controls">
+            <button class="c-controls__item js-model-viewer-control" data-color="#ff0000">Red</button>
+            <button class="c-controls__item js-model-viewer-control" data-color="#00ff00">Green</button>
+            <button class="c-controls__item js-model-viewer-control" data-color="#0000ff">Blue</button>
+        </div>
+    </div>
+</section>
+
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.1/model-viewer.min.js"></script>
+<script type='text/javascript' src='../static/dist/vendor.js'></script>
+<script type='text/javascript' src='../static/dist/bundle.js'></script>
+</body>
+</html>
