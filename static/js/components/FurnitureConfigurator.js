@@ -5,6 +5,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { GUI } from "three/addons/libs/lil-gui.module.min.js";
+import materialData from "../../materialData.json";
 
 export default class FurnitureConfigurator {
     constructor() {
@@ -131,44 +132,25 @@ export default class FurnitureConfigurator {
     }
 
     loadModel() {
+        let materials = {};
+
         const materialScale = this.modelContainer.dataset.materialScale;
 
-        const materials = {
-            mat1: {
-                base: this.texture.load("../static/models/mat1/base.jpg"),
-                height: this.texture.load("../static/models/mat1/height.jpg"),
-                ao: this.texture.load("../static/models/mat1/ao.jpg"),
-                // norm: this.texture.load("../static/models/mat1/norm.jpg"),
-                rough: this.texture.load("../static/models/mat1/rough.jpg"),
-            },
-            mat2: {
-                base: this.texture.load("../static/models/mat2/base.jpg"),
-                height: this.texture.load("../static/models/mat2/height.jpg"),
-                ao: this.texture.load("../static/models/mat2/ao.jpg"),
-                // norm: this.texture.load("../static/models/mat2/norm.jpg"),
-                rough: this.texture.load("../static/models/mat2/rough.jpg"),
-            },
-            mat3: {
-                base: this.texture.load("../static/models/mat3/base.jpg"),
-                height: this.texture.load("../static/models/mat3/height.jpg"),
-                ao: this.texture.load("../static/models/mat3/ao.jpg"),
-                // norm: this.texture.load("../static/models/mat3/norm.jpg"),
-                rough: this.texture.load("../static/models/mat3/rough.jpg"),
-            },
-            mat4: {
-                base: this.texture.load("../static/models/mat4/base.jpg"),
-                height: this.texture.load("../static/models/mat4/height.jpg"),
-                ao: this.texture.load("../static/models/mat4/ao.jpg"),
-                // norm: this.texture.load("../static/models/mat4/norm.jpg"),
-                rough: this.texture.load("../static/models/mat4/rough.jpg"),
-            },
-        };
+        for (let material in materialData) {
+            const materialObject = materialData[material];
+
+            materials[material] = {};
+            const materialMapObject = materialData[material];
+
+            for (let materialMap in materialObject) {
+                materials[material][materialMap] = this.texture.load(materialMapObject[materialMap]);
+            }
+        }
 
         let material = new THREE.MeshPhysicalMaterial({
             map: materials.mat1.base,
             aoMap: materials.mat1.ao,
             aoMapIntensity: 0,
-            // normalMap: materials.mat1.norm,
             displacementMap: materials.mat1.height,
             displacementScale: 0,
             roughnessMap: materials.mat1.rough,
@@ -232,8 +214,6 @@ export default class FurnitureConfigurator {
                 model.scene.getObjectByName("pillow_right").castShadow = true;
                 model.scene.getObjectByName("pillow_right").recieveShadow = true;
             }
-
-            console.log(objects);
 
             objects.forEach((object) => {
                 object.castShadow = true;
@@ -318,17 +298,7 @@ export default class FurnitureConfigurator {
     }
 
     transformMaterial(index, material, materials, scale) {
-        let mat = null;
-
-        if (index === 1) {
-            mat = materials.mat1;
-        } else if (index === 2) {
-            mat = materials.mat2;
-        } else if (index === 3) {
-            mat = materials.mat3;
-        } else {
-            mat = materials.mat4;
-        }
+        let mat = materials[`mat${index}`];
 
         mat.base.minFilter = THREE.NearestFilter;
         mat.base.generateMipmaps = false;

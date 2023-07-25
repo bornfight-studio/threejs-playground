@@ -9,17 +9,24 @@
         max-width: 320px;
         list-style: none;
         margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
 
     li {
+        width: calc(50% - 2.5px);
         margin-bottom: 5px;
 
         &:last-child {
             margin-bottom: 0;
         }
     }
-}
 
+    .c-option-label {
+        width: 100%;
+    }
+}
 
 .c-option {
     display: flex;
@@ -33,7 +40,7 @@
     transition: all 0.2s;
 
     img {
-        max-width: 50px;
+        max-width: 32px;
         pointer-events: none;
     }
 

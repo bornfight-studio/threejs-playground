@@ -1,0 +1,38 @@
+{
+    "mat1": {
+        "base": "../static/models/titan-135/base.jpg",
+        "height": "../static/models/titan-135/height.jpg",
+        "ao": "../static/models/titan-135/ao.jpg",
+        "rough": "../static/models/titan-135/rough.jpg"
+    },
+    "mat2": {
+        "base": "../static/models/titan-108/base.jpg",
+        "height": "../static/models/titan-108/height.jpg",
+        "ao": "../static/models/titan-108/ao.jpg",
+        "rough": "../static/models/titan-108/rough.jpg"
+    },
+    "mat3": {
+        "base": "../static/models/titan-109/base.jpg",
+        "height": "../static/models/titan-109/height.jpg",
+        "ao": "../static/models/titan-109/ao.jpg",
+        "rough": "../static/models/titan-109/rough.jpg"
+    },
+    "mat4": {
+        "base": "../static/models/titan-113/base.jpg",
+        "height": "../static/models/titan-113/height.jpg",
+        "ao": "../static/models/titan-113/ao.jpg",
+        "rough": "../static/models/titan-113/rough.jpg"
+    },
+    "mat5": {
+        "base": "../static/models/stanlio-135/base.jpg",
+        "height": "../static/models/stanlio-135/height.jpg",
+        "ao": "../static/models/stanlio-135/ao.jpg",
+        "rough": "../static/models/stanlio-135/rough.jpg"
+    },
+    "mat6": {
+        "base": "../static/models/stanlio-119/base.jpg",
+        "height": "../static/models/stanlio-119/height.jpg",
+        "ao": "../static/models/stanlio-119/ao.jpg",
+        "rough": "../static/models/stanlio-119/rough.jpg"
+    }
+}
