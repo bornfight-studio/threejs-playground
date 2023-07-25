@@ -575,6 +575,7 @@ body {
 
 .c-option {
   display: flex;
+  width: 100%;
   align-items: center;
   border: 1px solid rgba(0, 0, 0, 0.2);
   padding: 5px;

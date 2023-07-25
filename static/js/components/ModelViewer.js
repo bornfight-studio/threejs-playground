@@ -10,20 +10,22 @@ export default class ModelViewer {
     }
 
     init() {
-        console.log("modelViewer init()");
+        if (this.modelViewer !== null) {
+            console.log("modelViewer init()");
 
-        this.modelViewer.addEventListener("load", () => {
-            const model = this.modelViewer.model;
-            console.log(model);
-            console.log(model.materials);
+            this.modelViewer.addEventListener("load", () => {
+                const model = this.modelViewer.model;
+                console.log(model);
+                console.log(model.materials);
 
-            this.controls.forEach((control) => {
-                control.addEventListener("click", (ev) => {
-                    const color = ev.currentTarget.dataset.color;
-                    const [material] = model.materials;
-                    material.pbrMetallicRoughness.setBaseColorFactor(color);
+                this.controls.forEach((control) => {
+                    control.addEventListener("click", (ev) => {
+                        const color = ev.currentTarget.dataset.color;
+                        const [material] = model.materials;
+                        material.pbrMetallicRoughness.setBaseColorFactor(color);
+                    });
                 });
             });
-        });
+        }
     }
 }

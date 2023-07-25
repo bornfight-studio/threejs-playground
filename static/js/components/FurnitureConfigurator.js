@@ -138,15 +138,29 @@ export default class FurnitureConfigurator {
                 base: this.texture.load("../static/models/mat1/base.jpg"),
                 height: this.texture.load("../static/models/mat1/height.jpg"),
                 ao: this.texture.load("../static/models/mat1/ao.jpg"),
-                norm: this.texture.load("../static/models/mat1/norm.jpg"),
+                // norm: this.texture.load("../static/models/mat1/norm.jpg"),
                 rough: this.texture.load("../static/models/mat1/rough.jpg"),
             },
             mat2: {
                 base: this.texture.load("../static/models/mat2/base.jpg"),
                 height: this.texture.load("../static/models/mat2/height.jpg"),
                 ao: this.texture.load("../static/models/mat2/ao.jpg"),
-                norm: this.texture.load("../static/models/mat2/norm.jpg"),
+                // norm: this.texture.load("../static/models/mat2/norm.jpg"),
                 rough: this.texture.load("../static/models/mat2/rough.jpg"),
+            },
+            mat3: {
+                base: this.texture.load("../static/models/mat3/base.jpg"),
+                height: this.texture.load("../static/models/mat3/height.jpg"),
+                ao: this.texture.load("../static/models/mat3/ao.jpg"),
+                // norm: this.texture.load("../static/models/mat3/norm.jpg"),
+                rough: this.texture.load("../static/models/mat3/rough.jpg"),
+            },
+            mat4: {
+                base: this.texture.load("../static/models/mat4/base.jpg"),
+                height: this.texture.load("../static/models/mat4/height.jpg"),
+                ao: this.texture.load("../static/models/mat4/ao.jpg"),
+                // norm: this.texture.load("../static/models/mat4/norm.jpg"),
+                rough: this.texture.load("../static/models/mat4/rough.jpg"),
             },
         };
 
@@ -154,7 +168,7 @@ export default class FurnitureConfigurator {
             map: materials.mat1.base,
             aoMap: materials.mat1.ao,
             aoMapIntensity: 0,
-            normalMap: materials.mat1.norm,
+            // normalMap: materials.mat1.norm,
             displacementMap: materials.mat1.height,
             displacementScale: 0,
             roughnessMap: materials.mat1.rough,
@@ -171,15 +185,15 @@ export default class FurnitureConfigurator {
         material.aoMap.wrapS = THREE.RepeatWrapping;
         material.displacementMap.wrapT = THREE.RepeatWrapping;
         material.displacementMap.wrapS = THREE.RepeatWrapping;
-        material.normalMap.wrapT = THREE.RepeatWrapping;
-        material.normalMap.wrapS = THREE.RepeatWrapping;
+        // material.normalMap.wrapT = THREE.RepeatWrapping;
+        // material.normalMap.wrapS = THREE.RepeatWrapping;
         material.roughnessMap.wrapT = THREE.RepeatWrapping;
         material.roughnessMap.wrapS = THREE.RepeatWrapping;
 
         material.map.repeat.set(materialScale, materialScale);
         material.aoMap.repeat.set(materialScale, materialScale);
         material.displacementMap.repeat.set(materialScale, materialScale);
-        material.normalMap.repeat.set(materialScale, materialScale);
+        // material.normalMap.repeat.set(materialScale, materialScale);
         material.roughnessMap.repeat.set(materialScale, materialScale);
 
         // get model
@@ -306,29 +320,33 @@ export default class FurnitureConfigurator {
     transformMaterial(index, material, materials, scale) {
         let mat = null;
 
-        if (index === 2) {
-            mat = materials.mat2;
-        } else {
+        if (index === 1) {
             mat = materials.mat1;
+        } else if (index === 2) {
+            mat = materials.mat2;
+        } else if (index === 3) {
+            mat = materials.mat3;
+        } else {
+            mat = materials.mat4;
         }
 
         mat.base.minFilter = THREE.NearestFilter;
         mat.base.generateMipmaps = false;
         material.map = mat.base;
         material.aoMap = mat.ao;
-        material.normalMap = mat.norm;
+        // material.normalMap = mat.norm;
         material.roughnessMap = mat.rough;
 
         material.map.wrapS = material.map.wrapT = THREE.RepeatWrapping;
         material.aoMap.wrapS = material.aoMap.wrapT = THREE.RepeatWrapping;
         material.displacementMap.wrapS = material.displacementMap.wrapT = THREE.RepeatWrapping;
-        material.normalMap.wrapS = material.normalMap.wrapT = THREE.RepeatWrapping;
+        // material.normalMap.wrapS = material.normalMap.wrapT = THREE.RepeatWrapping;
         material.roughnessMap.wrapS = material.roughnessMap.wrapT = THREE.RepeatWrapping;
 
         material.map.repeat.set(scale, scale);
         material.aoMap.repeat.set(scale, scale);
         material.displacementMap.repeat.set(scale, scale);
-        material.normalMap.repeat.set(scale, scale);
+        // material.normalMap.repeat.set(scale, scale);
         material.roughnessMap.repeat.set(scale, scale);
     }
 
