@@ -284,7 +284,7 @@ export default class FurnitureConfigurator {
     }
 
     addEnvironmentLight() {
-        const light = new THREE.AmbientLight(0x808080, 3);
+        const light = new THREE.AmbientLight(0x808080, 6);
         this.scene.add(light);
     }
 
