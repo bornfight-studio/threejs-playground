@@ -5,6 +5,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { GUI } from "three/addons/libs/lil-gui.module.min.js";
+
 import materialData from "../../materialData.json";
 
 export default class FurnitureConfigurator {
@@ -89,17 +90,18 @@ export default class FurnitureConfigurator {
         this.renderer = new THREE.WebGLRenderer({
             antialias: true,
             powerPreference: "high-performance",
+            stencil: false,
         });
 
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(this.width, this.height);
         this.renderer.shadowMap.enabled = true;
-        this.renderer.gammaFactor = 3;
+        this.renderer.gammaFactor = 5;
         this.renderer.outputColorSpace = "srgb-linear";
         this.renderer.useLegacyLights = false;
-        this.renderer.shadowMap.type = THREE.PCFShadowMap;
-        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        this.renderer.toneMappingExposure = 0.9;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        this.renderer.toneMapping = THREE.LinearToneMapping;
+        this.renderer.toneMappingExposure = 1;
         this.modelContainer.appendChild(this.renderer.domElement);
 
         if (this.environment) {
@@ -154,7 +156,7 @@ export default class FurnitureConfigurator {
             displacementMap: materials.mat1.height,
             displacementScale: 0,
             roughnessMap: materials.mat1.rough,
-            metalness: 0.1,
+            metalness: 0.15,
             clearcoat: 0,
             flatShading: false,
         });
@@ -167,15 +169,12 @@ export default class FurnitureConfigurator {
         material.aoMap.wrapS = THREE.RepeatWrapping;
         material.displacementMap.wrapT = THREE.RepeatWrapping;
         material.displacementMap.wrapS = THREE.RepeatWrapping;
-        // material.normalMap.wrapT = THREE.RepeatWrapping;
-        // material.normalMap.wrapS = THREE.RepeatWrapping;
         material.roughnessMap.wrapT = THREE.RepeatWrapping;
         material.roughnessMap.wrapS = THREE.RepeatWrapping;
 
         material.map.repeat.set(materialScale, materialScale);
         material.aoMap.repeat.set(materialScale, materialScale);
         material.displacementMap.repeat.set(materialScale, materialScale);
-        // material.normalMap.repeat.set(materialScale, materialScale);
         material.roughnessMap.repeat.set(materialScale, materialScale);
 
         // get model
