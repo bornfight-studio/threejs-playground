@@ -239,9 +239,11 @@ export default class FurnitureConfigurator {
             };
 
             this.options.forEach((option, index) => {
+                const additionalScale = parseFloat(option.dataset.additionalScale) || 1;
+
                 option.addEventListener("click", (ev) => {
                     setActiveClass(this.options, ev);
-                    this.transformMaterial(index + 1, material, materials, materialScale);
+                    this.transformMaterial(index + 1, material, materials, materialScale, additionalScale);
                 });
             });
         });
@@ -296,7 +298,9 @@ export default class FurnitureConfigurator {
         this.scene.add(floor);
     }
 
-    transformMaterial(index, material, materials, scale) {
+    transformMaterial(index, material, materials, materialScale, additionalScale = 1) {
+        const scale = materialScale * additionalScale;
+
         let mat = materials[`mat${index}`];
 
         mat.base.minFilter = THREE.NearestFilter;
