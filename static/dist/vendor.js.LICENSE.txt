@@ -1,23 +1,47 @@
-/*!
- * GSAP 3.12.2
- * https://greensock.com
- *
- * @license Copyright 2008-2023, GreenSock. All rights reserved.
- * Subject to the terms at https://greensock.com/standard-license or for
- * Club GreenSock members, the agreement issued with that membership.
- * @author: Jack Doyle, jack@greensock.com
-*/
+/*!************************************!*\
+  !*** ./node_modules/gsap/index.js ***!
+  \************************************/
 
-/**
- * @license
- * Copyright 2010-2023 Three.js Authors
- * SPDX-License-Identifier: MIT
- */
+/*!***************************************!*\
+  !*** ./node_modules/gsap/Observer.js ***!
+  \***************************************/
 
-/**
- * lil-gui
- * https://lil-gui.georgealways.com
- * @version 0.17.0
- * @author George Michael Brower
- * @license MIT
- */
+/*!****************************************!*\
+  !*** ./node_modules/gsap/CSSPlugin.js ***!
+  \****************************************/
+
+/*!****************************************!*\
+  !*** ./node_modules/gsap/gsap-core.js ***!
+  \****************************************/
+
+/*!********************************************!*\
+  !*** ./node_modules/gsap/ScrollTrigger.js ***!
+  \********************************************/
+
+/*!**************************************************!*\
+  !*** ./node_modules/three/build/three.module.js ***!
+  \**************************************************/
+
+/*!***************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/loaders/GLTFLoader.js ***!
+  \***************************************************************/
+
+/*!****************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/loaders/DRACOLoader.js ***!
+  \****************************************************************/
+
+/*!*******************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/controls/OrbitControls.js ***!
+  \*******************************************************************/
+
+/*!********************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/libs/lil-gui.module.min.js ***!
+  \********************************************************************/
+
+/*!**********************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/utils/BufferGeometryUtils.js ***!
+  \**********************************************************************/
+
+/*!*************************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/environments/RoomEnvironment.js ***!
+  \*************************************************************************/

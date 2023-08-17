@@ -18,6 +18,7 @@ import GridHelper from "./helpers/GridHelper";
 import FurnitureConfigurator from "./components/FurnitureConfigurator";
 import FabricViewer from "./components/FabricViewer";
 import ModelViewer from "./components/ModelViewer";
+import WebGiViewer from "./components/WebGiViewer";
 
 /**
  * Check if document is ready cross-browser
@@ -90,4 +91,6 @@ ready(() => {
 
     const modelViewer = new ModelViewer();
     modelViewer.init();
+
+    const webGiViewer = new WebGiViewer();
 });
