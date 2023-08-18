@@ -19,6 +19,7 @@ import FurnitureConfigurator from "./components/FurnitureConfigurator";
 import FabricViewer from "./components/FabricViewer";
 import ModelViewer from "./components/ModelViewer";
 import WebGiViewer from "./components/WebGiViewer";
+import SplineExportTest from "./components/SplineExportTest";
 
 /**
  * Check if document is ready cross-browser
@@ -93,4 +94,7 @@ ready(() => {
     modelViewer.init();
 
     const webGiViewer = new WebGiViewer();
+
+    const splineExportTest = new SplineExportTest();
+    splineExportTest.init();
 });

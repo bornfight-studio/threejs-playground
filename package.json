@@ -20,10 +20,12 @@
         "last 2 versions"
     ],
     "dependencies": {
+        "@splinetool/loader": "^0.9.424",
+        "@splinetool/runtime": "^0.9.424",
+        "gsap": "file:static/js/vendors/gsap-bonus.tgz",
         "three": "^0.154.0",
         "vanilla-lazyload": "^17.8.3",
-        "webgi": "^0.0.1",
-        "gsap": "file:static/js/vendors/gsap-bonus.tgz"
+        "webgi": "^0.0.1"
     },
     "devDependencies": {
         "@babel/core": "^7.21.3",
