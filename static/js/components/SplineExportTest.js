@@ -25,6 +25,7 @@ export default class SplineExportTest {
         let step = 0;
         let direction = 1;
         let progress = 0;
+        const animationsSteps = 300;
 
         window.addEventListener("wheel", (ev) => {
             counter += 1;
@@ -40,10 +41,9 @@ export default class SplineExportTest {
                 step += direction;
 
                 if (step < 0) step = 0;
-                if (step > 600) step = 600;
+                if (step > animationsSteps) step = animationsSteps;
 
-                progress = (step / 600) * 100;
-                console.log(progress);
+                progress = (step / animationsSteps) * 100;
 
                 this.sections.style.transform = `translateY(-${progress}%)`;
             }

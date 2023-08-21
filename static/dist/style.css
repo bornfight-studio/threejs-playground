@@ -680,7 +680,8 @@ body {
   left: 0;
   width: 100%;
   height: auto;
-  z-index: 10;
+  z-index: 1;
+  transition: transform 0.1s;
 }
 .c-spline__model {
   position: fixed;
