@@ -55,13 +55,6 @@ export default class SplineExportTest {
         requestAnimationFrame(animate);
 
         const spline = new Application(this.canvas);
-        spline.load(this.data.splineCode).then(() => {
-            const obj = spline.findObjectByName("iPhone 14 Pro");
-
-            // move the object in 3D space
-            // obj.position.z += 3000;
-            // obj.position.x += 4000;
-            // obj.position.y += 1000;
-        });
+        spline.load(this.data.splineCode).then(() => {});
     }
 }
