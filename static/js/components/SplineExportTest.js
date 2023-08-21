@@ -45,7 +45,9 @@ export default class SplineExportTest {
 
                 progress = (step / animationsSteps) * 100;
 
-                this.sections.style.transform = `translateY(-${progress}%)`;
+                gsap.to(this.sections, {
+                    yPercent: -progress,
+                });
             }
 
             oldCounter = counter;
