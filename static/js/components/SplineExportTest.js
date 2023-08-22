@@ -20,10 +20,12 @@ export default class SplineExportTest {
         if (!this.canvas) return;
 
         let counter = 0;
-        let oldCounter = 0;
+        let prevCounter = 0;
         let step = 0;
+        let prevStep = 0;
         let direction = 1;
         let progress = 0;
+        // 50 steps per section (100vh)
         const animationsSteps = 300;
 
         window.addEventListener("wheel", (ev) => {
@@ -36,22 +38,26 @@ export default class SplineExportTest {
         });
 
         const animate = () => {
-            if (counter !== oldCounter && step >= 0) {
+            if (counter !== prevCounter) {
                 step += direction;
 
                 if (step < 0) step = 0;
                 if (step > animationsSteps) step = animationsSteps;
 
-                progress = (step / animationsSteps) * 100;
+                if (prevStep !== step) {
+                    progress = (step / animationsSteps) * 100;
 
-                gsap.to(this.sections, {
-                    yPercent: -progress,
-                    duration: 0.3,
-                    ease: "power0.out",
-                });
+                    gsap.to(this.sections, {
+                        yPercent: -progress,
+                        duration: 0.3,
+                        ease: "power0.out",
+                    });
+
+                    prevStep = step;
+                }
             }
 
-            oldCounter = counter;
+            prevCounter = counter;
             requestAnimationFrame(animate);
         };
 
