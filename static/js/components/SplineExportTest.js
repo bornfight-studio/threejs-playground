@@ -1,7 +1,6 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Application } from "@splinetool/runtime";
-import { log } from "three/nodes";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -47,6 +46,8 @@ export default class SplineExportTest {
 
                 gsap.to(this.sections, {
                     yPercent: -progress,
+                    duration: 0.3,
+                    ease: "power0.out",
                 });
             }
 
