@@ -9,6 +9,7 @@ export default class SplineExportTest {
         this.data = {
             sections: ".js-spline-sections",
             canvas: ".js-spline-view-model",
+            loader: ".js-spline-loader",
             splineCode: "https://prod.spline.design/tGi1sJBIV7qbmMAH/scene.splinecode",
         };
     }
@@ -16,6 +17,7 @@ export default class SplineExportTest {
     init() {
         this.canvas = document.querySelector(this.data.canvas);
         this.sections = document.querySelector(this.data.sections);
+        this.loader = document.querySelector(this.data.loader);
 
         if (!this.canvas) return;
 
@@ -64,6 +66,12 @@ export default class SplineExportTest {
         requestAnimationFrame(animate);
 
         const spline = new Application(this.canvas);
-        spline.load(this.data.splineCode).then(() => {});
+        spline.load(this.data.splineCode).then(() => {
+            setTimeout(() => {
+                gsap.to(this.loader, {
+                    autoAlpha: 0,
+                });
+            }, 100);
+        });
     }
 }

@@ -656,6 +656,16 @@ body {
 .c-spline__body {
   overflow: hidden;
 }
+.c-spline__loader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #3c5163;
+  z-index: 2;
+  display: block;
+}
 .c-spline__section {
   width: 100%;
   height: 100vh;
