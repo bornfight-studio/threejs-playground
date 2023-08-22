@@ -1,8 +1,5 @@
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Application } from "@splinetool/runtime";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default class SplineExportTest {
     constructor() {
@@ -10,7 +7,7 @@ export default class SplineExportTest {
             sections: ".js-spline-sections",
             canvas: ".js-spline-view-model",
             loader: ".js-spline-loader",
-            splineCode: "https://prod.spline.design/tGi1sJBIV7qbmMAH/scene.splinecode",
+            splineCode: "https://prod.spline.design/yaWrFxcaazDS9rmg/scene.splinecode",
         };
     }
 
@@ -28,16 +25,20 @@ export default class SplineExportTest {
         let direction = 1;
         let progress = 0;
         // 50 steps per section (100vh)
-        const animationsSteps = 300;
+        const animationsSteps = 750;
 
-        window.addEventListener("wheel", (ev) => {
-            counter += 1;
-            if (ev.deltaY > 0) {
-                direction = 1;
-            } else if (ev.deltaY < 0) {
-                direction = -1;
-            }
-        });
+        window.addEventListener(
+            "wheel",
+            (ev) => {
+                counter += 1;
+                if (ev.deltaY > 0) {
+                    direction = 1;
+                } else if (ev.deltaY < 0) {
+                    direction = -1;
+                }
+            },
+            false,
+        );
 
         const animate = () => {
             if (counter !== prevCounter) {
