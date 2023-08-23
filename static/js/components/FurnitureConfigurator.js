@@ -42,7 +42,10 @@ export default class FurnitureConfigurator {
             //objects
             this.modelObjects = JSON.parse(this.modelContainer.dataset.modelObjects);
 
-            // gui
+            //env
+            this.modelEnvUrl = this.modelContainer.dataset.env;
+
+            //gui
             this.gui = new GUI();
 
             this.gui.name = "Scene option";
@@ -58,7 +61,7 @@ export default class FurnitureConfigurator {
             this.initModel();
             this.addLights();
             this.addEnvironmentLight();
-            this.addFloor();
+            // this.addFloor();
             this.animate();
         }
     }
@@ -66,25 +69,25 @@ export default class FurnitureConfigurator {
     initModel() {
         // camera
         this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 2, 120);
-        this.camera.position.set(-15, 10, 15);
+        this.camera.position.set(-15, 10, -15);
 
         // scene
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0xbbbbbb);
 
         // ground grid
-        const grid = new THREE.GridHelper(120, 40, 0x000000, 0x000000);
-        grid.material.opacity = 0.2;
-        grid.material.transparent = true;
-        this.scene.add(grid);
-        if (!this.guiConf.Grid) {
-            grid.visible = false;
-        }
+        // const grid = new THREE.GridHelper(120, 40, 0x000000, 0x000000);
+        // grid.material.opacity = 0.2;
+        // grid.material.transparent = true;
+        // this.scene.add(grid);
+        // if (!this.guiConf.Grid) {
+        //     grid.visible = false;
+        // }
 
         // add gui for grid
-        this.gui.add(this.guiConf, "Grid").onChange((value) => {
-            grid.visible = !!value;
-        });
+        // this.gui.add(this.guiConf, "Grid").onChange((value) => {
+        // grid.visible = !!value;
+        // });
 
         // renderer
         this.renderer = new THREE.WebGLRenderer({
@@ -121,8 +124,10 @@ export default class FurnitureConfigurator {
         this.controls.enableDamping = true;
         this.controls.minDistance = 8;
         this.controls.maxDistance = 16;
-        this.controls.maxPolarAngle = Math.PI / 2;
-        this.controls.minPolarAngle = 0;
+        this.controls.maxPolarAngle = Math.PI / 2.2;
+        this.controls.minPolarAngle = 0.7;
+        this.controls.maxAzimuthAngle = -1.2;
+        this.controls.minAzimuthAngle = 3.2;
         this.controls.update();
 
         this.gui.add(this.guiConf, "Rotate").onChange((value) => {
@@ -189,6 +194,7 @@ export default class FurnitureConfigurator {
 
         loader.load(model, (model) => {
             model.scene.position.x = 0;
+            model.scene.position.y = 0.5;
             material.color.convertSRGBToLinear();
 
             const objects = [];
@@ -247,31 +253,59 @@ export default class FurnitureConfigurator {
                 });
             });
         });
+
+        this.loadEnv(loader);
+    }
+
+    loadEnv(loader) {
+        loader.load(this.modelEnvUrl, (model) => {
+            model.scene.scale.set(10, 10, 10);
+            model.scene.position.set(-11.5, 5, -5);
+            model.scene.children[0].children[1].receiveShadow = true;
+            model.scene.children[0].children[0].children[0].children[0].children.forEach((object) => {
+                if (object.isMesh) {
+                    if (object.name === "room" || object.name === "Plane_Material021_0") {
+                        object.receiveShadow = true;
+                    } else {
+                        object.castShadow = true;
+                    }
+
+                    if (object.name === "Cube021_Material009_0") {
+                        object.receiveShadow = true;
+                        console.log(object.material);
+                        object.material = new THREE.MeshStandardMaterial({
+                            color: 0x604141,
+                        });
+                    }
+                }
+            });
+            this.scene.add(model.scene);
+        });
     }
 
     addLights() {
         const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 2);
-        directionalLight1.position.set(2, 8, -6);
+        directionalLight1.position.set(3, 9, -6);
+        directionalLight1.shadow.camera.left = -20;
+        directionalLight1.shadow.camera.right = 20;
+        directionalLight1.shadow.camera.top = 20;
+        directionalLight1.shadow.camera.bottom = -20;
+        // directionalLight1.shadow.bias = 0.0003;
         const helper1 = new THREE.DirectionalLightHelper(directionalLight1, 2);
 
         directionalLight1.castShadow = true;
         this.scene.add(directionalLight1);
 
         const directionalLight2 = new THREE.DirectionalLight(0xf3f3f3, 2);
-        directionalLight2.position.set(-2, 8, 6);
+        directionalLight2.position.set(-2, 8, -6);
         const helper2 = new THREE.DirectionalLightHelper(directionalLight2, 2);
 
-        directionalLight2.castShadow = true;
+        // directionalLight2.castShadow = true;
         this.scene.add(directionalLight2);
 
         const pointLight = new THREE.PointLight(0xf3f3f3, 3);
         const helper3 = new THREE.PointLightHelper(pointLight, 2);
         pointLight.position.set(0, 12, 0);
-
-        const directionalLight3 = new THREE.DirectionalLight(0xf3f3f3, 14);
-        directionalLight3.position.set(4, 7, 7);
-        directionalLight3.castShadow = true;
-        const helper4 = new THREE.DirectionalLightHelper(directionalLight3, 2);
 
         pointLight.castShadow = true;
         this.scene.add(pointLight);
@@ -280,7 +314,6 @@ export default class FurnitureConfigurator {
             this.scene.add(helper1);
             this.scene.add(helper2);
             this.scene.add(helper3);
-            this.scene.add(helper4);
         }
     }
 
@@ -291,9 +324,10 @@ export default class FurnitureConfigurator {
 
     addFloor() {
         const geometry = new THREE.PlaneGeometry(120, 120);
-        const material = new THREE.MeshStandardMaterial({ color: 0xfefefe });
+        const material = new THREE.MeshStandardMaterial({ color: 0x9a9c9c });
         const floor = new THREE.Mesh(geometry, material);
         floor.rotation.x = -Math.PI / 2;
+        floor.position.y = 0.46;
         floor.receiveShadow = true;
         this.scene.add(floor);
     }
