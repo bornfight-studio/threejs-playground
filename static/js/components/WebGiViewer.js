@@ -77,7 +77,7 @@ export default class WebGiViewer {
             displacementMap: materials.mat1.height,
             displacementScale: 0,
             roughnessMap: materials.mat1.rough,
-            metalness: 0.15,
+            metalness: 0,
             clearcoat: 0,
             flatShading: false,
         });
@@ -99,6 +99,8 @@ export default class WebGiViewer {
         material.roughnessMap.repeat.set(materialScale, materialScale);
 
         material.color.convertSRGBToLinear();
+
+        material.needsUpdate = true;
 
         let mainMat = viewer.createPhysicalMaterial(material);
 
@@ -157,6 +159,8 @@ export default class WebGiViewer {
         material.displacementMap.repeat.set(scale, scale);
         if (material.normalMap) material.normalMap.repeat.set(scale, scale);
         material.roughnessMap.repeat.set(scale, scale);
+
+        material.needsUpdate = true;
 
         mainMat = viewer.createPhysicalMaterial(material);
         objects.forEach((object) => {
