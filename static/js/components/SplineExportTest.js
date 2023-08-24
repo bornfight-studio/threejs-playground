@@ -25,7 +25,7 @@ export default class SplineExportTest {
         let direction = 1;
         let progress = 0;
         // 50 steps per section (100vh)
-        const animationsSteps = 750;
+        const animationsSteps = 800;
 
         window.addEventListener(
             "wheel",
