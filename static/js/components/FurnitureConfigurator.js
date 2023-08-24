@@ -292,10 +292,10 @@ export default class FurnitureConfigurator {
     addLights() {
         const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 1);
         directionalLight1.position.set(2, 7, 6);
-        directionalLight1.shadow.camera.left = -15;
-        directionalLight1.shadow.camera.right = 15;
-        directionalLight1.shadow.camera.top = 15;
-        directionalLight1.shadow.camera.bottom = -15;
+        directionalLight1.shadow.camera.left = -30;
+        directionalLight1.shadow.camera.right = 30;
+        directionalLight1.shadow.camera.top = 30;
+        directionalLight1.shadow.camera.bottom = -30;
         // directionalLight1.shadow.bias = 0.0003;
         const helper1 = new THREE.DirectionalLightHelper(directionalLight1, 2);
 
