@@ -54,16 +54,6 @@ export default class WebGiViewer {
 
         importer.addEventListener("onLoad", (ev) => {
             setTimeout(() => {
-                // if (cameraViews.length > 0) {
-                //     console.log("Loaded!");
-                //
-                //     cameraViews.forEach((view, key) => {
-                //         this.animation(camera, view, key, controls);
-                //     });
-                //
-                //     this.tilt(viewer);
-                // }
-
                 this.bla(viewer);
             }, 100);
         });
@@ -114,43 +104,19 @@ export default class WebGiViewer {
         material.displacementMap.repeat.set(materialScale, materialScale);
         material.roughnessMap.repeat.set(materialScale, materialScale);
 
+        let mainMat = viewer.createPhysicalMaterial(material);
+
         const objects = this.modelObjects.reduce((acc, modelObject) => {
             return [...acc, viewer.scene.getObjectByName(modelObject)];
         }, []);
 
         objects.forEach((object) => {
-            object.castShadow = true;
-            object.receiveShadow = true;
-            object.material.color.convertSRGBToLinear();
+            // object.castShadow = true;
+            // object.receiveShadow = true;
+            // object.material.color.convertSRGBToLinear();
 
-            // initial material setup
-            const geometry = new THREE.BoxGeometry(10, 10, 10);
-            const cubematerial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-            const cube = new THREE.Mesh(geometry, cubematerial);
-            viewer.scene.setDirty(cube);
-
-            console.log(cube);
             if (object.isMesh) {
-                // object.material = material;
-            }
-        });
-
-        const sceneChildrens = viewer.scene.children[0].children[0].children;
-
-        sceneChildrens.forEach((item) => {
-            if (item.name === "pillow_left") {
-                item.castShadow = true;
-                item.recieveShadow = true;
-            }
-
-            if (item.name === "pillow_center") {
-                item.castShadow = true;
-                item.recieveShadow = true;
-            }
-
-            if (item.name === "pillow_right") {
-                item.castShadow = true;
-                item.recieveShadow = true;
+                object.material = mainMat;
             }
         });
 
@@ -171,59 +137,12 @@ export default class WebGiViewer {
 
             option.addEventListener("click", (ev) => {
                 setActiveClass(ev);
-                this.transformMaterial(index + 1, material, materials, materialScale, additionalScale);
+                this.transformMaterial(index + 1, material, materials, materialScale, additionalScale, viewer, objects, mainMat);
             });
         });
     }
 
-    tilt(viewer) {
-        window.addEventListener("mousemove", (ev) => {
-            // gsap.to(camera.rotation, {
-            // y: (ev.clientX - this.window.widthHalf) * 0.00001,
-            // });
-            // console.log(ev.clientX, ev.clientY);
-        });
-    }
-
-    animation(camera, view, key, controls) {
-        const section = document.querySelector(`.js-webgi-camera-view-${key}`);
-
-        if (!section) return;
-
-        gsap.timeline({
-            scrollTrigger: {
-                trigger: section,
-                start: "top top",
-                end: "bottom top",
-                scrub: true,
-                immediateRender: false,
-            },
-            onUpdate: () => {
-                controls.update();
-            },
-        })
-            .add("start")
-            .to(
-                camera.position,
-                {
-                    x: view.position.x,
-                    y: view.position.y,
-                    z: view.position.z,
-                },
-                "start",
-            )
-            .to(
-                controls.target,
-                {
-                    x: view.target.x,
-                    y: view.target.y,
-                    z: view.target.z,
-                },
-                "start",
-            );
-    }
-
-    transformMaterial(index, material, materials, materialScale, additionalScale = 1) {
+    transformMaterial(index, material, materials, materialScale, additionalScale = 1, viewer, objects, mainMat) {
         const scale = materialScale * additionalScale;
 
         let mat = materials[`mat${index}`];
@@ -246,5 +165,13 @@ export default class WebGiViewer {
         material.displacementMap.repeat.set(scale, scale);
         if (material.normalMap) material.normalMap.repeat.set(scale, scale);
         material.roughnessMap.repeat.set(scale, scale);
+
+        mainMat = viewer.createPhysicalMaterial(material);
+        objects.forEach((object) => {
+            if (object.isMesh) {
+                object.material = mainMat;
+                object.setDirty?.();
+            }
+        });
     }
 }
