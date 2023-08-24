@@ -43,6 +43,7 @@ export default class FurnitureConfigurator {
             this.modelObjects = JSON.parse(this.modelContainer.dataset.modelObjects);
 
             //env
+            this.whiteEnv = this.modelContainer.dataset.envWhite === "true";
             this.modelEnvUrl = this.modelContainer.dataset.env;
 
             //gui
@@ -227,6 +228,10 @@ export default class FurnitureConfigurator {
 
                 // initial material setup
                 object.material = material;
+
+                if (!this.whiteEnv) {
+                    object.material.metalness = 0.65;
+                }
             });
 
             this.scene.add(model.scene);
@@ -261,20 +266,21 @@ export default class FurnitureConfigurator {
         loader.load(this.modelEnvUrl, (model) => {
             model.scene.scale.set(10, 10, 10);
             model.scene.position.set(-11.5, 5, -5);
-            model.scene.children[0].children[1].receiveShadow = true;
-            model.scene.children[0].children[0].children[0].children[0].children.forEach((object) => {
+            console.log(model.scene);
+            model.scene.children[0].children.forEach((object) => {
                 if (object.isMesh) {
-                    if (object.name === "room" || object.name === "Plane_Material021_0") {
+                    if (object.name === "room" || object.name === "ground" || object.name === "carpet") {
                         object.receiveShadow = true;
                     } else {
                         object.castShadow = true;
                     }
 
-                    if (object.name === "Cube021_Material009_0") {
+                    if (object.name === "table-top") {
                         object.receiveShadow = true;
-                        console.log(object.material);
                         object.material = new THREE.MeshStandardMaterial({
-                            color: 0x604141,
+                            color: this.whiteEnv ? 0xeaeaea : 0x604141,
+                            flatShading: false,
+                            roughness: 0,
                         });
                     }
                 }
@@ -284,12 +290,12 @@ export default class FurnitureConfigurator {
     }
 
     addLights() {
-        const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 2);
-        directionalLight1.position.set(3, 9, -6);
-        directionalLight1.shadow.camera.left = -20;
-        directionalLight1.shadow.camera.right = 20;
-        directionalLight1.shadow.camera.top = 20;
-        directionalLight1.shadow.camera.bottom = -20;
+        const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 1);
+        directionalLight1.position.set(2, 7, 6);
+        directionalLight1.shadow.camera.left = -15;
+        directionalLight1.shadow.camera.right = 15;
+        directionalLight1.shadow.camera.top = 15;
+        directionalLight1.shadow.camera.bottom = -15;
         // directionalLight1.shadow.bias = 0.0003;
         const helper1 = new THREE.DirectionalLightHelper(directionalLight1, 2);
 
@@ -304,15 +310,19 @@ export default class FurnitureConfigurator {
         this.scene.add(directionalLight2);
 
         const pointLight = new THREE.PointLight(0xf3f3f3, 3);
-        const helper3 = new THREE.PointLightHelper(pointLight, 2);
-        pointLight.position.set(0, 12, 0);
+        const helper3 = new THREE.PointLightHelper(pointLight, 3);
+        pointLight.position.set(0, 5, 6.5);
 
         pointLight.castShadow = true;
-        this.scene.add(pointLight);
+        if (!this.whiteEnv) {
+            this.scene.add(pointLight);
+        }
 
-        const ambientLight = new THREE.AmbientLight(0xf3f3f3, 3);
+        const ambientLight = new THREE.AmbientLight(0xf3f3f3, 2);
 
-        this.scene.add(ambientLight);
+        if (!this.whiteEnv) {
+            this.scene.add(ambientLight);
+        }
 
         if (this.lightHelpers) {
             this.scene.add(helper1);
@@ -345,19 +355,19 @@ export default class FurnitureConfigurator {
         mat.base.generateMipmaps = false;
         material.map = mat.base;
         material.aoMap = mat.ao;
-        // material.normalMap = mat.norm;
+        material.normalMap = mat.norm;
         material.roughnessMap = mat.rough;
 
         material.map.wrapS = material.map.wrapT = THREE.RepeatWrapping;
         material.aoMap.wrapS = material.aoMap.wrapT = THREE.RepeatWrapping;
         material.displacementMap.wrapS = material.displacementMap.wrapT = THREE.RepeatWrapping;
-        // material.normalMap.wrapS = material.normalMap.wrapT = THREE.RepeatWrapping;
+        material.normalMap.wrapS = material.normalMap.wrapT = THREE.RepeatWrapping;
         material.roughnessMap.wrapS = material.roughnessMap.wrapT = THREE.RepeatWrapping;
 
         material.map.repeat.set(scale, scale);
         material.aoMap.repeat.set(scale, scale);
         material.displacementMap.repeat.set(scale, scale);
-        // material.normalMap.repeat.set(scale, scale);
+        material.normalMap.repeat.set(scale, scale);
         material.roughnessMap.repeat.set(scale, scale);
     }
 

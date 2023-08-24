@@ -1,0 +1,77 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Three.js playground — Home</title>
+    <link rel="stylesheet" href="../static/dist/style.css">
+</head>
+<body>
+<nav class="c-navigation">
+    <div class="o-container">
+        <a href="../index.html" class="c-back-link u-b3">
+            <i><</i>
+            <span>Back</span>
+        </a>
+    </div>
+</nav>
+<header class="c-header"></header>
+<section class="o-section o-section--fullscreen">
+    <div class="c-furniture-configurator js-furniture-configurator"
+         data-model-source="../static/models/reversi-v6.glb"
+         data-map-location="../static/models/"
+         data-env="../static/models/env-white.glb"
+         data-env-white="true"
+         data-material-scale="1.5"
+         data-model-objects='["headrest_left", "headrest_right", "seat","seat_left","seat_right"]'>
+        <!-- CANVAS ELEMENT WILL BE INJECTED HERE -->
+
+        <ul class="c-furniture-configurator__options">
+            <li class="c-option-label">
+                <span class="u-b3">Choose material:</span>
+            </li>
+            <li>
+                <button class="c-option js-furniture-configurator-option is-active">
+                    <img src="../static/models/titan-135/base.jpg" alt="Titan 135">
+                    <span class="u-b3 u-uppercase">Titan 135</span>
+                </button>
+            </li>
+            <li>
+                <button class="c-option js-furniture-configurator-option">
+                    <img src="../static/models/titan-108/base.jpg" alt="Titan 108">
+                    <span class="u-b3 u-uppercase">Titan 108</span>
+                </button>
+            </li>
+            <li>
+                <button class="c-option js-furniture-configurator-option">
+                    <img src="../static/models/titan-109/base.jpg" alt="Titan 109">
+                    <span class="u-b3 u-uppercase">Titan 109</span>
+                </button>
+            </li>
+            <li>
+                <button class="c-option js-furniture-configurator-option">
+                    <img src="../static/models/titan-113/base.jpg" alt="Titan 113">
+                    <span class="u-b3 u-uppercase">Titan 113</span>
+                </button>
+            </li>
+            <li>
+                <button class="c-option js-furniture-configurator-option" data-additional-scale="1.724">
+                    <img src="../static/models/stanlio-135/base.jpg" alt="Stanlio 135">
+                    <span class="u-b3 u-uppercase">Stanlio 135</span>
+                </button>
+            </li>
+            <li>
+                <button class="c-option js-furniture-configurator-option" data-additional-scale="1.724">
+                    <img src="../static/models/stanlio-119/base.jpg" alt="Stanlio 119">
+                    <span class="u-b3 u-uppercase">Stanlio 119</span>
+                </button>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<script type='text/javascript' src='../static/dist/vendor.js'></script>
+<script type='text/javascript' src='../static/dist/bundle.js'></script>
+</body>
+</html>
