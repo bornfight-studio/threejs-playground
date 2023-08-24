@@ -310,6 +310,10 @@ export default class FurnitureConfigurator {
         pointLight.castShadow = true;
         this.scene.add(pointLight);
 
+        const ambientLight = new THREE.AmbientLight(0xf3f3f3, 3);
+
+        this.scene.add(ambientLight);
+
         if (this.lightHelpers) {
             this.scene.add(helper1);
             this.scene.add(helper2);
