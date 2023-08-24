@@ -266,22 +266,15 @@ export default class FurnitureConfigurator {
         loader.load(this.modelEnvUrl, (model) => {
             model.scene.scale.set(10, 10, 10);
             model.scene.position.set(-11.5, 5, -5);
+
             console.log(model.scene);
+
             model.scene.children[0].children.forEach((object) => {
                 if (object.isMesh) {
                     if (object.name === "room" || object.name === "ground" || object.name === "carpet") {
                         object.receiveShadow = true;
                     } else {
                         object.castShadow = true;
-                    }
-
-                    if (object.name === "table-top") {
-                        object.receiveShadow = true;
-                        object.material = new THREE.MeshStandardMaterial({
-                            color: this.whiteEnv ? 0xeaeaea : 0x604141,
-                            flatShading: false,
-                            roughness: 0,
-                        });
                     }
                 }
             });
@@ -292,10 +285,10 @@ export default class FurnitureConfigurator {
     addLights() {
         const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 1);
         directionalLight1.position.set(2, 7, 6);
-        directionalLight1.shadow.camera.left = -30;
-        directionalLight1.shadow.camera.right = 30;
-        directionalLight1.shadow.camera.top = 30;
-        directionalLight1.shadow.camera.bottom = -30;
+        directionalLight1.shadow.camera.left = -15;
+        directionalLight1.shadow.camera.right = 15;
+        directionalLight1.shadow.camera.top = 15;
+        directionalLight1.shadow.camera.bottom = -15;
         // directionalLight1.shadow.bias = 0.0003;
         const helper1 = new THREE.DirectionalLightHelper(directionalLight1, 2);
 
