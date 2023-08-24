@@ -36,12 +36,7 @@ export default class WebGiViewer {
         this.texture = new THREE.TextureLoader();
         this.modelObjects = JSON.parse(this.modelContainer.dataset.modelObjects);
 
-        const cameraViews = viewer.plugins.CameraViews._cameraViews;
-
-        const controller = viewer.scene.activeCamera;
-        const camera = controller._camera;
         const importer = viewer.getManager().importer;
-        const controls = controller.controls;
 
         this.window = {
             widthHalf: window.innerWidth / 2,
@@ -62,7 +57,6 @@ export default class WebGiViewer {
     bla(viewer) {
         let materials = {};
 
-        const scene = viewer.scene;
         const materialScale = this.modelContainer.dataset.materialScale;
 
         for (let material in materialData) {
@@ -104,6 +98,8 @@ export default class WebGiViewer {
         material.displacementMap.repeat.set(materialScale, materialScale);
         material.roughnessMap.repeat.set(materialScale, materialScale);
 
+        material.color.convertSRGBToLinear();
+
         let mainMat = viewer.createPhysicalMaterial(material);
 
         const objects = this.modelObjects.reduce((acc, modelObject) => {
@@ -111,10 +107,6 @@ export default class WebGiViewer {
         }, []);
 
         objects.forEach((object) => {
-            // object.castShadow = true;
-            // object.receiveShadow = true;
-            // object.material.color.convertSRGBToLinear();
-
             if (object.isMesh) {
                 object.material = mainMat;
             }
