@@ -7,7 +7,7 @@ export default class SplineExportTest {
             sections: ".js-spline-sections",
             canvas: ".js-spline-view-model",
             loader: ".js-spline-loader",
-            splineCode: "https://prod.spline.design/yaWrFxcaazDS9rmg/scene.splinecode",
+            splineCode: "https://prod.spline.design/EJkzcs8ToBJ36Mf5/scene.splinecode",
         };
     }
 
@@ -25,7 +25,7 @@ export default class SplineExportTest {
         let direction = 1;
         let progress = 0;
         // 50 steps per section (100vh)
-        const animationsSteps = 800;
+        const animationsSteps = 1000;
 
         window.addEventListener(
             "wheel",
