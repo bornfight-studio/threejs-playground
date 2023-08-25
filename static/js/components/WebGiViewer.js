@@ -38,6 +38,9 @@ export default class WebGiViewer {
 
         const importer = viewer.getManager().importer;
 
+        const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 1);
+        directionalLight1.position.set(2, 7, 6);
+
         this.window = {
             widthHalf: window.innerWidth / 2,
             heightHalf: window.innerHeight / 2,
@@ -68,7 +71,11 @@ export default class WebGiViewer {
             const materialMapObject = materialData[material];
 
             for (let materialMap in materialObject) {
-                materials[material][materialMap] = this.texture.load(materialMapObject[materialMap]);
+                materials[material][materialMap] = this.texture.load(materialMapObject[materialMap], (tex) => {
+                    if (materialMap === "base") {
+                        tex.colorSpace = THREE.SRGBColorSpace;
+                    }
+                });
             }
         }
 
@@ -146,8 +153,6 @@ export default class WebGiViewer {
         const scale = materialScale * additionalScale;
 
         let mat = materials[`mat${index}`];
-
-        console.log(mat);
 
         mat.base.minFilter = THREE.NearestFilter;
         mat.base.generateMipmaps = false;
