@@ -49,15 +49,17 @@ export default class WebGiViewer {
 
         importer.addEventListener("onLoad", (ev) => {
             setTimeout(() => {
-                this.bla(viewer);
+                this.controller(viewer);
             }, 100);
         });
     }
 
-    bla(viewer) {
+    controller(viewer) {
         let materials = {};
 
         const materialScale = this.modelContainer.dataset.materialScale;
+
+        const initialScale = this.options[0].dataset.additionalScale || materialScale;
 
         for (let material in materialData) {
             const materialObject = materialData[material];
@@ -74,29 +76,33 @@ export default class WebGiViewer {
             map: materials.mat1.base,
             aoMap: materials.mat1.ao,
             aoMapIntensity: 0,
-            displacementMap: materials.mat1.height,
+            displacementMap: materials.mat1.height || null,
+            metalnessMap: materials.mat1.metal || null,
+            normalMap: materials.mat1.norm || null,
+            metalness: 0,
             displacementScale: 0,
             roughnessMap: materials.mat1.rough,
-            metalness: 0,
             clearcoat: 0,
             flatShading: false,
         });
 
         material.map.minFilter = THREE.NearestFilter;
         material.map.generateMipmaps = true;
-        material.map.wrapT = THREE.RepeatWrapping;
-        material.map.wrapS = THREE.RepeatWrapping;
-        material.aoMap.wrapT = THREE.RepeatWrapping;
-        material.aoMap.wrapS = THREE.RepeatWrapping;
-        material.displacementMap.wrapT = THREE.RepeatWrapping;
-        material.displacementMap.wrapS = THREE.RepeatWrapping;
-        material.roughnessMap.wrapT = THREE.RepeatWrapping;
-        material.roughnessMap.wrapS = THREE.RepeatWrapping;
+        material.map.wrapT = material.map.wrapS = THREE.RepeatWrapping;
+        material.aoMap.wrapT = material.aoMap.wrapS = THREE.RepeatWrapping;
+        material.displacementMap.wrapT = material.displacementMap.wrapS = THREE.RepeatWrapping;
+        material.roughnessMap.wrapT = material.roughnessMap.wrapS = THREE.RepeatWrapping;
+        if (material.normalMap) material.normalMap.wrapS = material.normalMap.wrapT = THREE.RepeatWrapping;
+        if (material.metalnessMap) material.metalnessMap.wrapS = material.metalnessMap.wrapT = THREE.RepeatWrapping;
+        if (material.heightMap) material.heightMap.wrapS = material.heightMap.wrapT = THREE.RepeatWrapping;
 
-        material.map.repeat.set(materialScale, materialScale);
-        material.aoMap.repeat.set(materialScale, materialScale);
-        material.displacementMap.repeat.set(materialScale, materialScale);
-        material.roughnessMap.repeat.set(materialScale, materialScale);
+        material.map.repeat.set(initialScale, initialScale);
+        material.aoMap.repeat.set(initialScale, initialScale);
+        material.displacementMap.repeat.set(initialScale, initialScale);
+        material.roughnessMap.repeat.set(initialScale, initialScale);
+        if (material.normalMap) material.normalMap.repeat.set(initialScale, initialScale);
+        if (material.metalnessMap) material.metalnessMap.repeat.set(initialScale, initialScale);
+        if (material.heightMap) material.heightMap.repeat.set(initialScale, initialScale);
 
         material.color.convertSRGBToLinear();
 
@@ -141,24 +147,32 @@ export default class WebGiViewer {
 
         let mat = materials[`mat${index}`];
 
+        console.log(mat);
+
         mat.base.minFilter = THREE.NearestFilter;
         mat.base.generateMipmaps = false;
         material.map = mat.base;
         material.aoMap = mat.ao;
         material.normalMap = mat.norm;
+        material.heightMap = mat.height || null;
+        material.metalnessMap = mat.metal || null;
         material.roughnessMap = mat.rough;
 
         material.map.wrapS = material.map.wrapT = THREE.RepeatWrapping;
         material.aoMap.wrapS = material.aoMap.wrapT = THREE.RepeatWrapping;
         material.displacementMap.wrapS = material.displacementMap.wrapT = THREE.RepeatWrapping;
-        if (material.normalMap) material.normalMap.wrapS = material.normalMap.wrapT = THREE.RepeatWrapping;
         material.roughnessMap.wrapS = material.roughnessMap.wrapT = THREE.RepeatWrapping;
+        if (material.normalMap) material.normalMap.wrapS = material.normalMap.wrapT = THREE.RepeatWrapping;
+        if (material.metalnessMap) material.metalnessMap.wrapS = material.metalnessMap.wrapT = THREE.RepeatWrapping;
+        if (material.heightMap) material.heightMap.wrapS = material.heightMap.wrapT = THREE.RepeatWrapping;
 
         material.map.repeat.set(scale, scale);
         material.aoMap.repeat.set(scale, scale);
         material.displacementMap.repeat.set(scale, scale);
-        if (material.normalMap) material.normalMap.repeat.set(scale, scale);
         material.roughnessMap.repeat.set(scale, scale);
+        if (material.normalMap) material.normalMap.repeat.set(scale, scale);
+        if (material.metalnessMap) material.metalnessMap.repeat.set(scale, scale);
+        if (material.heightMap) material.heightMap.repeat.set(scale, scale);
 
         material.needsUpdate = true;
 
