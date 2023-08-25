@@ -125,7 +125,7 @@ export default class FurnitureConfigurator {
         this.controls.enableDamping = true;
         this.controls.minDistance = 8;
         this.controls.maxDistance = 16;
-        this.controls.maxPolarAngle = Math.PI / 2.2;
+        this.controls.maxPolarAngle = Math.PI / 2.2; // 1.4272
         this.controls.minPolarAngle = 0.7;
         this.controls.maxAzimuthAngle = -1.2;
         this.controls.minAzimuthAngle = 3.2;
