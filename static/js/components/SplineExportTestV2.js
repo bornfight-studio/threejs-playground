@@ -38,15 +38,19 @@ export default class SplineExportTestV2 {
                 end: "bottom center",
                 onEnter: () => {
                     this.controllerEnter(animationEnter, model);
+                    if (index === 0) console.log(1);
                 },
                 onEnterBack: () => {
                     this.controllerEnter(animationEnter, model);
+                    if (index === 0) console.log(2);
                 },
                 onLeave: () => {
                     this.controllerLeave(animationLeave, model);
+                    if (index === 0) console.log(3);
                 },
                 onLeaveBack: () => {
                     this.controllerLeave(animationLeave, model);
+                    if (index === 0) console.log(4);
                 },
             });
 
@@ -65,7 +69,7 @@ export default class SplineExportTestV2 {
     controllerLeave(type, model) {
         switch (type) {
             case "scale-max":
-                this.animateLeave(model, 3);
+                this.animateLeave(model, 1.3);
                 break;
             case "scale-min":
                 this.animateLeave(model, 0);
@@ -87,7 +91,7 @@ export default class SplineExportTestV2 {
     controllerEnter(type, model) {
         switch (type) {
             case "scale-max":
-                this.animateEnter(model, 2, 1);
+                this.animateEnter(model, 1.3, 1);
                 break;
             case "scale-min":
                 this.animateEnter(model, 0, 1);
