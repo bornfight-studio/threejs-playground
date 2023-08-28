@@ -20,7 +20,7 @@ export default class WebGiViewer {
         this.element = document.querySelector(this.DOM.viewer);
         this.modelContainer = document.querySelector(this.DOM.container);
         this.options = document.querySelectorAll(this.DOM.option);
-        this.lightOption = document.querySelectorAll(this.DOM.lightOption);
+        this.lightOptions = document.querySelectorAll(this.DOM.lightOption);
 
         if (!this.element) return;
 
@@ -86,29 +86,29 @@ export default class WebGiViewer {
             lights.cold = result[0];
         });
 
-        const setActiveClass = (ev) => {
-            const clickedItem = ev.currentTarget;
-
-            this.lightOption.forEach((item) => {
-                if (item === clickedItem) {
-                    item.classList.add(this.DOM.states.isActive);
-                } else {
-                    item.classList.remove(this.DOM.states.isActive);
-                }
-            });
-        };
-
-        this.lightOption.forEach((option, index) => {
+        this.lightOptions.forEach((option, index) => {
             const light = option.dataset.light || "neutral";
 
             console.log(light);
 
             option.addEventListener("click", (ev) => {
-                setActiveClass(ev);
+                this.setActiveClass(ev, this.lightOptions);
                 viewer.scene.environment = lights[light];
                 if (viewer.scene.envMapIntensity !== 2) viewer.scene.envMapIntensity = 2;
                 viewer.scene.setDirty?.();
             });
+        });
+    }
+
+    setActiveClass(ev, options) {
+        const clickedItem = ev.currentTarget;
+
+        options.forEach((item) => {
+            if (item === clickedItem) {
+                item.classList.add(this.DOM.states.isActive);
+            } else {
+                item.classList.remove(this.DOM.states.isActive);
+            }
         });
     }
 
@@ -182,23 +182,11 @@ export default class WebGiViewer {
             }
         });
 
-        const setActiveClass = (ev) => {
-            const clickedItem = ev.currentTarget;
-
-            this.options.forEach((item) => {
-                if (item === clickedItem) {
-                    item.classList.add(this.DOM.states.isActive);
-                } else {
-                    item.classList.remove(this.DOM.states.isActive);
-                }
-            });
-        };
-
         this.options.forEach((option, index) => {
             const additionalScale = parseFloat(option.dataset.additionalScale) || 1;
 
             option.addEventListener("click", (ev) => {
-                setActiveClass(ev);
+                this.setActiveClass(ev, this.options);
                 this.transformMaterial(index + 1, material, materials, materialScale, additionalScale, viewer, objects, mainMat);
             });
         });
