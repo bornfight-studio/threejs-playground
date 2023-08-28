@@ -738,6 +738,10 @@ body {
   opacity: 0;
   visibility: hidden;
 }
+.c-spline-test__models canvas.scale-left {
+  transform: scale(0.2) rotate(30deg) translateX(30%);
+  transform-origin: 20% 50%;
+}
 
 /**
  * Pages

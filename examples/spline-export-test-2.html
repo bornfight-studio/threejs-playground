@@ -19,28 +19,28 @@
 
         <div class="c-spline-test__models">
             <!-- add z-index: 2 if scale-max -->
-            <canvas class="js-spline-model" data-key="7DWG9hx9aiCQfJoQ" data-out="scale-max" style="z-index: 2"></canvas>
-            <canvas class="js-spline-model" data-key="hZcDqVJ3HZ3u6DUO" data-in="alpha-in" data-out="scale-max"></canvas>
+            <canvas class="js-spline-model" data-key="7DWG9hx9aiCQfJoQ" style="z-index: 2"></canvas>
+            <canvas class="js-spline-model scale-left" data-key="hZcDqVJ3HZ3u6DUO"></canvas>
             <canvas class="js-spline-model" data-key="mQ-RTaXUhSSm3vI4" data-in="alpha-normal" data-out="alpha-min"></canvas>
         </div>
 
-        <header class="c-spline-test__section js-spline-model-section" data-model="1">
+        <header class="c-spline-test__section js-spline-model-section" data-model="1" data-out="scale-max">
             <h1>HEADER</h1>
         </header>
 
-        <section class="c-spline-test__section js-spline-model-section" data-model="1">
+        <section class="c-spline-test__section js-spline-model-section" data-model="1" data-in="scale-normal">
             <h2>SECTION 1</h2>
         </section>
 
-        <section class="c-spline-test__section js-spline-model-section" data-model="2">
+        <section class="c-spline-test__section js-spline-model-section" data-model="2" data-in="scale-left" data-out="scale-left">
             <h2>SECTION 2</h2>
         </section>
 
-        <section class="c-spline-test__section js-spline-model-section" data-model="2">
+        <section class="c-spline-test__section js-spline-model-section" data-model="1" data-in="scale-normal" data-out="scale-max">
             <h2>SECTION 3</h2>
         </section>
 
-        <section class="c-spline-test__section js-spline-model-section" data-model="3">
+        <section class="c-spline-test__section js-spline-model-section" data-model="3" data-in="scale-normal" data-out="alpha-min">
             <h2>SECTION 4</h2>
         </section>
 

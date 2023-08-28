@@ -35,6 +35,11 @@
             height: 100%;
             opacity: 0;
             visibility: hidden;
+
+            &.scale-left {
+                transform: scale(0.2) rotate(30deg) translateX(30%);
+                transform-origin: 20% 50%;
+            }
         }
     }
 }

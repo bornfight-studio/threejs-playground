@@ -33,43 +33,45 @@ export default class SplineExportTestV2 {
                         });
                     }, 100);
                 }
-            });
-        });
 
-        this.modelSections.forEach((section, index) => {
-            const modelKey = parseInt(section.dataset.model) - 1;
-            const model = this.models[modelKey];
-            const animationEnter = model.dataset.in || null;
-            const animationLeave = model.dataset.out || null;
-            const nextSectionSameModel = this.modelSections[index + 1]?.dataset.model === section.dataset.model;
-            const prevSectionSameModel = this.modelSections[index - 1]?.dataset.model === section.dataset.model;
+                if (this.models.length === index + 1) {
+                    this.modelSections.forEach((section, index) => {
+                        const modelKey = parseInt(section.dataset.model) - 1;
+                        const model = this.models[modelKey];
+                        const animationEnter = section.dataset.in || null;
+                        const animationLeave = section.dataset.out || null;
+                        const nextSectionSameModel = this.modelSections[index + 1]?.dataset.model === section.dataset.model;
+                        const prevSectionSameModel = this.modelSections[index - 1]?.dataset.model === section.dataset.model;
 
-            ScrollTrigger.create({
-                trigger: section,
-                start: "top center",
-                end: "bottom center",
-                onEnter: () => {
-                    if (this.activeModelKey !== modelKey) {
-                        this.activeModelKey = modelKey;
-                        this.controllerEnter(animationEnter, model);
-                    }
-                },
-                onEnterBack: () => {
-                    if (!nextSectionSameModel) {
-                        this.activeModelKey = modelKey;
-                        this.controllerEnter(animationEnter, model);
-                    }
-                },
-                onLeave: () => {
-                    if (!nextSectionSameModel) {
-                        this.controllerLeave(animationLeave, model);
-                    }
-                },
-                onLeaveBack: () => {
-                    if (this.activeModelKey === modelKey && !prevSectionSameModel) {
-                        this.controllerLeave(animationLeave, model);
-                    }
-                },
+                        ScrollTrigger.create({
+                            trigger: section,
+                            start: "top center",
+                            end: "bottom center",
+                            onEnter: () => {
+                                if (this.activeModelKey !== modelKey) {
+                                    this.activeModelKey = modelKey;
+                                    this.controllerEnter(animationEnter, model);
+                                }
+                            },
+                            onEnterBack: () => {
+                                if (!nextSectionSameModel) {
+                                    this.activeModelKey = modelKey;
+                                    this.controllerEnter(animationEnter, model);
+                                }
+                            },
+                            onLeave: () => {
+                                if (!nextSectionSameModel) {
+                                    this.controllerLeave(animationLeave, model);
+                                }
+                            },
+                            onLeaveBack: () => {
+                                if (this.activeModelKey === modelKey && !prevSectionSameModel) {
+                                    this.controllerLeave(animationLeave, model);
+                                }
+                            },
+                        });
+                    });
+                }
             });
         });
     }
@@ -90,6 +92,9 @@ export default class SplineExportTestV2 {
                 break;
             case "alpha-min":
                 this.animateLeave(model, 1);
+                break;
+            case "scale-left":
+                this.animateLeave(model, 0.2, "30%", "30 deg");
                 break;
             default:
                 this.animateLeave(model, 1);
@@ -113,28 +118,35 @@ export default class SplineExportTestV2 {
             case "alpha-min":
                 this.animateEnter(model, 1, 0);
                 break;
+            case "scale-left":
+                this.animateEnter(model, 1, 1, "0%", "0deg");
+                break;
             default:
                 this.animateEnter(model, 1, 1);
         }
     }
 
-    animateLeave(model, scale = 1) {
+    animateLeave(model, scale = 1, x, rotate) {
         if (!model) return;
         gsap.to(model, {
             autoAlpha: 0,
             scale: scale,
             filter: "blur(100px)",
             duration: 0.7,
+            x: x,
+            rotate: rotate,
         });
     }
 
-    animateEnter(model, scale = 1, autoAlpha = 1) {
+    animateEnter(model, scale = 1, autoAlpha = 1, x, rotate) {
         if (!model) return;
         gsap.to(model, {
             autoAlpha: autoAlpha,
             scale: scale,
             filter: "blur(0px)",
             duration: 0.7,
+            x: x,
+            rotate: rotate,
         });
     }
 }
