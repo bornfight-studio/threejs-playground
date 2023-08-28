@@ -17,42 +17,13 @@ export default class SplineExportTestV2 {
         this.models = document.querySelectorAll(this.data.model);
         this.modelSections = document.querySelectorAll(this.data.modelSection);
         this.loader = document.querySelector(this.data.loader);
+        this.activeModelKey = null;
 
         if (this.models.length < 1 || this.modelSections.length < 1) return;
 
-        this.modelSections.forEach((section, index) => {
-            const model = this.models[index];
-
-            const spline = new Application(model);
+        this.models.forEach((model, index) => {
             const key = model.dataset.key || "7DWG9hx9aiCQfJoQ";
-            const animationEnter = model.dataset.in || null;
-            const animationLeave = model.dataset.out || null;
-
-            if (animationLeave) {
-                //     this.controller(animationLeave, animationEnter, model);
-            }
-
-            ScrollTrigger.create({
-                trigger: section,
-                start: "top center",
-                end: "bottom center",
-                onEnter: () => {
-                    this.controllerEnter(animationEnter, model);
-                    if (index === 0) console.log(1);
-                },
-                onEnterBack: () => {
-                    this.controllerEnter(animationEnter, model);
-                    if (index === 0) console.log(2);
-                },
-                onLeave: () => {
-                    this.controllerLeave(animationLeave, model);
-                    if (index === 0) console.log(3);
-                },
-                onLeaveBack: () => {
-                    this.controllerLeave(animationLeave, model);
-                    if (index === 0) console.log(4);
-                },
-            });
+            const spline = new Application(model);
 
             spline.load(`https://prod.spline.design/${key}/scene.splinecode`).then(() => {
                 if (index === 0) {
@@ -62,6 +33,43 @@ export default class SplineExportTestV2 {
                         });
                     }, 100);
                 }
+            });
+        });
+
+        this.modelSections.forEach((section, index) => {
+            const modelKey = parseInt(section.dataset.model) - 1;
+            const model = this.models[modelKey];
+            const animationEnter = model.dataset.in || null;
+            const animationLeave = model.dataset.out || null;
+            const nextSectionSameModel = this.modelSections[index + 1]?.dataset.model === section.dataset.model;
+            const prevSectionSameModel = this.modelSections[index - 1]?.dataset.model === section.dataset.model;
+
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top center",
+                end: "bottom center",
+                onEnter: () => {
+                    if (this.activeModelKey !== modelKey) {
+                        this.activeModelKey = modelKey;
+                        this.controllerEnter(animationEnter, model);
+                    }
+                },
+                onEnterBack: () => {
+                    if (!nextSectionSameModel) {
+                        this.activeModelKey = modelKey;
+                        this.controllerEnter(animationEnter, model);
+                    }
+                },
+                onLeave: () => {
+                    if (!nextSectionSameModel) {
+                        this.controllerLeave(animationLeave, model);
+                    }
+                },
+                onLeaveBack: () => {
+                    if (this.activeModelKey === modelKey && !prevSectionSameModel) {
+                        this.controllerLeave(animationLeave, model);
+                    }
+                },
             });
         });
     }
@@ -117,13 +125,6 @@ export default class SplineExportTestV2 {
             scale: scale,
             filter: "blur(100px)",
             duration: 0.7,
-            // scrollTrigger: {
-            //     trigger: model,
-            //     start: "top top",
-            //     end: "bottom top",
-            //     scrub: true,
-            //     pin: true,
-            // },
         });
     }
 
@@ -134,12 +135,6 @@ export default class SplineExportTestV2 {
             scale: scale,
             filter: "blur(0px)",
             duration: 0.7,
-            // scrollTrigger: {
-            //     trigger: model,
-            //     start: "top bottom",
-            //     end: "top top",
-            //     scrub: true,
-            // },
         });
     }
 }
