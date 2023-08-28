@@ -6,7 +6,7 @@
         <title>Three.js playground — Spline Test 2</title>
         <link rel="stylesheet" href="../static/dist/style.css" />
     </head>
-    <body style="background-color: #b8c2c9;">
+    <body style="background-color: #b8c2c9">
         <nav class="c-navigation">
             <div class="o-container">
                 <a href="../index.html" class="c-back-link u-b3">
@@ -18,18 +18,11 @@
         <i class="c-spline-test__loader js-spline-loader"></i>
 
         <div class="c-spline-test__models">
-            <div>
-                <canvas class="js-spline-model" data-key="mgcI6EO-fNgwmoWs" data-out="scale-max"></canvas>
-            </div>
-            <div>
-                <canvas class="js-spline-model" data-key="mgcI6EO-fNgwmoWs" data-in="alpha-in" data-out="scale-min"></canvas>
-            </div>
-            <div>
-                <canvas class="js-spline-model" data-key="hZcDqVJ3HZ3u6DUO" data-in="alpha-normal" data-out="alpha-min"></canvas>
-            </div>
-            <div>
-                <canvas class="js-spline-model" data-key="7DWG9hx9aiCQfJoQ" data-in="alpha-normal"></canvas>
-            </div>
+            <!-- add z-index: 2 if scale-max -->
+            <canvas class="js-spline-model" data-key="mgcI6EO-fNgwmoWs" data-out="scale-max" style="z-index: 2"></canvas>
+            <canvas class="js-spline-model" data-key="mgcI6EO-fNgwmoWs" data-in="alpha-in" data-out="scale-min"></canvas>
+            <canvas class="js-spline-model" data-key="hZcDqVJ3HZ3u6DUO" data-in="alpha-normal" data-out="alpha-min"></canvas>
+            <canvas class="js-spline-model" data-key="7DWG9hx9aiCQfJoQ" data-in="alpha-normal"></canvas>
         </div>
 
         <header class="c-spline-test__section js-spline-model-section">
