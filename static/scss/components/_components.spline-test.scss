@@ -1,0 +1,41 @@
+.c-spline-test {
+    &__loader {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: #3c5163;
+        z-index: 2;
+        display: block;
+    }
+
+    &__section {
+        width: 100%;
+        height: 100vh;
+        outline: 1px solid red;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__models {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+}

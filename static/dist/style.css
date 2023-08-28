@@ -703,6 +703,43 @@ body {
   z-index: 1;
 }
 
+.c-spline-test__loader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #3c5163;
+  z-index: 2;
+  display: block;
+}
+.c-spline-test__section {
+  width: 100%;
+  height: 100vh;
+  outline: 1px solid red;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.c-spline-test__models {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.c-spline-test__models canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
 /**
  * Pages
  */

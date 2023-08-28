@@ -20,6 +20,7 @@ import FabricViewer from "./components/FabricViewer";
 import ModelViewer from "./components/ModelViewer";
 import WebGiViewer from "./components/WebGiViewer";
 import SplineExportTest from "./components/SplineExportTest";
+import SplineExportTestV2 from "./components/SplineExportTestV2";
 
 /**
  * Check if document is ready cross-browser
@@ -97,4 +98,7 @@ ready(() => {
 
     const splineExportTest = new SplineExportTest();
     splineExportTest.init();
+
+    const splineExportTestV2 = new SplineExportTestV2();
+    splineExportTestV2.init();
 });
