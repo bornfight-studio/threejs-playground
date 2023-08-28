@@ -11,6 +11,7 @@ export default class WebGiViewer {
             viewer: "#js-webgi-viewer",
             container: ".js-webgi-view-model",
             option: ".js-furniture-configurator-option",
+            lightOption: ".js-furniture-configurator-light-option",
             states: {
                 isActive: "is-active",
             },
@@ -19,6 +20,7 @@ export default class WebGiViewer {
         this.element = document.querySelector(this.DOM.viewer);
         this.modelContainer = document.querySelector(this.DOM.container);
         this.options = document.querySelectorAll(this.DOM.option);
+        this.lightOption = document.querySelectorAll(this.DOM.lightOption);
 
         if (!this.element) return;
 
@@ -36,7 +38,8 @@ export default class WebGiViewer {
         this.texture = new THREE.TextureLoader();
         this.modelObjects = JSON.parse(this.modelContainer.dataset.modelObjects);
 
-        const importer = viewer.getManager().importer;
+        const manager = viewer.getManager();
+        const importer = manager.importer;
 
         const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 1);
         directionalLight1.position.set(2, 7, 6);
@@ -46,6 +49,12 @@ export default class WebGiViewer {
             heightHalf: window.innerHeight / 2,
         };
 
+        const lights = {
+            neutral: manager.addFromPath("../static/models/lights/neutral.jpg"),
+            warm: manager.addFromPath("../static/models/lights/warm.jpg"),
+            cold: manager.addFromPath("../static/models/lights/cold.jpg"),
+        };
+
         importer.addEventListener("onProgress", (ev) => {
             console.log(`${(ev.loaded / ev.total) * 100}%`);
         });
@@ -53,7 +62,53 @@ export default class WebGiViewer {
         importer.addEventListener("onLoad", (ev) => {
             setTimeout(() => {
                 this.controller(viewer);
+                this.lightController(viewer, lights);
             }, 100);
+        });
+    }
+
+    lightController(viewer, lightPromises) {
+        const lights = {
+            neutral: null,
+            warm: null,
+            cold: null,
+        };
+
+        lightPromises["neutral"].then((result) => {
+            lights.neutral = result[0];
+        });
+
+        lightPromises["warm"].then((result) => {
+            lights.warm = result[0];
+        });
+
+        lightPromises["cold"].then((result) => {
+            lights.cold = result[0];
+        });
+
+        const setActiveClass = (ev) => {
+            const clickedItem = ev.currentTarget;
+
+            this.lightOption.forEach((item) => {
+                if (item === clickedItem) {
+                    item.classList.add(this.DOM.states.isActive);
+                } else {
+                    item.classList.remove(this.DOM.states.isActive);
+                }
+            });
+        };
+
+        this.lightOption.forEach((option, index) => {
+            const light = option.dataset.light || "neutral";
+
+            console.log(light);
+
+            option.addEventListener("click", (ev) => {
+                setActiveClass(ev);
+                viewer.scene.environment = lights[light];
+                if (viewer.scene.envMapIntensity !== 2) viewer.scene.envMapIntensity = 2;
+                viewer.scene.setDirty?.();
+            });
         });
     }
 

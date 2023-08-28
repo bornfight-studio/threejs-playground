@@ -13,6 +13,11 @@
         flex-wrap: wrap;
         justify-content: space-between;
         z-index: 1;
+
+        &--lights {
+            right: auto;
+            left: 0;
+        }
     }
 
     li {
@@ -40,6 +45,14 @@
     backdrop-filter: blur(5px);
     transition: all 0.2s;
 
+    &--yellow {
+        background-color: rgba(#ffff00, 0.2);
+    }
+
+    &--blue {
+        background-color: rgba(#0000ff, 0.2);
+    }
+
     img {
         max-width: 32px;
         pointer-events: none;
@@ -53,6 +66,7 @@
 
     &.is-active {
         border: 1px solid $black-50;
+        pointer-events: none;
     }
 
     &.is-active,
