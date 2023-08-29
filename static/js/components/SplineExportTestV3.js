@@ -22,7 +22,6 @@ export default class SplineExportTestV3 {
         this.models = document.querySelectorAll(this.data.model);
         this.modelSections = document.querySelectorAll(this.data.modelSection);
         this.loader = document.querySelector(this.data.loader);
-        this.activeModelKey = null;
 
         if (this.models.length < 1 || this.modelSections.length < 1) return;
 
@@ -40,37 +39,40 @@ export default class SplineExportTestV3 {
                 }
 
                 if (this.models.length === index + 1) {
-                    setTimeout(() => {
-                        let [, ...rest] = this.models;
-                        gsap.set(this.models[0], {
-                            x: 0,
-                        });
-                        gsap.set(rest, {
-                            autoAlpha: 0,
-                        });
-                    }, 10);
-
-                    this.modelSections.forEach((section, index) => {
-                        const modelKey = parseInt(section.dataset.model) - 1;
-                        const model = this.models[modelKey];
-                        const animationIn = JSON.parse(section.dataset.in) || null;
-                        const animationOut = JSON.parse(section.dataset.out) || null;
-                        const nextSectionSameModel = this.modelSections[index + 1]?.dataset.model === section.dataset.model;
-                        const prevSectionSameModel = this.modelSections[index - 1]?.dataset.model === section.dataset.model;
-
-                        this.animation(section, model, animationIn, animationOut);
-                    });
+                    this.onLoad();
                 }
             });
+        });
+    }
+
+    onLoad() {
+        setTimeout(() => {
+            let [, ...rest] = this.models;
+            gsap.set(this.models[0], {
+                x: 0,
+            });
+            gsap.set(rest, {
+                autoAlpha: 0,
+            });
+        }, 10);
+
+        this.modelSections.forEach((section) => {
+            const modelKey = parseInt(section.dataset.model) - 1;
+            const model = this.models[modelKey];
+            const animationIn = JSON.parse(section.dataset.in) || null;
+            const animationOut = JSON.parse(section.dataset.out) || null;
+
+            this.animation(section, model, animationIn, animationOut);
         });
     }
 
     animation(section, model, animationIn, animationOut) {
         animationIn[1].duration = 0.4;
         animationIn[1].ease = "power0.out";
+
         animationOut[1].duration = 0.4;
-        animationOut[1].ease = "power0.in";
         animationOut[1].delay = 0.2;
+        animationOut[1].ease = "power0.in";
 
         if (!model) return;
         const tl = gsap
