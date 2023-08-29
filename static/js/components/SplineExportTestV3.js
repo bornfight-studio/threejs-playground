@@ -86,7 +86,5 @@ export default class SplineExportTestV3 {
             })
             .fromTo(model, animationIn[0], animationIn[1])
             .fromTo(model, animationOut[0], animationOut[1]);
-
-        console.log(animationOut);
     }
 }
