@@ -35,6 +35,7 @@
             height: 100%;
             opacity: 0;
             visibility: hidden;
+            mix-blend-mode: lighten;
 
             &.scale-left {
                 transform: scale(0.2) rotate(30deg) translateX(30%);

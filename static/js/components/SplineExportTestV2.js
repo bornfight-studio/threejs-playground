@@ -131,7 +131,7 @@ export default class SplineExportTestV2 {
         gsap.to(model, {
             autoAlpha: 0,
             scale: scale,
-            filter: "blur(100px)",
+            // filter: "blur(100px)",
             duration: 0.7,
             x: x,
             rotate: rotate,
@@ -143,7 +143,7 @@ export default class SplineExportTestV2 {
         gsap.to(model, {
             autoAlpha: autoAlpha,
             scale: scale,
-            filter: "blur(0px)",
+            // filter: "blur(0px)",
             duration: 0.7,
             x: x,
             rotate: rotate,
