@@ -49,7 +49,7 @@ export default class SplineExportTestV3 {
         setTimeout(() => {
             let [, ...rest] = this.models;
             gsap.set(this.models[0], {
-                // x: 0,
+                // autoAlpha: 1,
             });
             gsap.set(rest, {
                 autoAlpha: 0,
@@ -86,5 +86,7 @@ export default class SplineExportTestV3 {
             })
             .fromTo(model, animationIn[0], animationIn[1])
             .fromTo(model, animationOut[0], animationOut[1]);
+
+        ScrollTrigger.refresh();
     }
 }
