@@ -49,7 +49,7 @@ export default class SplineExportTestV3 {
         setTimeout(() => {
             let [, ...rest] = this.models;
             gsap.set(this.models[0], {
-                x: 0,
+                // x: 0,
             });
             gsap.set(rest, {
                 autoAlpha: 0,
