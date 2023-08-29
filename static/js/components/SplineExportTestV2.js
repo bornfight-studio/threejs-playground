@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default class SplineExportTestV2 {
     constructor() {
         this.data = {
+            wrapper: ".js-spline-export-v2",
             model: ".js-spline-model",
             modelSection: ".js-spline-model-section",
             loader: ".js-spline-loader",
@@ -14,6 +15,10 @@ export default class SplineExportTestV2 {
     }
 
     init() {
+        this.wrapper = document.querySelector(this.data.wrapper);
+
+        if (!this.wrapper) return;
+
         this.models = document.querySelectorAll(this.data.model);
         this.modelSections = document.querySelectorAll(this.data.modelSection);
         this.loader = document.querySelector(this.data.loader);

@@ -21,6 +21,7 @@ import ModelViewer from "./components/ModelViewer";
 import WebGiViewer from "./components/WebGiViewer";
 import SplineExportTest from "./components/SplineExportTest";
 import SplineExportTestV2 from "./components/SplineExportTestV2";
+import SplineExportTestV3 from "./components/SplineExportTestV3";
 
 /**
  * Check if document is ready cross-browser
@@ -101,4 +102,7 @@ ready(() => {
 
     const splineExportTestV2 = new SplineExportTestV2();
     splineExportTestV2.init();
+
+    const splineExportTestV3 = new SplineExportTestV3();
+    splineExportTestV3.init();
 });
