@@ -22,6 +22,7 @@ import WebGiViewer from "./components/WebGiViewer";
 import SplineExportTest from "./components/SplineExportTest";
 import SplineExportTestV2 from "./components/SplineExportTestV2";
 import SplineExportTestV3 from "./components/SplineExportTestV3";
+import MarchingOrb from "./components/MarchingOrb";
 
 /**
  * Check if document is ready cross-browser
@@ -105,4 +106,6 @@ ready(() => {
 
     const splineExportTestV3 = new SplineExportTestV3();
     splineExportTestV3.init();
+
+    const marchingOrb = new MarchingOrb();
 });
