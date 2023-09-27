@@ -62,11 +62,21 @@ export default class MarchingOrb {
         this.scene.add(this.ambientLight);
 
         // MATERIAL
-        const material = new THREE.MeshStandardMaterial({
-            color: 0x9c0000,
+        const material = new THREE.MeshPhysicalMaterial({
             roughness: 0.1,
-            metalness: 1.0,
+            transmission: 1,
+            color: 0xffffff,
+            thickness: 0.5,
+            reflectivity: 0.5,
         });
+
+        const new2material = new THREE.MeshPhongMaterial({
+            color: 0x2a9cb5,
+        });
+        const newgeometry = new THREE.BoxGeometry(150, 150, 150);
+        this.newcube = new THREE.Mesh(newgeometry, new2material);
+        this.scene.add(this.newcube);
+        this.newcube.position.z = -400;
 
         // MARCHING CUBES
 
@@ -80,6 +90,8 @@ export default class MarchingOrb {
         this.effect.enableColors = false;
 
         this.scene.add(this.effect);
+
+        console.log(this.effect);
 
         // RENDERER
 
@@ -119,13 +131,10 @@ export default class MarchingOrb {
 
     setupGui() {
         this.effectController = {
-            material: "shiny",
-
             speed: 1.0,
-            resolution: 28,
+            resolution: 50,
             isolation: 80,
-
-            dummy: function () {},
+            difference: 1,
         };
 
         let h;
@@ -139,6 +148,7 @@ export default class MarchingOrb {
         h.add(this.effectController, "speed", 0.1, 8.0, 0.05);
         h.add(this.effectController, "resolution", 14, 100, 1);
         h.add(this.effectController, "isolation", 10, 300, 1);
+        h.add(this.effectController, "difference", 0, 10, 0.1);
     }
 
     // this controls content of marching cubes voxel field
@@ -150,9 +160,9 @@ export default class MarchingOrb {
         const strength = 1.2 / ((Math.sqrt(3) - 1) / 4 + 1);
 
         for (let i = 0; i < 3; i++) {
-            const ballx = Math.sin(i + 1.26 * time * (1.03 + 0.5 * Math.cos(0.21 * i))) * 0.27 + 0.5;
-            const bally = Math.abs(Math.cos(i + 1.12 * time * Math.cos(1.22 + 0.1424 * i))) * 0.77; // dip into the floor
-            const ballz = Math.cos(i + 1.32 * time * 0.1 * Math.sin(0.92 + 0.53 * i)) * 0.27 + 0.5;
+            const ballx = Math.sin(i + 1.26 * time * (1.03 + 0.5 * Math.cos(0.21 * i))) * (0.1 * this.effectController.difference) + 0.5;
+            const bally = Math.abs(Math.cos(i + 1.12 * time * Math.cos(1.22 + 0.1424 * i))) * (0.1 * this.effectController.difference) + 0.5;
+            const ballz = Math.cos(i + 1.32 * time * 0.1 * Math.sin(0.92 + 0.53 * i)) * (0.1 * this.effectController.difference) + 0.5;
 
             object.addBall(ballx, bally, ballz, strength, subtract);
         }
@@ -188,6 +198,11 @@ export default class MarchingOrb {
         this.updateCubes(this.effect, this.time);
 
         // render
+        if (this.newcube) {
+            this.newcube.rotation.x += 0.01;
+            this.newcube.rotation.z += 0.005;
+            this.newcube.rotation.y += 0.005;
+        }
 
         this.renderer.render(this.scene, this.camera);
     }
