@@ -20,6 +20,8 @@ export default class MarchingOrb {
         this.scene = null;
         this.renderer = null;
 
+        this.numOfBalls = 10;
+
         this.light = null;
         this.pointLight = null;
         this.ambientLight = null;
@@ -42,8 +44,8 @@ export default class MarchingOrb {
 
     init() {
         // CAMERA
-        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-        this.camera.position.set(-500, 500, 1500);
+        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 50);
+        this.camera.position.set(0, 0, 25);
 
         // SCENE
         this.scene = new THREE.Scene();
@@ -73,10 +75,11 @@ export default class MarchingOrb {
         const new2material = new THREE.MeshPhongMaterial({
             color: 0x2a9cb5,
         });
-        const newgeometry = new THREE.BoxGeometry(150, 150, 150);
+        const newgeometry = new THREE.BoxGeometry(5, 5, 5);
         this.newcube = new THREE.Mesh(newgeometry, new2material);
         this.scene.add(this.newcube);
-        this.newcube.position.z = -400;
+        this.newcube.position.z = -10;
+        this.newcube.position.x = 0;
 
         // MARCHING CUBES
 
@@ -84,7 +87,7 @@ export default class MarchingOrb {
 
         this.effect = new MarchingCubes(this.resolution, material, true, true, 100000);
         this.effect.position.set(0, 0, 0);
-        this.effect.scale.set(700, 700, 700);
+        this.effect.scale.set(7, 7, 7);
 
         this.effect.enableUvs = false;
         this.effect.enableColors = false;
@@ -103,8 +106,8 @@ export default class MarchingOrb {
         // CONTROLS
 
         const controls = new OrbitControls(this.camera, this.renderer.domElement);
-        controls.minDistance = 500;
-        controls.maxDistance = 5000;
+        controls.minDistance = 1;
+        controls.maxDistance = 25;
 
         // STATS
 
@@ -133,8 +136,8 @@ export default class MarchingOrb {
         this.effectController = {
             speed: 1.0,
             resolution: 50,
-            isolation: 80,
-            difference: 1,
+            isolation: 10,
+            difference: 1.7,
         };
 
         let h;
@@ -159,9 +162,9 @@ export default class MarchingOrb {
         const subtract = 12;
         const strength = 1.2 / ((Math.sqrt(3) - 1) / 4 + 1);
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < this.numOfBalls; i++) {
             const ballx = Math.sin(i + 1.26 * time * (1.03 + 0.5 * Math.cos(0.21 * i))) * (0.1 * this.effectController.difference) + 0.5;
-            const bally = Math.abs(Math.cos(i + 1.12 * time * Math.cos(1.22 + 0.1424 * i))) * (0.1 * this.effectController.difference) + 0.5;
+            const bally = Math.abs(Math.cos(i + 1.12 * time * Math.cos(1.22 + 0.1424 * i))) * (0.1 * (this.effectController.difference / 2)) + 0.5;
             const ballz = Math.cos(i + 1.32 * time * 0.1 * Math.sin(0.92 + 0.53 * i)) * (0.1 * this.effectController.difference) + 0.5;
 
             object.addBall(ballx, bally, ballz, strength, subtract);
