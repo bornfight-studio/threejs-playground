@@ -69,24 +69,24 @@ export default class WebGiViewer {
 
         importer.addEventListener("onLoad", (ev) => {
             setTimeout(() => {
-                const spot = viewer.scene.children[0].children[0].getObjectByName("Spot");
+                // const spot = viewer.scene.children[0].children[0].getObjectByName("Spot");
 
-                console.log(spot);
-                if (spot) {
-                    const oldPosition = {
-                        targetX: spot.target.position.x,
-                        positionX: spot.position.x,
-                    };
-
-                    const animation = () => {
-                        spot.position.x = oldPosition.positionX - cursor.x;
-                        // spot.setDirty?.("position");
-                        viewer.scene.setDirty();
-                        requestAnimationFrame(animation);
-                    };
-
-                    animation();
-                }
+                // console.log(spot);
+                // if (spot) {
+                //     const oldPosition = {
+                //         targetX: spot.target.position.x,
+                //         positionX: spot.position.x,
+                //     };
+                //
+                //     const animation = () => {
+                //         spot.position.x = oldPosition.positionX - cursor.x;
+                //         // spot.setDirty?.("position");
+                //         viewer.scene.setDirty();
+                //         requestAnimationFrame(animation);
+                //     };
+                //
+                //     animation();
+                // }
 
                 this.controller(viewer);
                 this.lightController(viewer, lights);
