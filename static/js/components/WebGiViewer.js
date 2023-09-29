@@ -59,8 +59,35 @@ export default class WebGiViewer {
             console.log(`${(ev.loaded / ev.total) * 100}%`);
         });
 
+        const cursor = {
+            x: 0,
+        };
+
+        window.addEventListener("mousemove", (ev) => {
+            cursor.x = (window.innerWidth / 2 - ev.clientX) * 0.001;
+        });
+
         importer.addEventListener("onLoad", (ev) => {
             setTimeout(() => {
+                const spot = viewer.scene.children[0].children[0].getObjectByName("Spot");
+
+                console.log(spot);
+                if (spot) {
+                    const oldPosition = {
+                        targetX: spot.target.position.x,
+                        positionX: spot.position.x,
+                    };
+
+                    const animation = () => {
+                        spot.position.x = oldPosition.positionX - cursor.x;
+                        // spot.setDirty?.("position");
+                        viewer.scene.setDirty();
+                        requestAnimationFrame(animation);
+                    };
+
+                    animation();
+                }
+
                 this.controller(viewer);
                 this.lightController(viewer, lights);
             }, 100);
@@ -95,7 +122,7 @@ export default class WebGiViewer {
                 this.setActiveClass(ev, this.lightOptions);
                 viewer.scene.environment = lights[light];
                 if (viewer.scene.envMapIntensity !== 2) viewer.scene.envMapIntensity = 2;
-                viewer.scene.setDirty?.();
+                // viewer.scene.setDirty?.();
             });
         });
     }
