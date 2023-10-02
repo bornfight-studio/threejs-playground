@@ -18,7 +18,7 @@ import GridHelper from "./helpers/GridHelper";
 import FurnitureConfigurator from "./components/FurnitureConfigurator";
 import FabricViewer from "./components/FabricViewer";
 import ModelViewer from "./components/ModelViewer";
-import WebGiViewer from "./components/WebGiViewer";
+import ModelConfiguratorWrapper from "./components/ModelConfiguratorWrapper";
 import SplineExportTest from "./components/SplineExportTest";
 import SplineExportTestV2 from "./components/SplineExportTestV2";
 import SplineExportTestV3 from "./components/SplineExportTestV3";
@@ -96,18 +96,7 @@ ready(() => {
     const modelViewer = new ModelViewer();
     modelViewer.init();
 
-    new WebGiViewer({
-        elementClass: ".js-webgi-viewer",
-        textureScale: 1,
-        modelUrl: "../static/models/webgi-test-6.glb",
-        envUrl: "https://dist.pixotronics.com/webgi/assets/hdr/gem_2.hdr",
-        modelObjects: ["headrest_left", "headrest_right", "seat", "seat_left", "seat_right"],
-        envLights: {
-            neutral: "../static/models/lights/neutral.jpg",
-            warm: "../static/models/lights/warm.jpg",
-            cold: "../static/models/lights/cold.jpg",
-        },
-    });
+    new ModelConfiguratorWrapper();
 
     const splineExportTest = new SplineExportTest();
     splineExportTest.init();
