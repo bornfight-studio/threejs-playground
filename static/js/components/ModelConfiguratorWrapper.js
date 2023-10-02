@@ -56,7 +56,7 @@ export default class ModelConfiguratorWrapper {
 
             option.addEventListener("click", (ev) => {
                 this.setActiveClass(ev, this.textureOptions);
-                this.modelConfigurator.setTexture(index + 1, additionalScale);
+                this.modelConfigurator.setModelTexture(index + 1, additionalScale);
             });
         });
     }

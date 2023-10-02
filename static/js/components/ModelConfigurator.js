@@ -221,7 +221,7 @@ export default class ModelConfigurator {
         });
     }
 
-    setTexture(index, additionalScale = 1) {
+    setModelTexture(index, additionalScale = 1) {
         const scale = this.defaults.textureScale * additionalScale;
 
         let mat = this.materials[`mat${index}`];
