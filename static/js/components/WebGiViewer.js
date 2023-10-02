@@ -1,15 +1,33 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import materialData from "../../materialData.json";
+import { ViewerApp, GroundPlugin, AssetManagerPlugin, addBasePlugins } from "webgi";
 import * as THREE from "three";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default class WebGiViewer {
-    constructor() {
+    /**
+     * @param options
+     * @param {string} options.elementClass
+     * @param {string} options.modelUrl
+     * @param {string} options.envUrl
+     * @param {array} options.modelObjects
+     * @param {number} options.textureScale
+     * @param {object} options.envLights
+     */
+    constructor(options) {
+        let _defaults = {
+            elementClass: "",
+            modelUrl: "",
+            envUrl: "",
+            modelObjects: [],
+            textureScale: 1,
+        };
+
+        this.defaults = Object.assign({}, _defaults, options);
+
         this.DOM = {
-            viewer: "#js-webgi-viewer",
-            container: ".js-webgi-view-model",
             option: ".js-furniture-configurator-option",
             lightOption: ".js-furniture-configurator-light-option",
             states: {
@@ -17,84 +35,109 @@ export default class WebGiViewer {
             },
         };
 
-        this.element = document.querySelector(this.DOM.viewer);
-        this.modelContainer = document.querySelector(this.DOM.container);
+        this.element = document.querySelector(this.defaults.elementClass);
         this.options = document.querySelectorAll(this.DOM.option);
         this.lightOptions = document.querySelectorAll(this.DOM.lightOption);
 
         if (!this.element) return;
 
-        if (history.scrollRestoration) {
-            history.scrollRestoration = "manual";
-        }
-
-        this.element.addEventListener("initialized", () => {
-            this.init();
-        });
-    }
-
-    init() {
-        const viewer = this.element.viewer;
-        this.texture = new THREE.TextureLoader();
-        this.modelObjects = JSON.parse(this.modelContainer.dataset.modelObjects);
-
-        const manager = viewer.getManager();
-        const importer = manager.importer;
-
-        const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 1);
-        directionalLight1.position.set(2, 7, 6);
-
-        this.window = {
+        this.windowDimensions = {
+            width: window.innerWidth,
+            height: window.innerHeight,
             widthHalf: window.innerWidth / 2,
             heightHalf: window.innerHeight / 2,
         };
 
-        const lights = {
-            neutral: manager.addFromPath("../static/models/lights/neutral.jpg"),
-            warm: manager.addFromPath("../static/models/lights/warm.jpg"),
-            cold: manager.addFromPath("../static/models/lights/cold.jpg"),
-        };
+        if (history.scrollRestoration) {
+            history.scrollRestoration = "manual";
+        }
 
+        this.init();
+    }
+
+    init() {
+        const $this = this;
+        async function setupViewer() {
+            $this.viewer = new ViewerApp({
+                canvas: $this.element,
+                useRgbm: true,
+            });
+
+            $this.manager = await $this.viewer.addPlugin(AssetManagerPlugin);
+
+            await addBasePlugins($this.viewer);
+
+            await $this.manager.addFromPath($this.defaults.modelUrl);
+
+            await $this.viewer.setEnvironmentMap($this.defaults.envUrl);
+        }
+
+        setupViewer().then((r) => {
+            this.afterInit();
+        });
+    }
+
+    afterInit() {
+        this.texture = new THREE.TextureLoader();
+        this.modelObjects = this.defaults.modelObjects;
+
+        const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 1);
+        directionalLight1.position.set(2, 7, 6);
+
+        let envLights = null;
+        if (this.defaults.envLights) {
+            envLights = {
+                neutral: this.manager.addFromPath(this.defaults.envLights.neutral),
+                warm: this.manager.addFromPath(this.defaults.envLights.warm),
+                cold: this.manager.addFromPath(this.defaults.envLights.cold),
+            };
+        }
+
+        const spot = this.viewer.scene.children[0].children[0].getObjectByName("Spot");
+
+        if (spot) {
+            const initialPosition = {
+                positionX: spot.position.x,
+                positionY: spot.position.y,
+                positionZ: spot.position.z,
+            };
+
+            const cursor = {
+                x: 0,
+                y: 0,
+            };
+
+            this.element.addEventListener("mousemove", (ev) => {
+                cursor.x = (this.windowDimensions.widthHalf - ev.clientX) * 0.00005;
+                cursor.y = (this.windowDimensions.heightHalf - ev.clientY) * 0.00005;
+
+                gsap.to(spot.position, {
+                    x: initialPosition.positionX - cursor.x,
+                    y: initialPosition.positionY + cursor.y,
+                    duration: 1,
+                    onUpdate: () => {
+                        spot.setDirty?.("position");
+                        this.viewer.scene.activeCamera.setDirty?.();
+                    },
+                });
+            });
+        }
+
+        const importer = this.manager.importer;
         importer.addEventListener("onProgress", (ev) => {
             console.log(`${(ev.loaded / ev.total) * 100}%`);
         });
 
-        const cursor = {
-            x: 0,
-        };
-
-        window.addEventListener("mousemove", (ev) => {
-            cursor.x = (window.innerWidth / 2 - ev.clientX) * 0.001;
-        });
-
         importer.addEventListener("onLoad", (ev) => {
-            setTimeout(() => {
-                // const spot = viewer.scene.children[0].children[0].getObjectByName("Spot");
+            this.controller();
 
-                // console.log(spot);
-                // if (spot) {
-                //     const oldPosition = {
-                //         targetX: spot.target.position.x,
-                //         positionX: spot.position.x,
-                //     };
-                //
-                //     const animation = () => {
-                //         spot.position.x = oldPosition.positionX - cursor.x;
-                //         // spot.setDirty?.("position");
-                //         viewer.scene.setDirty();
-                //         requestAnimationFrame(animation);
-                //     };
-                //
-                //     animation();
-                // }
-
-                this.controller(viewer);
-                this.lightController(viewer, lights);
-            }, 100);
+            if (this.defaults.envLights) {
+                this.lightController(envLights);
+            }
         });
     }
 
-    lightController(viewer, lightPromises) {
+    lightController(lightPromises) {
         const lights = {
             neutral: null,
             warm: null,
@@ -116,13 +159,10 @@ export default class WebGiViewer {
         this.lightOptions.forEach((option, index) => {
             const light = option.dataset.light || "neutral";
 
-            console.log(light);
-
             option.addEventListener("click", (ev) => {
                 this.setActiveClass(ev, this.lightOptions);
-                viewer.scene.environment = lights[light];
-                if (viewer.scene.envMapIntensity !== 2) viewer.scene.envMapIntensity = 2;
-                // viewer.scene.setDirty?.();
+                this.viewer.scene.environment = lights[light];
+                if (this.viewer.scene.envMapIntensity !== 2) this.viewer.scene.envMapIntensity = 2;
             });
         });
     }
@@ -139,12 +179,10 @@ export default class WebGiViewer {
         });
     }
 
-    controller(viewer) {
+    controller() {
         let materials = {};
 
-        const materialScale = this.modelContainer.dataset.materialScale;
-
-        const initialScale = this.options[0].dataset.additionalScale || materialScale;
+        const initialScale = this.options[0].dataset.additionalScale || this.defaults.textureScale;
 
         for (let material in materialData) {
             const materialObject = materialData[material];
@@ -197,10 +235,10 @@ export default class WebGiViewer {
 
         material.needsUpdate = true;
 
-        let mainMat = viewer.createPhysicalMaterial(material);
+        let mainMat = this.viewer.createPhysicalMaterial(material);
 
         const objects = this.modelObjects.reduce((acc, modelObject) => {
-            return [...acc, viewer.scene.getObjectByName(modelObject)];
+            return [...acc, this.viewer.scene.getObjectByName(modelObject)];
         }, []);
 
         objects.forEach((object) => {
@@ -214,13 +252,13 @@ export default class WebGiViewer {
 
             option.addEventListener("click", (ev) => {
                 this.setActiveClass(ev, this.options);
-                this.transformMaterial(index + 1, material, materials, materialScale, additionalScale, viewer, objects, mainMat);
+                this.transformMaterial(index + 1, material, materials, additionalScale, objects, mainMat);
             });
         });
     }
 
-    transformMaterial(index, material, materials, materialScale, additionalScale = 1, viewer, objects, mainMat) {
-        const scale = materialScale * additionalScale;
+    transformMaterial(index, material, materials, additionalScale = 1, objects, mainMat) {
+        const scale = this.defaults.textureScale * additionalScale;
 
         let mat = materials[`mat${index}`];
 
@@ -251,7 +289,7 @@ export default class WebGiViewer {
 
         material.needsUpdate = true;
 
-        mainMat = viewer.createPhysicalMaterial(material);
+        mainMat = this.viewer.createPhysicalMaterial(material);
         objects.forEach((object) => {
             if (object.isMesh) {
                 object.material = mainMat;

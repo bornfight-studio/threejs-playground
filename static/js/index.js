@@ -96,7 +96,18 @@ ready(() => {
     const modelViewer = new ModelViewer();
     modelViewer.init();
 
-    const webGiViewer = new WebGiViewer();
+    new WebGiViewer({
+        elementClass: ".js-webgi-viewer",
+        textureScale: 1,
+        modelUrl: "../static/models/webgi-test-6.glb",
+        envUrl: "https://dist.pixotronics.com/webgi/assets/hdr/gem_2.hdr",
+        modelObjects: ["headrest_left", "headrest_right", "seat", "seat_left", "seat_right"],
+        envLights: {
+            neutral: "../static/models/lights/neutral.jpg",
+            warm: "../static/models/lights/warm.jpg",
+            cold: "../static/models/lights/cold.jpg",
+        },
+    });
 
     const splineExportTest = new SplineExportTest();
     splineExportTest.init();
