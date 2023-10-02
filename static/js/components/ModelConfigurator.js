@@ -89,13 +89,13 @@ export default class ModelConfigurator {
             };
         }
 
-        const spot = this.viewer.scene.children[0].children[0].getObjectByName("Spot");
+        const spotLight = this.viewer.scene.children[0].children[0].getObjectByName("Spot");
 
-        if (spot) {
+        if (spotLight) {
             const initialPosition = {
-                positionX: spot.position.x,
-                positionY: spot.position.y,
-                positionZ: spot.position.z,
+                positionX: spotLight.position.x,
+                positionY: spotLight.position.y,
+                positionZ: spotLight.position.z,
             };
 
             const cursor = {
@@ -107,12 +107,12 @@ export default class ModelConfigurator {
                 cursor.x = (this.windowDimensions.widthHalf - ev.clientX) * 0.00005;
                 cursor.y = (this.windowDimensions.heightHalf - ev.clientY) * 0.00005;
 
-                gsap.to(spot.position, {
+                gsap.to(spotLight.position, {
                     x: initialPosition.positionX - cursor.x,
                     y: initialPosition.positionY + cursor.y,
                     duration: 1,
                     onUpdate: () => {
-                        spot.setDirty?.("position");
+                        spotLight.setDirty?.("position");
                         this.viewer.scene.activeCamera.setDirty?.();
                     },
                 });
