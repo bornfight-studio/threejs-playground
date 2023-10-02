@@ -80,9 +80,9 @@ export default class ModelConfigurator {
         const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 1);
         directionalLight1.position.set(2, 7, 6);
 
-        let envLights = null;
+        this.envLights = null;
         if (this.defaults.envLights) {
-            envLights = {
+            this.envLights = {
                 neutral: this.manager.addFromPath(this.defaults.envLights.neutral),
                 warm: this.manager.addFromPath(this.defaults.envLights.warm),
                 cold: this.manager.addFromPath(this.defaults.envLights.cold),
@@ -128,21 +128,21 @@ export default class ModelConfigurator {
             this.controller();
 
             if (this.defaults.envLights) {
-                this.lightController(envLights);
+                this.lightController();
             }
         });
     }
 
-    lightController(lightPromises) {
-        lightPromises["neutral"].then((result) => {
+    lightController() {
+        this.envLights["neutral"].then((result) => {
             this.lights.neutral = result[0];
         });
 
-        lightPromises["warm"].then((result) => {
+        this.envLights["warm"].then((result) => {
             this.lights.warm = result[0];
         });
 
-        lightPromises["cold"].then((result) => {
+        this.envLights["cold"].then((result) => {
             this.lights.cold = result[0];
         });
     }
