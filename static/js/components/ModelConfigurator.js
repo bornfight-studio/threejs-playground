@@ -244,27 +244,30 @@ export default class ModelConfigurator {
             materialObject[materialMap] = this.texture.load(textureJSON[materialMap], (tex) => {
                 if (materialMap === "base") {
                     tex.colorSpace = THREE.SRGBColorSpace;
-                    this.material.color.convertSRGBToLinear();
 
-                    this.material.needsUpdate = true;
+                    setTimeout(() => {
+                        this.material.color.convertSRGBToLinear();
 
-                    this.mainMat = this.viewer.createPhysicalMaterial(this.material);
-                    this.objects.forEach((object) => {
-                        if (object.isMesh) {
-                            object.material = this.mainMat;
-                            object.setDirty?.();
-                        }
-                    });
+                        this.material.needsUpdate = true;
 
-                    const endTime = new Date();
-                    const timeDiff = endTime - startTime; //in ms
-                    if (timeDiff < textureReplacementDuration) {
-                        setTimeout(() => {
+                        this.mainMat = this.viewer.createPhysicalMaterial(this.material);
+                        this.objects.forEach((object) => {
+                            if (object.isMesh) {
+                                object.material = this.mainMat;
+                                object.setDirty?.();
+                            }
+                        });
+
+                        const endTime = new Date();
+                        const timeDiff = endTime - startTime; //in ms
+                        if (timeDiff < textureReplacementDuration) {
+                            setTimeout(() => {
+                                this.element.classList.remove("is-loading");
+                            }, textureReplacementDuration - timeDiff);
+                        } else {
                             this.element.classList.remove("is-loading");
-                        }, textureReplacementDuration - timeDiff);
-                    } else {
-                        this.element.classList.remove("is-loading");
-                    }
+                        }
+                    }, 100);
                 }
             });
         }
