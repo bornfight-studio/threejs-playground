@@ -57,6 +57,11 @@ export default class ModelConfigurator {
         this.init();
     }
 
+    /**
+     * Initializes the function.
+     *
+     * @return {Promise} A promise that resolves when the function is initialized.
+     */
     init() {
         const $this = this;
         async function setupViewer() {
@@ -102,6 +107,14 @@ export default class ModelConfigurator {
         });
     }
 
+    /**
+     * Initializes the necessary settings after the viewer is initialized.
+     * This function modifies the camera controls, camera object, texture,
+     * model objects, directional light, spot light, and event listener for
+     * mouse movement.
+     *
+     * @return {void}
+     */
     afterInit() {
         const camera = this.viewer.scene.activeCamera;
         const controls = camera.controls;
@@ -159,6 +172,9 @@ export default class ModelConfigurator {
         }
     }
 
+    /**
+     * Initializes the light controller by fetching the environment lights and assigning them to the respective light properties.
+     */
     lightController() {
         this.envLights["neutral"].then((result) => {
             this.lights.neutral = result[0];
@@ -173,11 +189,19 @@ export default class ModelConfigurator {
         });
     }
 
+    /**
+     * Sets the environment light of the viewer scene.
+     *
+     * @param {light} light - The light to set as the environment light.
+     */
     setEnvLight(light) {
         this.viewer.scene.environment = this.lights[light];
         if (this.viewer.scene.envMapIntensity !== 2) this.viewer.scene.envMapIntensity = 2;
     }
 
+    /**
+     * Initializes the controller and sets up the materials and objects.
+     */
     controller() {
         this.material = new THREE.MeshPhysicalMaterial({
             aoMapIntensity: 0,
@@ -200,6 +224,13 @@ export default class ModelConfigurator {
         });
     }
 
+    /**
+     * Set the model texture for a given index.
+     *
+     * @param {number} index - The index of the texture.
+     * @param {number} additionalScale - The additional scale to be applied to the texture.
+     * @param {object} textureJSON - The JSON object containing the texture information.
+     */
     setModelTexture(index, additionalScale, textureJSON) {
         const textureReplacementDuration = 500; //ms
         const startTime = new Date();
