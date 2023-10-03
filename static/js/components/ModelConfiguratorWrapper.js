@@ -21,12 +21,16 @@ export default class ModelConfiguratorWrapper {
                 warm: "../static/models/lights/warm.jpg",
                 cold: "../static/models/lights/cold.jpg",
             },
+            onLoad: () => {
+                this.init();
+            },
+            onProgress: (progress) => {
+                console.log(progress);
+            },
         });
 
         this.envLightOptions = document.querySelectorAll(this.DOM.envLightOptions);
         this.textureOptions = document.querySelectorAll(this.DOM.textureOptions);
-
-        this.init();
     }
 
     init() {
@@ -52,13 +56,16 @@ export default class ModelConfiguratorWrapper {
 
     textureController() {
         this.textureOptions.forEach((option, index) => {
-            const additionalScale = parseFloat(option.dataset.additionalScale) || 1;
+            const additionalScale = parseFloat(option.dataset.additionalScale);
 
             option.addEventListener("click", (ev) => {
                 this.setActiveClass(ev, this.textureOptions);
                 this.modelConfigurator.setModelTexture(index + 1, additionalScale);
             });
         });
+
+        const initialScale = parseFloat(this.textureOptions[0].dataset.additionalScale);
+        this.modelConfigurator.setModelTexture(1, initialScale);
     }
 
     setActiveClass(ev, options) {

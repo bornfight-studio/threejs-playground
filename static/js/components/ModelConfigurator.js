@@ -15,6 +15,8 @@ export default class ModelConfigurator {
      * @param {array} options.modelObjects
      * @param {number} options.textureScale
      * @param {object} options.envLights
+     * @param {function} options.onLoad
+     * @param {function} options.onProgress
      */
     constructor(options) {
         let _defaults = {
@@ -23,9 +25,14 @@ export default class ModelConfigurator {
             envUrl: "",
             modelObjects: [],
             textureScale: 1,
+            onLoad: () => {},
+            onProgress: () => {},
         };
 
         this.defaults = Object.assign({}, _defaults, options);
+
+        this.onLoad = this.defaults.onLoad;
+        this.onProgress = this.defaults.onProgress;
 
         this.element = document.querySelector(this.defaults.elementClass);
 
@@ -61,33 +68,51 @@ export default class ModelConfigurator {
 
             $this.manager = await $this.viewer.addPlugin(AssetManagerPlugin);
 
+            $this.importer = $this.manager.importer;
+
             await addBasePlugins($this.viewer);
-
-            await $this.manager.addFromPath($this.defaults.modelUrl);
-
-            await $this.viewer.setEnvironmentMap($this.defaults.envUrl);
         }
 
         setupViewer().then((r) => {
-            this.afterInit();
+            this.manager.addFromPath(this.defaults.modelUrl).then((r) => {});
+
+            this.viewer.setEnvironmentMap(this.defaults.envUrl).then((r) => {});
+
+            this.envLights = null;
+            if (this.defaults.envLights) {
+                $this.envLights = {
+                    neutral: this.manager.addFromPath(this.defaults.envLights.neutral),
+                    warm: this.manager.addFromPath(this.defaults.envLights.warm),
+                    cold: this.manager.addFromPath(this.defaults.envLights.cold),
+                };
+            }
+
+            this.importer.addEventListener("onProgress", (ev) => {
+                this.onProgress((ev.loaded / ev.total) * 100);
+            });
+
+            this.importer.addEventListener("onLoad", (ev) => {
+                setTimeout(() => {
+                    this.afterInit();
+                }, 100);
+
+                setTimeout(() => {
+                    this.onLoad();
+                }, 200);
+            });
         });
     }
 
     afterInit() {
+        const controls = this.viewer.scene.activeCamera.controls;
+        controls.minDistance = 0;
+        controls.maxDistance = 1.3;
+
         this.texture = new THREE.TextureLoader();
         this.modelObjects = this.defaults.modelObjects;
 
         const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 1);
         directionalLight1.position.set(2, 7, 6);
-
-        this.envLights = null;
-        if (this.defaults.envLights) {
-            this.envLights = {
-                neutral: this.manager.addFromPath(this.defaults.envLights.neutral),
-                warm: this.manager.addFromPath(this.defaults.envLights.warm),
-                cold: this.manager.addFromPath(this.defaults.envLights.cold),
-            };
-        }
 
         const spotLight = this.viewer.scene.children[0].children[0].getObjectByName("Spot");
 
@@ -119,18 +144,11 @@ export default class ModelConfigurator {
             });
         }
 
-        const importer = this.manager.importer;
-        importer.addEventListener("onProgress", (ev) => {
-            console.log(`${(ev.loaded / ev.total) * 100}%`);
-        });
+        this.controller();
 
-        importer.addEventListener("onLoad", (ev) => {
-            this.controller();
-
-            if (this.defaults.envLights) {
-                this.lightController();
-            }
-        });
+        if (this.defaults.envLights) {
+            this.lightController();
+        }
     }
 
     lightController() {
@@ -155,8 +173,6 @@ export default class ModelConfigurator {
     controller() {
         this.materials = {};
 
-        const initialScale = this.defaults.textureScale;
-
         for (let material in materialData) {
             const materialObject = materialData[material];
 
@@ -173,40 +189,12 @@ export default class ModelConfigurator {
         }
 
         this.material = new THREE.MeshPhysicalMaterial({
-            map: this.materials.mat1.base,
-            aoMap: this.materials.mat1.ao,
             aoMapIntensity: 0,
-            displacementMap: this.materials.mat1.height || null,
-            metalnessMap: this.materials.mat1.metal || null,
-            normalMap: this.materials.mat1.norm || null,
             metalness: 0,
             displacementScale: 0,
-            roughnessMap: this.materials.mat1.rough,
             clearcoat: 0,
             flatShading: false,
         });
-
-        this.material.map.minFilter = THREE.NearestFilter;
-        this.material.map.generateMipmaps = true;
-        this.material.map.wrapT = this.material.map.wrapS = THREE.RepeatWrapping;
-        this.material.aoMap.wrapT = this.material.aoMap.wrapS = THREE.RepeatWrapping;
-        this.material.displacementMap.wrapT = this.material.displacementMap.wrapS = THREE.RepeatWrapping;
-        this.material.roughnessMap.wrapT = this.material.roughnessMap.wrapS = THREE.RepeatWrapping;
-        if (this.material.normalMap) this.material.normalMap.wrapS = this.material.normalMap.wrapT = THREE.RepeatWrapping;
-        if (this.material.metalnessMap) this.material.metalnessMap.wrapS = this.material.metalnessMap.wrapT = THREE.RepeatWrapping;
-        if (this.material.heightMap) this.material.heightMap.wrapS = this.material.heightMap.wrapT = THREE.RepeatWrapping;
-
-        this.material.map.repeat.set(initialScale, initialScale);
-        this.material.aoMap.repeat.set(initialScale, initialScale);
-        this.material.displacementMap.repeat.set(initialScale, initialScale);
-        this.material.roughnessMap.repeat.set(initialScale, initialScale);
-        if (this.material.normalMap) this.material.normalMap.repeat.set(initialScale, initialScale);
-        if (this.material.metalnessMap) this.material.metalnessMap.repeat.set(initialScale, initialScale);
-        if (this.material.heightMap) this.material.heightMap.repeat.set(initialScale, initialScale);
-
-        this.material.color.convertSRGBToLinear();
-
-        this.material.needsUpdate = true;
 
         this.mainMat = this.viewer.createPhysicalMaterial(this.material);
 
@@ -221,7 +209,8 @@ export default class ModelConfigurator {
         });
     }
 
-    setModelTexture(index, additionalScale = 1) {
+    setModelTexture(index, additionalScale) {
+        if (!additionalScale || isNaN(additionalScale)) additionalScale = 1;
         const scale = this.defaults.textureScale * additionalScale;
 
         let mat = this.materials[`mat${index}`];
@@ -237,19 +226,21 @@ export default class ModelConfigurator {
 
         this.material.map.wrapS = this.material.map.wrapT = THREE.RepeatWrapping;
         this.material.aoMap.wrapS = this.material.aoMap.wrapT = THREE.RepeatWrapping;
-        this.material.displacementMap.wrapS = this.material.displacementMap.wrapT = THREE.RepeatWrapping;
         this.material.roughnessMap.wrapS = this.material.roughnessMap.wrapT = THREE.RepeatWrapping;
+        if (this.material.displacementMap) this.material.displacementMap.wrapS = this.material.displacementMap.wrapT = THREE.RepeatWrapping;
         if (this.material.normalMap) this.material.normalMap.wrapS = this.material.normalMap.wrapT = THREE.RepeatWrapping;
         if (this.material.metalnessMap) this.material.metalnessMap.wrapS = this.material.metalnessMap.wrapT = THREE.RepeatWrapping;
         if (this.material.heightMap) this.material.heightMap.wrapS = this.material.heightMap.wrapT = THREE.RepeatWrapping;
 
         this.material.map.repeat.set(scale, scale);
         this.material.aoMap.repeat.set(scale, scale);
-        this.material.displacementMap.repeat.set(scale, scale);
         this.material.roughnessMap.repeat.set(scale, scale);
+        if (this.material.displacementMap) this.material.displacementMap.repeat.set(scale, scale);
         if (this.material.normalMap) this.material.normalMap.repeat.set(scale, scale);
         if (this.material.metalnessMap) this.material.metalnessMap.repeat.set(scale, scale);
         if (this.material.heightMap) this.material.heightMap.repeat.set(scale, scale);
+
+        this.material.color.convertSRGBToLinear();
 
         this.material.needsUpdate = true;
 
