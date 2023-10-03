@@ -104,9 +104,20 @@ export default class ModelConfigurator {
     }
 
     afterInit() {
-        const controls = this.viewer.scene.activeCamera.controls;
-        controls.minDistance = 0;
-        controls.maxDistance = 1.3;
+        const camera = this.viewer.scene.activeCamera;
+        const controls = camera.controls;
+        controls.minDistance = 0.5;
+        controls.maxDistance = 1.2;
+        controls.minZoom = 0;
+        controls.maxZoom = 0;
+        controls.minPolarAngle = 0.9;
+        controls.maxPolarAngle = 1.427;
+        controls.minAzimuthAngle = 3.2;
+        controls.maxAzimuthAngle = -1.2;
+
+        camera.cameraObject.userData.autoNearFar = false;
+
+        console.log(camera);
 
         this.texture = new THREE.TextureLoader();
         this.modelObjects = this.defaults.modelObjects;
@@ -138,7 +149,7 @@ export default class ModelConfigurator {
                     duration: 1,
                     onUpdate: () => {
                         spotLight.setDirty?.("position");
-                        this.viewer.scene.activeCamera.setDirty?.();
+                        camera.setDirty?.();
                     },
                 });
             });
