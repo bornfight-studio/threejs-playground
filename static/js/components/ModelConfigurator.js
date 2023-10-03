@@ -1,6 +1,5 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import materialData from "../../materialData.json";
 import { ViewerApp, AssetManagerPlugin, addBasePlugins } from "webgi";
 import * as THREE from "three";
 
@@ -117,8 +116,6 @@ export default class ModelConfigurator {
 
         camera.cameraObject.userData.autoNearFar = false;
 
-        console.log(camera);
-
         this.texture = new THREE.TextureLoader();
         this.modelObjects = this.defaults.modelObjects;
 
@@ -182,23 +179,6 @@ export default class ModelConfigurator {
     }
 
     controller() {
-        this.materials = {};
-
-        for (let material in materialData) {
-            const materialObject = materialData[material];
-
-            this.materials[material] = {};
-            const materialMapObject = materialData[material];
-
-            for (let materialMap in materialObject) {
-                this.materials[material][materialMap] = this.texture.load(materialMapObject[materialMap], (tex) => {
-                    if (materialMap === "base") {
-                        tex.colorSpace = THREE.SRGBColorSpace;
-                    }
-                });
-            }
-        }
-
         this.material = new THREE.MeshPhysicalMaterial({
             aoMapIntensity: 0,
             metalness: 0,
@@ -220,20 +200,52 @@ export default class ModelConfigurator {
         });
     }
 
-    setModelTexture(index, additionalScale) {
+    setModelTexture(index, additionalScale, textureJSON) {
+        const textureReplacementDuration = 500; //ms
+        const startTime = new Date();
+        this.element.classList.add("is-loading");
         if (!additionalScale || isNaN(additionalScale)) additionalScale = 1;
         const scale = this.defaults.textureScale * additionalScale;
 
-        let mat = this.materials[`mat${index}`];
+        const materialObject = {};
 
-        mat.base.minFilter = THREE.NearestFilter;
-        mat.base.generateMipmaps = false;
-        this.material.map = mat.base;
-        this.material.aoMap = mat.ao;
-        this.material.normalMap = mat.norm;
-        this.material.heightMap = mat.height || null;
-        this.material.metalnessMap = mat.metal || null;
-        this.material.roughnessMap = mat.rough;
+        for (const materialMap in textureJSON) {
+            materialObject[materialMap] = this.texture.load(textureJSON[materialMap], (tex) => {
+                if (materialMap === "base") {
+                    tex.colorSpace = THREE.SRGBColorSpace;
+                    this.material.color.convertSRGBToLinear();
+
+                    this.material.needsUpdate = true;
+
+                    this.mainMat = this.viewer.createPhysicalMaterial(this.material);
+                    this.objects.forEach((object) => {
+                        if (object.isMesh) {
+                            object.material = this.mainMat;
+                            object.setDirty?.();
+                        }
+                    });
+
+                    const endTime = new Date();
+                    const timeDiff = endTime - startTime; //in ms
+                    if (timeDiff < textureReplacementDuration) {
+                        setTimeout(() => {
+                            this.element.classList.remove("is-loading");
+                        }, textureReplacementDuration - timeDiff);
+                    } else {
+                        this.element.classList.remove("is-loading");
+                    }
+                }
+            });
+        }
+
+        materialObject.base.minFilter = THREE.NearestFilter;
+        materialObject.base.generateMipmaps = false;
+        this.material.map = materialObject.base;
+        this.material.aoMap = materialObject.ao;
+        this.material.normalMap = materialObject.norm;
+        this.material.heightMap = materialObject.height || null;
+        this.material.metalnessMap = materialObject.metal || null;
+        this.material.roughnessMap = materialObject.rough;
 
         this.material.map.wrapS = this.material.map.wrapT = THREE.RepeatWrapping;
         this.material.aoMap.wrapS = this.material.aoMap.wrapT = THREE.RepeatWrapping;
@@ -250,17 +262,5 @@ export default class ModelConfigurator {
         if (this.material.normalMap) this.material.normalMap.repeat.set(scale, scale);
         if (this.material.metalnessMap) this.material.metalnessMap.repeat.set(scale, scale);
         if (this.material.heightMap) this.material.heightMap.repeat.set(scale, scale);
-
-        this.material.color.convertSRGBToLinear();
-
-        this.material.needsUpdate = true;
-
-        this.mainMat = this.viewer.createPhysicalMaterial(this.material);
-        this.objects.forEach((object) => {
-            if (object.isMesh) {
-                object.material = this.mainMat;
-                object.setDirty?.();
-            }
-        });
     }
 }

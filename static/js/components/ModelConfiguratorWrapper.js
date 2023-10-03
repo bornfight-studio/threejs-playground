@@ -57,15 +57,23 @@ export default class ModelConfiguratorWrapper {
     textureController() {
         this.textureOptions.forEach((option, index) => {
             const additionalScale = parseFloat(option.dataset.additionalScale);
+            const textureString = option.dataset.texture || null;
+
+            if (!textureString) return;
+
+            const texture = JSON.parse(textureString);
 
             option.addEventListener("click", (ev) => {
                 this.setActiveClass(ev, this.textureOptions);
-                this.modelConfigurator.setModelTexture(index + 1, additionalScale);
+                this.modelConfigurator.setModelTexture(index + 1, additionalScale, texture);
             });
         });
 
+        const initialTextureString = this.textureOptions[0].dataset.texture || null;
+        if (!initialTextureString) return;
+        const initialTexture = JSON.parse(initialTextureString);
         const initialScale = parseFloat(this.textureOptions[0].dataset.additionalScale);
-        this.modelConfigurator.setModelTexture(1, initialScale);
+        this.modelConfigurator.setModelTexture(1, initialScale, initialTexture);
     }
 
     setActiveClass(ev, options) {

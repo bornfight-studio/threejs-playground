@@ -648,6 +648,13 @@ body {
   width: 100%;
   height: 100%;
 }
+.c-webgi__model canvas {
+  filter: blur(0px);
+  transition: filter 0.5s;
+}
+.c-webgi__model canvas.is-loading {
+  filter: blur(10px);
+}
 
 .c-spline {
   position: fixed;
