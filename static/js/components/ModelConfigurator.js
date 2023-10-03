@@ -193,7 +193,7 @@ export default class ModelConfigurator {
     /**
      * Sets the environment light of the viewer scene.
      *
-     * @param {light} light - The light to set as the environment light.
+     * @param {object} light - The light to set as the environment light.
      */
     setEnvLight(light) {
         this.viewer.scene.environment = this.lights[light];

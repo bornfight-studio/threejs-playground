@@ -3,6 +3,7 @@ import ModelConfigurator from "./ModelConfigurator";
 export default class ModelConfiguratorWrapper {
     constructor() {
         this.DOM = {
+            canvas: ".js-configurator-viewer",
             textureOptions: ".js-furniture-configurator-option",
             envLightOptions: ".js-furniture-configurator-light-option",
             states: {
@@ -11,7 +12,7 @@ export default class ModelConfiguratorWrapper {
         };
 
         this.modelConfigurator = new ModelConfigurator({
-            elementClass: ".js-configurator-viewer",
+            elementClass: this.DOM.canvas,
             textureScale: 1,
             modelUrl: "../static/models/webgi-test-6.glb",
             envUrl: "https://dist.pixotronics.com/webgi/assets/hdr/gem_2.hdr",
