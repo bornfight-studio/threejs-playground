@@ -245,29 +245,27 @@ export default class ModelConfigurator {
                 if (materialMap === "base") {
                     tex.colorSpace = THREE.SRGBColorSpace;
 
-                    setTimeout(() => {
-                        this.material.color.convertSRGBToLinear();
+                    this.material.color.convertSRGBToLinear();
 
-                        this.material.needsUpdate = true;
+                    this.material.needsUpdate = true;
 
-                        this.mainMat = this.viewer.createPhysicalMaterial(this.material);
-                        this.objects.forEach((object) => {
-                            if (object.isMesh) {
-                                object.material = this.mainMat;
-                                object.setDirty?.();
-                            }
-                        });
-
-                        const endTime = new Date();
-                        const timeDiff = endTime - startTime; //in ms
-                        if (timeDiff < textureReplacementDuration) {
-                            setTimeout(() => {
-                                this.element.classList.remove("is-loading");
-                            }, textureReplacementDuration - timeDiff);
-                        } else {
-                            this.element.classList.remove("is-loading");
+                    this.mainMat = this.viewer.createPhysicalMaterial(this.material);
+                    this.objects.forEach((object) => {
+                        if (object.isMesh) {
+                            object.material = this.mainMat;
+                            this.viewer.setDirty();
                         }
-                    }, 100);
+                    });
+
+                    const endTime = new Date();
+                    const timeDiff = endTime - startTime; //in ms
+                    if (timeDiff < textureReplacementDuration) {
+                        setTimeout(() => {
+                            this.element.classList.remove("is-loading");
+                        }, textureReplacementDuration - timeDiff);
+                    } else {
+                        this.element.classList.remove("is-loading");
+                    }
                 }
             });
         }
