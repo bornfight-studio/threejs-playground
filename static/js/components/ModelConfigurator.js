@@ -64,6 +64,7 @@ export default class ModelConfigurator {
      */
     init() {
         const $this = this;
+
         async function setupViewer() {
             $this.viewer = new ViewerApp({
                 canvas: $this.element,
@@ -240,11 +241,17 @@ export default class ModelConfigurator {
 
         const materialObject = {};
 
+        const length = Object.keys(textureJSON).length;
+        let count = 0;
+
         for (const materialMap in textureJSON) {
             materialObject[materialMap] = this.texture.load(textureJSON[materialMap], (tex) => {
+                count++;
                 if (materialMap === "base") {
                     tex.colorSpace = THREE.SRGBColorSpace;
+                }
 
+                if (count === length) {
                     this.material.color.convertSRGBToLinear();
 
                     this.material.needsUpdate = true;
@@ -253,7 +260,7 @@ export default class ModelConfigurator {
                     this.objects.forEach((object) => {
                         if (object.isMesh) {
                             object.material = this.mainMat;
-                            this.viewer.setDirty();
+                            object.setDirty?.();
                         }
                     });
 
