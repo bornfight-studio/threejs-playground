@@ -990,11 +990,15 @@ body {
   }
 }
 .c-sofa-configurator__description ul li {
-  width: 30%;
   margin: 0;
+  flex: 0 1 31.25%;
+  width: 31.25%;
 }
 .c-sofa-configurator__description ul li span {
   font-family: Arial, "sans-serif";
+}
+.c-sofa-configurator__description .c-sofa-configurator__markup-image {
+  margin-top: 50px;
 }
 .c-sofa-configurator__quantity {
   display: flex;
