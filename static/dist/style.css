@@ -751,6 +751,306 @@ body {
   transform-origin: 20% 50%;
 }
 
+.c-sofa-configurator {
+  padding-top: 56px;
+  padding-bottom: 56px;
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 4.1666666667%;
+  padding-right: 4.1666666667%;
+  background-color: #f3f0ed;
+}
+@media (min-width: 480px) {
+  .c-sofa-configurator {
+    padding-top: calc(2.5vw + 44px);
+  }
+}
+@media (min-width: 1440px) {
+  .c-sofa-configurator {
+    padding-top: 80px;
+  }
+}
+@media (min-width: 1920px) {
+  .c-sofa-configurator {
+    padding-top: 4.1666666667vw;
+  }
+}
+@media (min-width: 480px) {
+  .c-sofa-configurator {
+    padding-bottom: calc(2.5vw + 44px);
+  }
+}
+@media (min-width: 1440px) {
+  .c-sofa-configurator {
+    padding-bottom: 80px;
+  }
+}
+@media (min-width: 1920px) {
+  .c-sofa-configurator {
+    padding-bottom: 4.1666666667vw;
+  }
+}
+.c-sofa-configurator p,
+.c-sofa-configurator h4 {
+  font-family: Arial, "sans-serif";
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.3;
+}
+.c-sofa-configurator h1 {
+  font-family: "Times New Roman", "serif";
+  margin: 0;
+  line-height: 1;
+  font-weight: 350;
+}
+.c-sofa-configurator h3 {
+  padding-top: 56px;
+  padding-bottom: 56px;
+  font-family: "Times New Roman", "serif";
+  margin: 0;
+  line-height: 1.3;
+  font-size: 50px;
+  font-weight: 350;
+}
+@media (min-width: 480px) {
+  .c-sofa-configurator h3 {
+    padding-top: calc(2.5vw + 44px);
+  }
+}
+@media (min-width: 1440px) {
+  .c-sofa-configurator h3 {
+    padding-top: 80px;
+  }
+}
+@media (min-width: 1920px) {
+  .c-sofa-configurator h3 {
+    padding-top: 4.1666666667vw;
+  }
+}
+@media (min-width: 480px) {
+  .c-sofa-configurator h3 {
+    padding-bottom: calc(2.5vw + 44px);
+  }
+}
+@media (min-width: 1440px) {
+  .c-sofa-configurator h3 {
+    padding-bottom: 80px;
+  }
+}
+@media (min-width: 1920px) {
+  .c-sofa-configurator h3 {
+    padding-bottom: 4.1666666667vw;
+  }
+}
+.c-sofa-configurator__breadcrumbs {
+  padding-bottom: 20px;
+  width: 100%;
+  font-size: 14px;
+}
+@media (min-width: 480px) {
+  .c-sofa-configurator__breadcrumbs {
+    padding-bottom: calc(1.0416666667vw + 15px);
+  }
+}
+@media (min-width: 1440px) {
+  .c-sofa-configurator__breadcrumbs {
+    padding-bottom: 30px;
+  }
+}
+@media (min-width: 1920px) {
+  .c-sofa-configurator__breadcrumbs {
+    padding-bottom: 1.5625vw;
+  }
+}
+.c-sofa-configurator__breadcrumbs p {
+  color: rgba(20, 23, 48, 0.5);
+}
+.c-sofa-configurator__breadcrumbs span {
+  color: #141730;
+}
+.c-sofa-configurator__model {
+  width: 47.9166666667%;
+  overflow: hidden;
+  cursor: grab;
+}
+.c-sofa-configurator__model:active {
+  cursor: grabbing;
+}
+.c-sofa-configurator__model-inner {
+  margin-left: -3%;
+  margin-top: -3%;
+  margin-bottom: -3%;
+  width: 106%;
+  position: relative;
+  padding-top: 106%;
+  height: 0;
+  overflow: hidden;
+}
+.c-sofa-configurator__model canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(0px);
+  transition: filter 0.5s;
+}
+.c-sofa-configurator__model canvas.is-loading {
+  filter: blur(10px);
+}
+.c-sofa-configurator__description {
+  width: 47.9166666667%;
+  padding-left: 4.1666666667%;
+}
+.c-sofa-configurator__description h4 {
+  padding-bottom: 5px;
+  font-size: 14px;
+}
+@media (min-width: 480px) {
+  .c-sofa-configurator__description h4 {
+    padding-bottom: 5px;
+  }
+}
+@media (min-width: 1440px) {
+  .c-sofa-configurator__description h4 {
+    padding-bottom: 5px;
+  }
+}
+@media (min-width: 1920px) {
+  .c-sofa-configurator__description h4 {
+    padding-bottom: 0.2604166667vw;
+  }
+}
+.c-sofa-configurator__description h1 {
+  padding-bottom: 20px;
+  font-size: 85px;
+}
+@media (min-width: 480px) {
+  .c-sofa-configurator__description h1 {
+    padding-bottom: calc(1.0416666667vw + 15px);
+  }
+}
+@media (min-width: 1440px) {
+  .c-sofa-configurator__description h1 {
+    padding-bottom: 30px;
+  }
+}
+@media (min-width: 1920px) {
+  .c-sofa-configurator__description h1 {
+    padding-bottom: 1.5625vw;
+  }
+}
+.c-sofa-configurator__description p {
+  padding-bottom: 20px;
+  font-size: 18px;
+}
+@media (min-width: 480px) {
+  .c-sofa-configurator__description p {
+    padding-bottom: calc(1.0416666667vw + 15px);
+  }
+}
+@media (min-width: 1440px) {
+  .c-sofa-configurator__description p {
+    padding-bottom: 30px;
+  }
+}
+@media (min-width: 1920px) {
+  .c-sofa-configurator__description p {
+    padding-bottom: 1.5625vw;
+  }
+}
+.c-sofa-configurator__description ul {
+  padding-bottom: 20px;
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 0;
+}
+@media (min-width: 480px) {
+  .c-sofa-configurator__description ul {
+    padding-bottom: calc(1.0416666667vw + 15px);
+  }
+}
+@media (min-width: 1440px) {
+  .c-sofa-configurator__description ul {
+    padding-bottom: 30px;
+  }
+}
+@media (min-width: 1920px) {
+  .c-sofa-configurator__description ul {
+    padding-bottom: 1.5625vw;
+  }
+}
+.c-sofa-configurator__description ul li {
+  width: 30%;
+  margin: 0;
+}
+.c-sofa-configurator__description ul li span {
+  font-family: Arial, "sans-serif";
+}
+.c-sofa-configurator__quantity {
+  display: flex;
+  flex-wrap: wrap;
+}
+.c-sofa-configurator__quantity p {
+  padding-bottom: 8px;
+  font-size: 14px;
+  color: rgba(20, 23, 48, 0.5);
+  width: 100%;
+}
+@media (min-width: 480px) {
+  .c-sofa-configurator__quantity p {
+    padding-bottom: calc(0.4166666667vw + 6px);
+  }
+}
+@media (min-width: 1440px) {
+  .c-sofa-configurator__quantity p {
+    padding-bottom: 12px;
+  }
+}
+@media (min-width: 1920px) {
+  .c-sofa-configurator__quantity p {
+    padding-bottom: 0.625vw;
+  }
+}
+.c-sofa-configurator__quantity label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-right: 20px;
+}
+.c-sofa-configurator__quantity label span {
+  font-family: Arial, "sans-serif";
+  font-size: 14px;
+  padding-left: 5px;
+}
+.c-sofa-configurator__quantity input {
+  margin: 0;
+}
+.c-sofa-configurator__quantity-input {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.c-sofa-configurator__quantity-input input {
+  -webkit-appearance: none;
+  border-radius: 0;
+  background-color: transparent;
+  border: 1px solid rgba(20, 23, 48, 0.5);
+  padding: 15px;
+  flex: 2 0 auto;
+}
+.c-sofa-configurator__quantity-input button {
+  flex: 1 0 auto;
+  margin-left: 5px;
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: 1px solid rgb(20, 23, 48);
+  cursor: pointer;
+}
+
 /**
  * Pages
  */

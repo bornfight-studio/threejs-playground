@@ -1,0 +1,209 @@
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Three.js playground — Sofa Configurator</title>
+        <link rel="stylesheet" href="../static/dist/style.css" />
+    </head>
+    <body class="c-furniture-configurator">
+        <nav class="c-navigation">
+            <div class="o-container">
+                <a href="../index.html" class="c-back-link u-b3">
+                    <i><</i>
+                    <span>Back</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="c-sofa-configurator">
+            <div class="c-sofa-configurator__breadcrumbs">
+                <p>Collections / Velour / <span>IBIS</span></p>
+            </div>
+
+            <div class="c-sofa-configurator__model">
+                <div class="c-sofa-configurator__model-inner">
+                    <canvas class="js-configurator-viewer" style="width: 100%; height: 100%; display: block"></canvas>
+                </div>
+            </div>
+
+            <div class="c-sofa-configurator__description">
+                <h4>VELOUR</h4>
+
+                <h1>IBIS</h1>
+
+                <p>
+                    Get inspired and create homes that give meaningful visual experiences using high quality materials and a wide array of color
+                    pallettes.
+                </p>
+
+                <ul class="c-sofa-configurator__options">
+                    <li>
+                        <button
+                            class="c-option js-furniture-configurator-option is-active"
+                            data-additional-scale="0.3"
+                            data-texture-base="../static/models/titan-135/base.jpg"
+                            data-texture-appearance-set="1"
+                        >
+                            <img src="../static/models/titan-135/base.jpg" alt="Titan 135" />
+                            <span class="u-b3 u-uppercase">Titan 135</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            class="c-option js-furniture-configurator-option"
+                            data-additional-scale="0.3"
+                            data-texture-base="../static/models/titan-108/base.jpg"
+                            data-texture-appearance-set="1"
+                        >
+                            <img src="../static/models/titan-108/base.jpg" alt="Titan 108" />
+                            <span class="u-b3 u-uppercase">Titan 108</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            class="c-option js-furniture-configurator-option"
+                            data-additional-scale="0.3"
+                            data-texture-base="../static/models/titan-109/base.jpg"
+                            data-texture-appearance-set="1"
+                        >
+                            <img src="../static/models/titan-109/base.jpg" alt="Titan 109" />
+                            <span class="u-b3 u-uppercase">Titan 109</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            class="c-option js-furniture-configurator-option"
+                            data-additional-scale="0.3"
+                            data-texture-base="../static/models/titan-113/base.jpg"
+                            data-texture-appearance-set="1"
+                        >
+                            <img src="../static/models/titan-113/base.jpg" alt="Titan 113" />
+                            <span class="u-b3 u-uppercase">Titan 113</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            class="c-option js-furniture-configurator-option"
+                            data-texture-base="../static/models/stanlio-135/base.jpg"
+                            data-texture-appearance-set="2"
+                        >
+                            <img src="../static/models/stanlio-135/base.jpg" alt="Stanlio 135" />
+                            <span class="u-b3 u-uppercase">Stanlio 135</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            class="c-option js-furniture-configurator-option"
+                            data-texture-base="../static/models/stanlio-119/base.jpg"
+                            data-texture-appearance-set="3"
+                        >
+                            <img src="../static/models/stanlio-119/base.jpg" alt="Stanlio 119" />
+                            <span class="u-b3 u-uppercase">Stanlio 119</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            class="c-option js-furniture-configurator-option"
+                            data-texture-base="../static/models/mist-135/base.jpg"
+                            data-texture-appearance-set="4"
+                        >
+                            <img src="../static/models/mist-135/base.jpg" alt="Mist 135" />
+                            <span class="u-b3 u-uppercase">Mist 135</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            class="c-option js-furniture-configurator-option"
+                            data-texture-base="../static/models/olio-135/base.jpg"
+                            data-texture-appearance-set="5"
+                        >
+                            <img src="../static/models/olio-135/base.jpg" alt="Olio 135" />
+                            <span class="u-b3 u-uppercase">Olio 135</span>
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="c-sofa-configurator__quantity">
+                    <p>Quantity</p>
+
+                    <label>
+                        <input type="radio" name="quantity" value="1" checked />
+                        <span>Meter</span>
+                    </label>
+
+                    <label>
+                        <input type="radio" name="quantity" value="1" />
+                        <span>Roll</span>
+                    </label>
+
+                    <div class="c-sofa-configurator__quantity-input"><input type="number" placeholder="QTY." /> <button>ADD TO CART</button></div>
+                </div>
+
+                <ul class="c-furniture-configurator__options c-furniture-configurator__options--lights">
+                    <li class="c-option-label">
+                        <span class="u-b3">Choose light:</span>
+                    </li>
+                    <li>
+                        <button class="c-option js-furniture-configurator-light-option is-active" data-light="neutral">
+                            <span class="u-b3 u-uppercase">Neutral</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="c-option c-option--yellow js-furniture-configurator-light-option" data-light="warm">
+                            <span class="u-b3 u-uppercase">Warm</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="c-option c-option--blue js-furniture-configurator-light-option" data-light="cold">
+                            <span class="u-b3 u-uppercase">Cold</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <h3>
+                Color deviations in different lots (production series) of up to 5% are considered permissible and there is no reason for complaint.
+                The color deviation in the photos can be minimal and is considered allowed, so there is no reason for complaint.
+            </h3>
+        </div>
+
+        <script>
+            window.textureAppearance = {
+                1: {
+                    height: "../static/models/titan-135/height.jpg",
+                    ao: "../static/models/titan-135/ao.jpg",
+                    rough: "../static/models/titan-135/rough.jpg",
+                    norm: "../static/models/titan-135/norm.jpg",
+                },
+                2: {
+                    metal: "../static/models/stanlio-135/metal.jpg",
+                    ao: "../static/models/stanlio-135/ao.jpg",
+                    rough: "../static/models/stanlio-135/rough.jpg",
+                    norm: "../static/models/stanlio-135/norm.jpg",
+                },
+                3: {
+                    height: "../static/models/stanlio-119/height.jpg",
+                    ao: "../static/models/stanlio-119/ao.jpg",
+                    rough: "../static/models/stanlio-119/rough.jpg",
+                    norm: "../static/models/stanlio-119/norm.jpg",
+                },
+                4: {
+                    metal: "../static/models/mist-135/metal.jpg",
+                    ao: "../static/models/mist-135/ao.jpg",
+                    rough: "../static/models/mist-135/rough.jpg",
+                    norm: "../static/models/mist-135/norm.jpg",
+                },
+                5: {
+                    ao: "../static/models/olio-135/ao.jpg",
+                    rough: "../static/models/olio-135/rough.jpg",
+                    norm: "../static/models/olio-135/norm.jpg",
+                    metal: "../static/models/olio-135/metal.jpg",
+                },
+            };
+        </script>
+
+        <script type="text/javascript" src="../static/dist/vendor.js"></script>
+        <script type="text/javascript" src="../static/dist/bundle.js"></script>
+    </body>
+</html>

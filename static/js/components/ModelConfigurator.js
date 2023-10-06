@@ -44,11 +44,11 @@ export default class ModelConfigurator {
 
         if (!this.element) return;
 
-        this.windowDimensions = {
-            width: window.innerWidth,
-            height: window.innerHeight,
-            widthHalf: window.innerWidth / 2,
-            heightHalf: window.innerHeight / 2,
+        this.elementDimensions = {
+            width: this.element.offsetWidth,
+            height: this.element.offsetHeight,
+            widthHalf: this.element.offsetWidth / 2,
+            heightHalf: this.element.offsetHeight / 2,
         };
 
         this.lights = {
@@ -154,8 +154,8 @@ export default class ModelConfigurator {
             };
 
             this.element.addEventListener("mousemove", (ev) => {
-                cursor.x = (this.windowDimensions.widthHalf - ev.clientX) * 0.00005;
-                cursor.y = (this.windowDimensions.heightHalf - ev.clientY) * 0.00005;
+                cursor.x = (this.elementDimensions.widthHalf - ev.clientX) * 0.00005;
+                cursor.y = (this.elementDimensions.heightHalf - ev.clientY) * 0.00005;
 
                 gsap.to(spotLight.position, {
                     x: initialPosition.positionX - cursor.x,
