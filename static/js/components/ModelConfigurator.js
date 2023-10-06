@@ -127,7 +127,7 @@ export default class ModelConfigurator {
         controls.minZoom = 0;
         controls.maxZoom = 0;
         controls.minPolarAngle = 0.9;
-        controls.maxPolarAngle = 1.427;
+        controls.maxPolarAngle = 1.6;
         controls.minAzimuthAngle = 3.2;
         controls.maxAzimuthAngle = -1.2;
 
@@ -200,7 +200,7 @@ export default class ModelConfigurator {
      */
     setEnvLight(light) {
         this.viewer.scene.environment = this.lights[light];
-        if (this.viewer.scene.envMapIntensity !== 2) this.viewer.scene.envMapIntensity = 2;
+        if (this.viewer.scene.envMapIntensity !== 3) this.viewer.scene.envMapIntensity = 3;
     }
 
     /**
@@ -208,10 +208,12 @@ export default class ModelConfigurator {
      */
     controller() {
         this.material = new THREE.MeshPhysicalMaterial({
-            aoMapIntensity: 0,
+            aoMapIntensity: 1,
+            reflectivity: 0.36,
             metalness: 0,
             displacementScale: 0,
             clearcoat: 0,
+            clearcoatRoughness: 1,
             flatShading: false,
         });
 

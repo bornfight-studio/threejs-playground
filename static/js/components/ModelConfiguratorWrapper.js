@@ -14,7 +14,7 @@ export default class ModelConfiguratorWrapper {
         this.modelConfigurator = new ModelConfigurator({
             elementClass: this.DOM.canvas,
             textureScale: 1,
-            modelUrl: "../static/models/webgi-test-6.glb",
+            modelUrl: "../static/models/webgi-test-7.glb",
             envUrl: "https://dist.pixotronics.com/webgi/assets/hdr/gem_2.hdr",
             modelObjects: ["headrest_left", "headrest_right", "seat", "seat_left", "seat_right"],
             textureAppearanceSets: window.textureAppearance,
