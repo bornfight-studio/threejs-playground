@@ -7,15 +7,19 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default class ModelConfigurator {
     /**
-     * @param options
-     * @param {string} options.elementClass
-     * @param {string} options.modelUrl
-     * @param {string} options.envUrl
-     * @param {array} options.modelObjects
-     * @param {number} options.textureScale
-     * @param {object} options.envLights
-     * @param {function} options.onLoad
-     * @param {function} options.onProgress
+     * Constructor for the class.
+     *
+     * @param {Object} options - An object containing options for the constructor.
+     * @param {string} options.elementClass - The class of the element.
+     * @param {string} options.modelUrl - The URL of the model.
+     * @param {string} options.envUrl - The URL of the environment.
+     * @param {Array} options.modelObjects - An array of model objects.
+     * @param {number} options.textureScale - The scale of the texture.
+     * @param {Object} options.textureAppearanceSets - An object containing texture appearance sets.
+     * @param {Object} options.envLights - An object containing environment light maps.
+     * @param {boolean} options.mouseAnimation - A boolean indicating whether mouse animation is enabled.
+     * @param {Function} options.onLoad - A callback function to be called when the object is loaded.
+     * @param {Function} options.onProgress - A callback function to be called during the loading process.
      */
     constructor(options) {
         let _defaults = {
@@ -24,6 +28,9 @@ export default class ModelConfigurator {
             envUrl: "",
             modelObjects: [],
             textureScale: 1,
+            textureAppearanceSets: {},
+            envLights: {},
+            mouseAnimation: false,
             onLoad: () => {},
             onProgress: () => {},
         };
@@ -50,6 +57,9 @@ export default class ModelConfigurator {
             cold: null,
         };
 
+        this.textureAppearanceSets = this.defaults.textureAppearanceSets;
+        this.prevTextureAppearanceSet = null;
+
         if (history.scrollRestoration) {
             history.scrollRestoration = "manual";
         }
@@ -58,9 +68,7 @@ export default class ModelConfigurator {
     }
 
     /**
-     * Initializes the function.
-     *
-     * @return {Promise} A promise that resolves when the function is initialized.
+     * Initializes the viewer and sets up the necessary plugins and configurations.
      */
     init() {
         const $this = this;
@@ -109,12 +117,7 @@ export default class ModelConfigurator {
     }
 
     /**
-     * Initializes the necessary settings after the viewer is initialized.
-     * This function modifies the camera controls, camera object, texture,
-     * model objects, directional light, spot light, and event listener for
-     * mouse movement.
-     *
-     * @return {void}
+     * Initializes the settings and objects after the viewer is initialized.
      */
     afterInit() {
         const camera = this.viewer.scene.activeCamera;
@@ -138,7 +141,7 @@ export default class ModelConfigurator {
 
         const spotLight = this.viewer.scene.children[0].children[0].getObjectByName("Spot");
 
-        if (spotLight) {
+        if (spotLight && this.defaults.mouseAnimation) {
             const initialPosition = {
                 positionX: spotLight.position.x,
                 positionY: spotLight.position.y,
@@ -174,7 +177,7 @@ export default class ModelConfigurator {
     }
 
     /**
-     * Initializes the light controller by fetching the environment lights and assigning them to the respective light properties.
+     * Initializes the light controller by retrieving environment light values and assigning them to the corresponding light properties.
      */
     lightController() {
         this.envLights["neutral"].then((result) => {
@@ -226,67 +229,78 @@ export default class ModelConfigurator {
     }
 
     /**
-     * Set the model texture for a given index.
+     * Sets the model texture.
      *
      * @param {number} index - The index of the texture.
-     * @param {number} additionalScale - The additional scale to be applied to the texture.
-     * @param {object} textureJSON - The JSON object containing the texture information.
+     * @param {number} additionalScale - The additional scale of the texture.
+     * @param {string} baseTexture - The base texture.
+     * @param {string} textureAppearanceSet - The texture appearance set.
      */
-    setModelTexture(index, additionalScale, textureJSON) {
+    setModelTexture(index, additionalScale, baseTexture, textureAppearanceSet) {
         const textureReplacementDuration = 500; //ms
         const startTime = new Date();
         this.element.classList.add("is-loading");
         if (!additionalScale || isNaN(additionalScale)) additionalScale = 1;
         const scale = this.defaults.textureScale * additionalScale;
 
+        const isDifferentTextureAppearanceSet = this.prevTextureAppearanceSet !== textureAppearanceSet;
+
         const materialObject = {};
 
-        const length = Object.keys(textureJSON).length;
+        let length = Object.keys(this.textureAppearanceSets[textureAppearanceSet]).length;
         let count = 0;
 
-        for (const materialMap in textureJSON) {
-            materialObject[materialMap] = this.texture.load(textureJSON[materialMap], (tex) => {
-                count++;
-                if (materialMap === "base") {
-                    tex.colorSpace = THREE.SRGBColorSpace;
-                }
+        if (length === 0) return;
 
-                if (count === length) {
-                    this.material.color.convertSRGBToLinear();
-
-                    this.material.needsUpdate = true;
-
-                    this.mainMat = this.viewer.createPhysicalMaterial(this.material);
-                    this.objects.forEach((object) => {
-                        if (object.isMesh) {
-                            object.material = this.mainMat;
-                            object.setDirty?.();
-                        }
-                    });
-
-                    const endTime = new Date();
-                    const timeDiff = endTime - startTime; //in ms
-                    if (timeDiff < textureReplacementDuration) {
-                        setTimeout(() => {
-                            this.element.classList.remove("is-loading");
-                        }, textureReplacementDuration - timeDiff);
-                    } else {
-                        this.element.classList.remove("is-loading");
-                    }
-                }
-            });
+        if (isDifferentTextureAppearanceSet) {
+            // because base texture is separate from appearance
+            length++;
+        } else {
+            length = 1;
         }
 
-        materialObject.base.minFilter = THREE.NearestFilter;
-        materialObject.base.generateMipmaps = false;
-        this.material.map = materialObject.base;
+        materialObject["base"] = this.texture.load(baseTexture, (tex) => {
+            count++;
+            tex.colorSpace = THREE.SRGBColorSpace;
+
+            materialObject.base.minFilter = THREE.NearestFilter;
+            materialObject.base.generateMipmaps = false;
+            this.material.map = materialObject.base;
+            this.material.map.wrapS = this.material.map.wrapT = THREE.RepeatWrapping;
+            this.material.map.repeat.set(scale, scale);
+
+            if (count === length) {
+                this.afterTextureLoad(startTime, textureReplacementDuration);
+            }
+        });
+
+        if (isDifferentTextureAppearanceSet) {
+            this.prevTextureAppearanceSet = textureAppearanceSet;
+            for (const materialMap in this.textureAppearanceSets[textureAppearanceSet]) {
+                materialObject[materialMap] = this.texture.load(this.textureAppearanceSets[textureAppearanceSet][materialMap], (tex) => {
+                    count++;
+                    if (count === length) {
+                        this.tweakAppearanceSet(materialObject, scale);
+                        this.afterTextureLoad(startTime, textureReplacementDuration);
+                    }
+                });
+            }
+        }
+    }
+
+    /**
+     * Sets the appearance of the material based on the given materialObject and scale.
+     *
+     * @param {Object} materialObject - The material object containing appearance properties.
+     * @param {number} scale - The scale factor for the appearance.
+     */
+    tweakAppearanceSet(materialObject, scale) {
         this.material.aoMap = materialObject.ao;
         this.material.normalMap = materialObject.norm;
         this.material.heightMap = materialObject.height || null;
         this.material.metalnessMap = materialObject.metal || null;
         this.material.roughnessMap = materialObject.rough;
 
-        this.material.map.wrapS = this.material.map.wrapT = THREE.RepeatWrapping;
         this.material.aoMap.wrapS = this.material.aoMap.wrapT = THREE.RepeatWrapping;
         this.material.roughnessMap.wrapS = this.material.roughnessMap.wrapT = THREE.RepeatWrapping;
         if (this.material.displacementMap) this.material.displacementMap.wrapS = this.material.displacementMap.wrapT = THREE.RepeatWrapping;
@@ -294,12 +308,41 @@ export default class ModelConfigurator {
         if (this.material.metalnessMap) this.material.metalnessMap.wrapS = this.material.metalnessMap.wrapT = THREE.RepeatWrapping;
         if (this.material.heightMap) this.material.heightMap.wrapS = this.material.heightMap.wrapT = THREE.RepeatWrapping;
 
-        this.material.map.repeat.set(scale, scale);
         this.material.aoMap.repeat.set(scale, scale);
         this.material.roughnessMap.repeat.set(scale, scale);
         if (this.material.displacementMap) this.material.displacementMap.repeat.set(scale, scale);
         if (this.material.normalMap) this.material.normalMap.repeat.set(scale, scale);
         if (this.material.metalnessMap) this.material.metalnessMap.repeat.set(scale, scale);
         if (this.material.heightMap) this.material.heightMap.repeat.set(scale, scale);
+    }
+
+    /**
+     * Updates the material and objects after a texture has finished loading.
+     *
+     * @param {Date} startTime - The start time of the texture loading process.
+     * @param {number} textureReplacementDuration - The duration it takes to replace the texture in milliseconds.
+     */
+    afterTextureLoad(startTime, textureReplacementDuration) {
+        this.material.color.convertSRGBToLinear();
+
+        this.material.needsUpdate = true;
+
+        this.mainMat = this.viewer.createPhysicalMaterial(this.material);
+        this.objects.forEach((object) => {
+            if (object.isMesh) {
+                object.material = this.mainMat;
+                object.setDirty?.();
+            }
+        });
+
+        const endTime = new Date();
+        const timeDiff = endTime - startTime; //in ms
+        if (timeDiff < textureReplacementDuration) {
+            setTimeout(() => {
+                this.element.classList.remove("is-loading");
+            }, textureReplacementDuration - timeDiff);
+        } else {
+            this.element.classList.remove("is-loading");
+        }
     }
 }

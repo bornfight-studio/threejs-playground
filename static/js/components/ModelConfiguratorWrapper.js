@@ -17,11 +17,13 @@ export default class ModelConfiguratorWrapper {
             modelUrl: "../static/models/webgi-test-6.glb",
             envUrl: "https://dist.pixotronics.com/webgi/assets/hdr/gem_2.hdr",
             modelObjects: ["headrest_left", "headrest_right", "seat", "seat_left", "seat_right"],
+            textureAppearanceSets: window.textureAppearance,
             envLights: {
                 neutral: "../static/models/lights/neutral.jpg",
                 warm: "../static/models/lights/warm.jpg",
                 cold: "../static/models/lights/cold.jpg",
             },
+            mouseAnimation: false,
             onLoad: () => {
                 this.init();
             },
@@ -58,23 +60,22 @@ export default class ModelConfiguratorWrapper {
     textureController() {
         this.textureOptions.forEach((option, index) => {
             const additionalScale = parseFloat(option.dataset.additionalScale);
-            const textureString = option.dataset.texture || null;
+            const baseTexture = option.dataset.textureBase;
+            const textureAppearanceSet = option.dataset.textureAppearanceSet;
 
-            if (!textureString) return;
-
-            const texture = JSON.parse(textureString);
+            if (!baseTexture || !textureAppearanceSet) return;
 
             option.addEventListener("click", (ev) => {
                 this.setActiveClass(ev, this.textureOptions);
-                this.modelConfigurator.setModelTexture(index + 1, additionalScale, texture);
+                this.modelConfigurator.setModelTexture(index + 1, additionalScale, baseTexture, textureAppearanceSet);
             });
         });
 
-        const initialTextureString = this.textureOptions[0].dataset.texture || null;
-        if (!initialTextureString) return;
-        const initialTexture = JSON.parse(initialTextureString);
+        const initialBaseTexture = this.textureOptions[0].dataset.textureBase || null;
+        const initialTextureAppearanceSet = this.textureOptions[0].dataset.textureAppearanceSet;
+        if (!initialBaseTexture || !initialTextureAppearanceSet) return;
         const initialScale = parseFloat(this.textureOptions[0].dataset.additionalScale);
-        this.modelConfigurator.setModelTexture(1, initialScale, initialTexture);
+        this.modelConfigurator.setModelTexture(1, initialScale, initialBaseTexture, initialTextureAppearanceSet);
     }
 
     setActiveClass(ev, options) {
