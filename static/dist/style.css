@@ -576,7 +576,8 @@ body {
 }
 .c-furniture-configurator__options--top {
   bottom: auto;
-  top: 0;
+  top: 1vw;
+  left: 1vw;
 }
 .c-furniture-configurator li {
   width: calc(50% - 2.5px);
