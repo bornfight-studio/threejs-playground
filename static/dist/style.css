@@ -761,6 +761,7 @@ body {
   padding-bottom: 56px;
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
   padding-left: 4.1666666667%;
   padding-right: 4.1666666667%;
   background-color: #f3f0ed;
@@ -888,7 +889,7 @@ body {
   margin-bottom: -3%;
   width: 106%;
   position: relative;
-  padding-top: 106%;
+  padding-top: 86%;
   height: 0;
   overflow: hidden;
 }
