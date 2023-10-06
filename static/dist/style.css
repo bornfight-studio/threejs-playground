@@ -574,6 +574,10 @@ body {
   right: auto;
   left: 0;
 }
+.c-furniture-configurator__options--top {
+  bottom: auto;
+  top: 0;
+}
 .c-furniture-configurator li {
   width: calc(50% - 2.5px);
   margin-bottom: 5px;
@@ -752,7 +756,7 @@ body {
 }
 
 .c-sofa-configurator {
-  padding-top: 56px;
+  padding-top: 80px;
   padding-bottom: 56px;
   display: flex;
   flex-wrap: wrap;
@@ -762,17 +766,17 @@ body {
 }
 @media (min-width: 480px) {
   .c-sofa-configurator {
-    padding-top: calc(2.5vw + 44px);
+    padding-top: calc(8.3333333333vw + 40px);
   }
 }
 @media (min-width: 1440px) {
   .c-sofa-configurator {
-    padding-top: 80px;
+    padding-top: 160px;
   }
 }
 @media (min-width: 1920px) {
   .c-sofa-configurator {
-    padding-top: 4.1666666667vw;
+    padding-top: 8.3333333333vw;
   }
 }
 @media (min-width: 480px) {
@@ -872,6 +876,7 @@ body {
   width: 47.9166666667%;
   overflow: hidden;
   cursor: grab;
+  position: relative;
 }
 .c-sofa-configurator__model:active {
   cursor: grabbing;
@@ -1049,6 +1054,37 @@ body {
   background-color: transparent;
   border: 1px solid rgb(20, 23, 48);
   cursor: pointer;
+}
+.c-sofa-configurator__markup-image {
+  position: relative;
+  display: block;
+}
+.c-sofa-configurator__markup-image--absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.c-sofa-configurator__markup-image--dashed-top {
+  border-top: 1px dashed rgb(20, 23, 48);
+  margin-left: -4.1666666667%;
+  margin-right: -4.1666666667%;
+}
+.c-sofa-configurator__model-room {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: auto;
+  padding-bottom: 10px;
+}
+.c-sofa-configurator__model-room button {
+  display: inline-block;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding: 15px;
+  background-color: #f3f0ed;
+  border: 1px solid rgb(20, 23, 48);
+  border-radius: 1000px;
 }
 
 /**

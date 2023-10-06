@@ -14,6 +14,7 @@ export default class ModelConfigurator {
      * @param {string} options.modelUrl - The URL of the model.
      * @param {string} options.envUrl - The URL of the environment.
      * @param {Array} options.modelObjects - An array of model objects.
+     * @param {Array} options.roomObjects - An array of room objects.
      * @param {number} options.textureScale - The scale of the texture.
      * @param {Object} options.textureAppearanceSets - An object containing texture appearance sets.
      * @param {Object} options.envLights - An object containing environment light maps.
@@ -27,6 +28,7 @@ export default class ModelConfigurator {
             modelUrl: "",
             envUrl: "",
             modelObjects: [],
+            roomObjects: [],
             textureScale: 1,
             textureAppearanceSets: {},
             envLights: {},
@@ -56,6 +58,8 @@ export default class ModelConfigurator {
             warm: null,
             cold: null,
         };
+
+        this.roomShown = true;
 
         this.textureAppearanceSets = this.defaults.textureAppearanceSets;
         this.prevTextureAppearanceSet = null;
@@ -135,6 +139,8 @@ export default class ModelConfigurator {
 
         this.texture = new THREE.TextureLoader();
         this.modelObjects = this.defaults.modelObjects;
+
+        this.roomObjects = this.defaults.roomObjects;
 
         const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 1);
         directionalLight1.position.set(2, 7, 6);
@@ -222,6 +228,12 @@ export default class ModelConfigurator {
         this.objects = this.modelObjects.reduce((acc, modelObject) => {
             return [...acc, this.viewer.scene.getObjectByName(modelObject)];
         }, []);
+
+        if (this.roomObjects && this.roomObjects.length > 0) {
+            this.roomObjects = this.roomObjects.reduce((acc, modelObject) => {
+                return [...acc, this.viewer.scene.getObjectByName(modelObject)];
+            }, []);
+        }
 
         this.objects.forEach((object) => {
             if (object.isMesh) {
@@ -346,5 +358,30 @@ export default class ModelConfigurator {
         } else {
             this.element.classList.remove("is-loading");
         }
+    }
+
+    toggleRoom() {
+        if (this.roomShown) {
+            this.roomShown = false;
+            this.hideRoom();
+            return;
+        }
+
+        this.roomShown = true;
+        this.showRoom();
+    }
+
+    hideRoom() {
+        this.roomObjects.forEach((object) => {
+            object.visible = false;
+            object.setDirty?.();
+        });
+    }
+
+    showRoom() {
+        this.roomObjects.forEach((object) => {
+            object.visible = true;
+            object.setDirty?.();
+        });
     }
 }

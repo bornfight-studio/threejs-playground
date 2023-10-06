@@ -4,6 +4,7 @@ export default class ModelConfiguratorWrapper {
     constructor() {
         this.DOM = {
             canvas: ".js-configurator-viewer",
+            roomToggle: ".js-configurator-viewer-toggle-room",
             textureOptions: ".js-furniture-configurator-option",
             envLightOptions: ".js-furniture-configurator-light-option",
             states: {
@@ -17,6 +18,7 @@ export default class ModelConfiguratorWrapper {
             modelUrl: "../static/models/webgi-test-7.glb",
             envUrl: "https://dist.pixotronics.com/webgi/assets/hdr/gem_2.hdr",
             modelObjects: ["headrest_left", "headrest_right", "seat", "seat_left", "seat_right"],
+            roomObjects: ["tree", "walls", "Spot", "floor"],
             textureAppearanceSets: window.textureAppearance,
             envLights: {
                 neutral: "../static/models/lights/neutral.jpg",
@@ -34,6 +36,7 @@ export default class ModelConfiguratorWrapper {
 
         this.envLightOptions = document.querySelectorAll(this.DOM.envLightOptions);
         this.textureOptions = document.querySelectorAll(this.DOM.textureOptions);
+        this.roomToggle = document.querySelector(this.DOM.roomToggle);
     }
 
     init() {
@@ -43,6 +46,10 @@ export default class ModelConfiguratorWrapper {
 
         if (this.textureOptions && this.textureOptions.length > 0) {
             this.textureController();
+        }
+
+        if (this.roomToggle) {
+            this.roomToggleController();
         }
     }
 
@@ -87,6 +94,12 @@ export default class ModelConfiguratorWrapper {
             } else {
                 item.classList.remove(this.DOM.states.isActive);
             }
+        });
+    }
+
+    roomToggleController() {
+        this.roomToggle.addEventListener("click", (ev) => {
+            this.modelConfigurator.toggleRoom();
         });
     }
 }
