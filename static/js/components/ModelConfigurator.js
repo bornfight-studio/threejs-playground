@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ViewerApp, AssetManagerPlugin, addBasePlugins } from "webgi";
+import { ViewerApp, AssetManagerPlugin, addBasePlugins, GammaCorrectionPlugin } from "webgi";
 import * as THREE from "three";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -85,12 +85,16 @@ export default class ModelConfigurator {
 
             $this.manager = await $this.viewer.addPlugin(AssetManagerPlugin);
 
+            $this.gammaCorrection = await $this.viewer.addPlugin(GammaCorrectionPlugin);
+
             $this.importer = $this.manager.importer;
 
             await addBasePlugins($this.viewer);
         }
 
         setupViewer().then((r) => {
+            console.log(this.gammaCorrection);
+
             this.manager.addFromPath(this.defaults.modelUrl).then((r) => {});
 
             this.viewer.setEnvironmentMap(this.defaults.envUrl).then((r) => {});
@@ -187,14 +191,17 @@ export default class ModelConfigurator {
      */
     lightController() {
         this.envLights["neutral"].then((result) => {
+            result[0].colorSpace = THREE.SRGBColorSpace;
             this.lights.neutral = result[0];
         });
 
         this.envLights["warm"].then((result) => {
+            result[0].colorSpace = THREE.SRGBColorSpace;
             this.lights.warm = result[0];
         });
 
         this.envLights["cold"].then((result) => {
+            result[0].colorSpace = THREE.SRGBColorSpace;
             this.lights.cold = result[0];
         });
     }
@@ -206,7 +213,14 @@ export default class ModelConfigurator {
      */
     setEnvLight(light) {
         this.viewer.scene.environment = this.lights[light];
-        if (this.viewer.scene.envMapIntensity !== 3) this.viewer.scene.envMapIntensity = 3;
+        // if (this.viewer.scene.envMapIntensity !== 5) this.viewer.scene.envMapIntensity = 5;
+
+        setTimeout(() => {
+            // this.viewer.renderer.resetShadows();
+            // this.viewer.setDirty();
+            // this.viewer.scene.setDirty();
+            // this.viewer.scene.activeCamera.setDirty();
+        }, 100);
     }
 
     /**

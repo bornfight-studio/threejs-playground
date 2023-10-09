@@ -21,8 +21,8 @@ export default class ModelConfiguratorWrapper {
             roomObjects: ["tree", "walls", "Spot", "floor"],
             textureAppearanceSets: window.textureAppearance,
             envLights: {
-                neutral: "../static/models/lights/neutral.jpg",
-                warm: "../static/models/lights/warm.jpg",
+                neutral: "../static/models/lights/neutral.hdr",
+                warm: "../static/models/lights/warm.hdr",
                 cold: "../static/models/lights/cold.jpg",
             },
             mouseAnimation: false,
