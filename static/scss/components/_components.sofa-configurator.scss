@@ -189,12 +189,14 @@
             position: absolute;
             top: 0;
             left: 0;
+            width: 100%;
         }
 
         &--dashed-top {
             border-top: 1px dashed rgb(20, 23, 48);
             margin-left: percentage(-1, 24);
             margin-right: percentage(-1, 24);
+            width: percentage(24, 22);
         }
     }
 
