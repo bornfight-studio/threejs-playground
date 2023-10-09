@@ -288,6 +288,12 @@ export default class ModelConfigurator {
             }
         });
 
+        this.material.aoMap = null;
+        this.material.roughnessMap = null;
+        this.material.normalMap = null;
+        this.material.metalnessMap = null;
+        this.material.heightMap = null;
+
         if (isDifferentTextureAppearanceSet) {
             this.prevTextureAppearanceSet = textureAppearanceSet;
             for (const materialMap in this.textureAppearanceSets[textureAppearanceSet]) {
