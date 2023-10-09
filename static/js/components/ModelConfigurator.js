@@ -212,7 +212,7 @@ export default class ModelConfigurator {
         this.viewer.scene.environment = this.lights[light];
 
         this.viewer.scene.setDirty();
-        this.viewer.scene.activeCamera.setDirty();
+        // this.viewer.scene.activeCamera.setDirty();
     }
 
     /**
