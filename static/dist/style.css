@@ -1095,6 +1095,126 @@ body {
   border-radius: 1000px;
 }
 
+.c-ring-configurator {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  background-color: #f3f0ed;
+}
+.c-ring-configurator__model {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  cursor: grab;
+  position: relative;
+}
+.c-ring-configurator__model:active {
+  cursor: grabbing;
+}
+.c-ring-configurator__model canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(0px);
+  transition: filter 0.5s;
+}
+.c-ring-configurator__model canvas.is-loading {
+  filter: blur(10px);
+}
+.c-ring-configurator__options {
+  list-style: none;
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 3;
+  transform: translateY(20px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s;
+}
+.c-ring-configurator__options p {
+  margin-bottom: 0;
+}
+.c-ring-configurator__options.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.c-color-options {
+  list-style: none;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+}
+.c-color-options li:first-child .c-color-option {
+  margin-left: 0;
+}
+
+.c-color-option {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 6px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  transition: all 0.2s;
+  margin: 5px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+}
+.c-color-option.is-active {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+.c-color-option.is-active, .c-color-option:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.c-color-option span {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.c-color {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  margin-right: 10px;
+  border-radius: 6px;
+}
+.c-color--w-gold {
+  background-color: #E7E7E7;
+}
+.c-color--y-gold {
+  background-color: #E7C473;
+}
+.c-color--r-gold {
+  background-color: #E7B5AC;
+}
+.c-color--w {
+  background-color: #ffffff;
+}
+.c-color--r {
+  background-color: #ad1010;
+}
+.c-color--g {
+  background-color: #2a8f5f;
+}
+.c-color--b {
+  background-color: #3d3dfc;
+}
+
 /**
  * Pages
  */

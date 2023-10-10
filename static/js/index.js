@@ -19,6 +19,7 @@ import FurnitureConfigurator from "./components/FurnitureConfigurator";
 import FabricViewer from "./components/FabricViewer";
 import ModelViewer from "./components/ModelViewer";
 import ModelConfiguratorWrapper from "./components/ModelConfiguratorWrapper";
+import RingConfiguratorWrapper from "./components/RingConfiguratorWrapper";
 import SplineExportTest from "./components/SplineExportTest";
 import SplineExportTestV2 from "./components/SplineExportTestV2";
 import SplineExportTestV3 from "./components/SplineExportTestV3";
@@ -97,6 +98,8 @@ ready(() => {
     modelViewer.init();
 
     new ModelConfiguratorWrapper();
+
+    new RingConfiguratorWrapper();
 
     const splineExportTest = new SplineExportTest();
     splineExportTest.init();
