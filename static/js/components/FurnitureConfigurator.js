@@ -44,7 +44,7 @@ export default class FurnitureConfigurator {
 
             //env
             this.whiteEnv = this.modelContainer.dataset.envWhite === "true";
-            this.modelEnvUrl = this.modelContainer.dataset.env;
+            // this.modelEnvUrl = this.modelContainer.dataset.env;
 
             //gui
             this.gui = new GUI();
@@ -69,8 +69,8 @@ export default class FurnitureConfigurator {
 
     initModel() {
         // camera
-        this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 2, 120);
-        this.camera.position.set(-15, 10, -15);
+        this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.001, 10);
+        this.camera.position.set(-0.5, 0.2, -0.5);
 
         // scene
         this.scene = new THREE.Scene();
@@ -119,12 +119,12 @@ export default class FurnitureConfigurator {
 
         // orbit controls
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.target.set(0, 1, 0);
+        this.controls.target.set(0, 0, 0);
         this.controls.Rotate = this.guiConf.Rotate;
         this.controls.autoRotateSpeed = 1;
         this.controls.enableDamping = true;
-        this.controls.minDistance = 8;
-        this.controls.maxDistance = 16;
+        this.controls.minDistance = 0;
+        this.controls.maxDistance = 5;
         this.controls.maxPolarAngle = Math.PI / 2.2; // 1.4272
         this.controls.minPolarAngle = 0.7;
         this.controls.maxAzimuthAngle = -1.2;
@@ -194,8 +194,8 @@ export default class FurnitureConfigurator {
         loader.setDRACOLoader(dracoLoader);
 
         loader.load(model, (model) => {
-            model.scene.position.x = 0;
-            model.scene.position.y = 0.5;
+            // model.scene.position.x = 0;
+            // model.scene.position.y = 0.5;
             material.color.convertSRGBToLinear();
 
             const objects = [];
@@ -263,32 +263,32 @@ export default class FurnitureConfigurator {
     }
 
     loadEnv(loader) {
-        loader.load(this.modelEnvUrl, (model) => {
-            model.scene.scale.set(10, 10, 10);
-            model.scene.position.set(-11.5, 5, -5);
-
-            console.log(model.scene);
-
-            model.scene.children[0].children.forEach((object) => {
-                if (object.isMesh) {
-                    if (object.name === "room" || object.name === "ground" || object.name === "carpet") {
-                        object.receiveShadow = true;
-                    } else {
-                        object.castShadow = true;
-                    }
-                }
-            });
-            this.scene.add(model.scene);
-        });
+        // loader.load(this.modelEnvUrl, (model) => {
+        //     model.scene.scale.set(10, 10, 10);
+        //     model.scene.position.set(-11.5, 5, -5);
+        //
+        //     console.log(model.scene);
+        //
+        //     model.scene.children[0].children.forEach((object) => {
+        //         if (object.isMesh) {
+        //             if (object.name === "room" || object.name === "ground" || object.name === "carpet") {
+        //                 object.receiveShadow = true;
+        //             } else {
+        //                 object.castShadow = true;
+        //             }
+        //         }
+        //     });
+        //     this.scene.add(model.scene);
+        // });
     }
 
     addLights() {
         const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 1);
-        directionalLight1.position.set(2, 7, 6);
-        directionalLight1.shadow.camera.left = -15;
-        directionalLight1.shadow.camera.right = 15;
-        directionalLight1.shadow.camera.top = 15;
-        directionalLight1.shadow.camera.bottom = -15;
+        directionalLight1.position.set(0.4, 0.9, 0.7);
+        directionalLight1.shadow.camera.left = -1.5;
+        directionalLight1.shadow.camera.right = 1.5;
+        directionalLight1.shadow.camera.top = 1.5;
+        directionalLight1.shadow.camera.bottom = -1.5;
         // directionalLight1.shadow.bias = 0.0003;
         const helper1 = new THREE.DirectionalLightHelper(directionalLight1, 2);
 
@@ -296,7 +296,7 @@ export default class FurnitureConfigurator {
         this.scene.add(directionalLight1);
 
         const directionalLight2 = new THREE.DirectionalLight(0xf3f3f3, 2);
-        directionalLight2.position.set(-2, 8, -6);
+        directionalLight2.position.set(-0.4, 1, -0.8);
         const helper2 = new THREE.DirectionalLightHelper(directionalLight2, 2);
 
         // directionalLight2.castShadow = true;
@@ -304,7 +304,7 @@ export default class FurnitureConfigurator {
 
         const pointLight = new THREE.PointLight(0xf3f3f3, 3);
         const helper3 = new THREE.PointLightHelper(pointLight, 3);
-        pointLight.position.set(0, 5, 6.5);
+        pointLight.position.set(0, 0.75, 0.9);
 
         pointLight.castShadow = true;
         if (!this.whiteEnv) {
