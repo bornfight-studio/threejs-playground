@@ -130,8 +130,8 @@ export default class ModelConfigurator {
     afterInit() {
         const camera = this.viewer.scene.activeCamera;
         const controls = camera.controls;
-        controls.minDistance = 0.5;
-        controls.maxDistance = 2;
+        controls.minDistance = 0.25;
+        controls.maxDistance = 1.8;
         controls.minZoom = 0;
         controls.maxZoom = 0;
         controls.minPolarAngle = 0.9;
@@ -146,7 +146,7 @@ export default class ModelConfigurator {
 
         this.roomObjects = this.defaults.roomObjects;
 
-        const directionalLight1 = new THREE.DirectionalLight(0xf3f3f3, 1);
+        const directionalLight1 = new THREE.DirectionalLight(0xffffff, 2.15);
         directionalLight1.position.set(2, 7, 6);
 
         const spotLight = this.viewer.scene.children[0].children[0].getObjectByName("Spot");
@@ -221,7 +221,7 @@ export default class ModelConfigurator {
     controller() {
         this.material = new THREE.MeshPhysicalMaterial({
             aoMapIntensity: 1,
-            reflectivity: 0.36,
+            reflectivity: 0.26,
             metalness: 0,
             displacementScale: 0,
             clearcoat: 0,
