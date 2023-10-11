@@ -146,7 +146,7 @@ export default class ModelConfigurator {
 
         this.roomObjects = this.defaults.roomObjects;
 
-        const directionalLight1 = new THREE.DirectionalLight(0xffffff, 2.15);
+        const directionalLight1 = new THREE.DirectionalLight(0xf9f9f9, 1.15);
         directionalLight1.position.set(2, 7, 6);
 
         const spotLight = this.viewer.scene.children[0].children[0].getObjectByName("Spot");
