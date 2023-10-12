@@ -15,9 +15,11 @@ export default class ModelConfiguratorWrapper {
             },
         };
 
+        this.showConfigurator = false;
+
         this.modelConfigurator = new RingConfigurator({
             elementClass: this.DOM.canvas,
-            modelUrl: "../static/models/ring-v5.glb",
+            modelUrl: "../static/models/ring-v6.glb",
             ringOptions: window.ringOptions,
             mouseAnimation: false,
             onLoad: () => {
@@ -75,6 +77,10 @@ export default class ModelConfiguratorWrapper {
     }
 
     keyboardShortcut() {
+        if (this.options.dataset.show === "false") {
+            this.options.remove();
+        }
+
         document.addEventListener("keyup", (ev) => {
             if (ev.keyCode === 79 && ev.altKey) {
                 if (this.options.classList.contains(this.DOM.states.isVisible)) {
