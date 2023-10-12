@@ -44,8 +44,8 @@
         position: absolute;
         bottom: 40px;
         left: 40px;
-        width: 100%;
-        display: flex;
+        width: auto;
+        display: inline-flex;
         align-items: flex-start;
         flex-direction: column;
         justify-content: center;
@@ -84,6 +84,10 @@
 
     &.is-active,
     &:hover {
+        background-color: $white-80;
+    }
+
+    &--active {
         background-color: $white-80;
     }
 
