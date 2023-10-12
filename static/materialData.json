@@ -28,27 +28,34 @@
         "norm": "../static/models/titan-113/norm.jpg"
     },
     "mat5": {
+        "base": "../static/models/titan-112/base.jpg",
+        "height": "../static/models/titan-112/height.jpg",
+        "ao": "../static/models/titan-112/ao.jpg",
+        "rough": "../static/models/titan-112/rough.jpg",
+        "norm": "../static/models/titan-112/norm.jpg"
+    },
+    "mat6": {
         "base": "../static/models/stanlio-135/base.jpg",
         "metal": "../static/models/stanlio-135/metal.jpg",
         "ao": "../static/models/stanlio-135/ao.jpg",
         "rough": "../static/models/stanlio-135/rough.jpg",
         "norm": "../static/models/stanlio-135/norm.jpg"
     },
-    "mat6": {
+    "mat7": {
         "base": "../static/models/stanlio-119/base.jpg",
         "height": "../static/models/stanlio-119/height.jpg",
         "ao": "../static/models/stanlio-119/ao.jpg",
         "rough": "../static/models/stanlio-119/rough.jpg",
         "norm": "../static/models/stanlio-119/norm.jpg"
     },
-    "mat7": {
+    "mat8": {
         "base": "../static/models/mist-135/base.jpg",
         "metal": "../static/models/mist-135/metal.jpg",
         "ao": "../static/models/mist-135/ao.jpg",
         "rough": "../static/models/mist-135/rough.jpg",
         "norm": "../static/models/mist-135/norm.jpg"
     },
-    "mat8": {
+    "mat9": {
         "base": "../static/models/olio-135/base.jpg",
         "ao": "../static/models/olio-135/ao.jpg",
         "rough": "../static/models/olio-135/rough.jpg",
