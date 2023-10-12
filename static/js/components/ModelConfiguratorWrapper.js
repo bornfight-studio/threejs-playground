@@ -14,17 +14,12 @@ export default class ModelConfiguratorWrapper {
 
         this.modelConfigurator = new ModelConfigurator({
             elementClass: this.DOM.canvas,
+            hideRoom: true,
             textureScale: 1,
-            modelUrl: "../static/models/pixotronics-v3.glb",
-            envUrl: "https://dist.pixotronics.com/webgi/assets/hdr/gem_2.hdr",
+            modelUrl: "../static/models/pixotronics-v4.glb",
             modelObjects: ["headrest_left", "headrest_right", "seat", "seat_left", "seat_right"],
             roomObjects: ["tree", "wall_back", "wall_right", "Spot", "floor"],
             textureAppearanceSets: window.textureAppearance,
-            envLights: {
-                neutral: "../static/models/lights/neutral.hdr",
-                warm: "../static/models/lights/warm.hdr",
-                cold: "../static/models/lights/cold.jpg",
-            },
             mouseAnimation: false,
             onLoad: () => {
                 this.init();
