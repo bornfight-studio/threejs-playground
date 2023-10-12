@@ -875,7 +875,7 @@ body {
   color: #141730;
 }
 .c-sofa-configurator__model {
-  width: 47.9166666667%;
+  width: 62.5%;
   overflow: hidden;
   cursor: grab;
   position: relative;
@@ -906,7 +906,7 @@ body {
   filter: blur(10px);
 }
 .c-sofa-configurator__description {
-  width: 47.9166666667%;
+  width: 33.3333333333%;
   padding-left: 4.1666666667%;
 }
 .c-sofa-configurator__description h4 {
@@ -992,8 +992,7 @@ body {
 }
 .c-sofa-configurator__description ul li {
   margin: 0;
-  flex: 0 1 31.25%;
-  width: 31.25%;
+  flex: 0 1 calc(50% - 7.5px);
 }
 .c-sofa-configurator__description ul li span {
   font-family: Arial, "sans-serif";
