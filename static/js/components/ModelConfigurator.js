@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ViewerApp, AssetManagerPlugin, addBasePlugins, GammaCorrectionPlugin } from "webgi";
+import { ViewerApp, AssetManagerPlugin, addBasePlugins } from "webgi";
 import * as THREE from "three";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -10,14 +10,13 @@ export default class ModelConfigurator {
      * Constructor for the class.
      *
      * @param {Object} options - An object containing options for the constructor.
+     * @param {boolean} options.hideRoom
      * @param {string} options.elementClass - The class of the element.
      * @param {string} options.modelUrl - The URL of the model.
-     * @param {string} options.envUrl - The URL of the environment.
      * @param {Array} options.modelObjects - An array of model objects.
      * @param {Array} options.roomObjects - An array of room objects.
      * @param {number} options.textureScale - The scale of the texture.
      * @param {Object} options.textureAppearanceSets - An object containing texture appearance sets.
-     * @param {Object} options.envLights - An object containing environment light maps.
      * @param {boolean} options.mouseAnimation - A boolean indicating whether mouse animation is enabled.
      * @param {Function} options.onLoad - A callback function to be called when the object is loaded.
      * @param {Function} options.onProgress - A callback function to be called during the loading process.
@@ -26,12 +25,11 @@ export default class ModelConfigurator {
         let _defaults = {
             elementClass: "",
             modelUrl: "",
-            envUrl: "",
+            hideRoom: false,
             modelObjects: [],
             roomObjects: [],
             textureScale: 1,
             textureAppearanceSets: {},
-            envLights: {},
             mouseAnimation: false,
             onLoad: () => {},
             onProgress: () => {},
@@ -59,7 +57,9 @@ export default class ModelConfigurator {
             cold: null,
         };
 
-        this.roomShown = true;
+        this.roomShown = !this.defaults.hideRoom;
+
+        this.lights = [];
 
         this.textureAppearanceSets = this.defaults.textureAppearanceSets;
         this.prevTextureAppearanceSet = null;
@@ -85,28 +85,13 @@ export default class ModelConfigurator {
 
             $this.manager = await $this.viewer.addPlugin(AssetManagerPlugin);
 
-            $this.gammaCorrection = await $this.viewer.addPlugin(GammaCorrectionPlugin);
-
             $this.importer = $this.manager.importer;
 
             await addBasePlugins($this.viewer);
         }
 
         setupViewer().then((r) => {
-            console.log(this.gammaCorrection);
-
             this.manager.addFromPath(this.defaults.modelUrl).then((r) => {});
-
-            this.viewer.setEnvironmentMap(this.defaults.envUrl).then((r) => {});
-
-            this.envLights = null;
-            if (this.defaults.envLights) {
-                $this.envLights = {
-                    neutral: this.manager.addFromPath(this.defaults.envLights.neutral),
-                    warm: this.manager.addFromPath(this.defaults.envLights.warm),
-                    cold: this.manager.addFromPath(this.defaults.envLights.cold),
-                };
-            }
 
             this.importer.addEventListener("onProgress", (ev) => {
                 this.onProgress((ev.loaded / ev.total) * 100);
@@ -119,6 +104,10 @@ export default class ModelConfigurator {
 
                 setTimeout(() => {
                     this.onLoad();
+
+                    if (!this.roomShown) {
+                        this.hideRoom();
+                    }
                 }, 200);
             });
         });
@@ -146,10 +135,10 @@ export default class ModelConfigurator {
 
         this.roomObjects = this.defaults.roomObjects;
 
-        const directionalLight1 = new THREE.DirectionalLight(0xf9f9f9, 1.15);
-        directionalLight1.position.set(2, 7, 6);
-
         const spotLight = this.viewer.scene.children[0].children[0].getObjectByName("Spot");
+        if (spotLight) spotLight.intensity = 0.5;
+
+        this.addLights();
 
         if (spotLight && this.defaults.mouseAnimation) {
             const initialPosition = {
@@ -180,27 +169,35 @@ export default class ModelConfigurator {
         }
 
         this.controller();
-
-        if (this.defaults.envLights) {
-            this.lightController();
-        }
     }
 
-    /**
-     * Initializes the light controller by retrieving environment light values and assigning them to the corresponding light properties.
-     */
-    lightController() {
-        this.envLights["neutral"].then((result) => {
-            this.lights.neutral = result[0];
-        });
+    addLights() {
+        const directionalLight1 = new THREE.DirectionalLight(0xf0f0f0, 1);
+        directionalLight1.position.set(0, 6, 3);
 
-        this.envLights["warm"].then((result) => {
-            this.lights.warm = result[0];
-        });
+        // directionalLight1.castShadow = true;
 
-        this.envLights["cold"].then((result) => {
-            this.lights.cold = result[0];
-        });
+        const directionalLight2 = new THREE.DirectionalLight(0xf0f0f0, 0.2);
+        directionalLight2.position.set(-1, 3, -3);
+
+        // directionalLight2.castShadow = true;
+
+        const pointLight = new THREE.PointLight(0xf0f0f0, 0.2);
+        pointLight.position.set(-5, 3, 0);
+
+        // pointLight.castShadow = true;
+
+        const light = new THREE.AmbientLight(0x808080, 0.3);
+
+        this.lights.push(directionalLight1);
+        this.lights.push(directionalLight2);
+        this.lights.push(pointLight);
+        this.lights.push(light);
+
+        this.viewer.scene.add(directionalLight1);
+        this.viewer.scene.add(directionalLight2);
+        this.viewer.scene.add(pointLight);
+        this.viewer.scene.add(light);
     }
 
     /**
@@ -209,27 +206,25 @@ export default class ModelConfigurator {
      * @param {object} light - The light to set as the environment light.
      */
     setEnvLight(light) {
-        this.viewer.scene.environment = this.lights[light];
+        let color = 0xf0f0f0;
 
-        this.viewer.scene.setDirty();
-        // this.viewer.scene.activeCamera.setDirty();
+        if (light === "warm") {
+            color = 0xf0f0e0;
+        }
+
+        this.lights.forEach((light) => {
+            light.color.set(color);
+            light.setDirty?.();
+        });
+
+        // this.viewer.scene.setDirty();
     }
 
     /**
      * Initializes the controller and sets up the materials and objects.
      */
     controller() {
-        this.material = new THREE.MeshPhysicalMaterial({
-            aoMapIntensity: 1,
-            reflectivity: 0.26,
-            metalness: 0,
-            displacementScale: 0,
-            clearcoat: 0,
-            clearcoatRoughness: 1,
-            flatShading: false,
-        });
-
-        this.mainMat = this.viewer.createPhysicalMaterial(this.material);
+        this.material = {};
 
         this.objects = this.modelObjects.reduce((acc, modelObject) => {
             return [...acc, this.viewer.scene.getObjectByName(modelObject)];
@@ -240,12 +235,6 @@ export default class ModelConfigurator {
                 return [...acc, this.viewer.scene.getObjectByName(modelObject)];
             }, []);
         }
-
-        this.objects.forEach((object) => {
-            if (object.isMesh) {
-                object.material = this.mainMat;
-            }
-        });
     }
 
     /**
@@ -285,9 +274,14 @@ export default class ModelConfigurator {
 
             materialObject.base.minFilter = THREE.NearestFilter;
             materialObject.base.generateMipmaps = false;
-            this.material.map = materialObject.base;
-            this.material.map.wrapS = this.material.map.wrapT = THREE.RepeatWrapping;
-            this.material.map.repeat.set(scale, scale);
+            this.objects.forEach((object) => {
+                if (object.isMesh) {
+                    object.material.map = materialObject.base;
+                    object.material.map.wrapS = object.material.map.wrapT = THREE.RepeatWrapping;
+                    object.material.map.repeat.set(scale, scale);
+                    object.setDirty?.();
+                }
+            });
 
             if (count === length) {
                 this.afterTextureLoad(startTime, textureReplacementDuration);
@@ -306,7 +300,12 @@ export default class ModelConfigurator {
                 materialObject[materialMap] = this.texture.load(this.textureAppearanceSets[textureAppearanceSet][materialMap], (tex) => {
                     count++;
                     if (count === length) {
-                        this.tweakAppearanceSet(materialObject, scale);
+                        this.objects.forEach((object) => {
+                            if (object.isMesh) {
+                                this.tweakAppearanceSet(materialObject, scale, object);
+                                object.setDirty?.();
+                            }
+                        });
                         this.afterTextureLoad(startTime, textureReplacementDuration);
                     }
                 });
@@ -320,26 +319,26 @@ export default class ModelConfigurator {
      * @param {Object} materialObject - The material object containing appearance properties.
      * @param {number} scale - The scale factor for the appearance.
      */
-    tweakAppearanceSet(materialObject, scale) {
-        this.material.aoMap = materialObject.ao;
-        this.material.normalMap = materialObject.norm;
-        this.material.heightMap = materialObject.height || null;
-        this.material.metalnessMap = materialObject.metal || null;
-        this.material.roughnessMap = materialObject.rough;
+    tweakAppearanceSet(materialObject, scale, object) {
+        object.material.aoMap = materialObject.ao;
+        object.material.normalMap = materialObject.norm;
+        object.material.heightMap = materialObject.height || null;
+        object.material.metalnessMap = materialObject.metal || null;
+        object.material.roughnessMap = materialObject.rough;
 
-        this.material.aoMap.wrapS = this.material.aoMap.wrapT = THREE.RepeatWrapping;
-        this.material.roughnessMap.wrapS = this.material.roughnessMap.wrapT = THREE.RepeatWrapping;
-        if (this.material.displacementMap) this.material.displacementMap.wrapS = this.material.displacementMap.wrapT = THREE.RepeatWrapping;
-        if (this.material.normalMap) this.material.normalMap.wrapS = this.material.normalMap.wrapT = THREE.RepeatWrapping;
-        if (this.material.metalnessMap) this.material.metalnessMap.wrapS = this.material.metalnessMap.wrapT = THREE.RepeatWrapping;
-        if (this.material.heightMap) this.material.heightMap.wrapS = this.material.heightMap.wrapT = THREE.RepeatWrapping;
+        object.material.aoMap.wrapS = object.material.aoMap.wrapT = THREE.RepeatWrapping;
+        object.material.roughnessMap.wrapS = object.material.roughnessMap.wrapT = THREE.RepeatWrapping;
+        if (object.material.displacementMap) object.material.displacementMap.wrapS = object.material.displacementMap.wrapT = THREE.RepeatWrapping;
+        if (object.material.normalMap) object.material.normalMap.wrapS = object.material.normalMap.wrapT = THREE.RepeatWrapping;
+        if (object.material.metalnessMap) object.material.metalnessMap.wrapS = object.material.metalnessMap.wrapT = THREE.RepeatWrapping;
+        if (object.material.heightMap) object.material.heightMap.wrapS = object.material.heightMap.wrapT = THREE.RepeatWrapping;
 
-        this.material.aoMap.repeat.set(scale, scale);
-        this.material.roughnessMap.repeat.set(scale, scale);
-        if (this.material.displacementMap) this.material.displacementMap.repeat.set(scale, scale);
-        if (this.material.normalMap) this.material.normalMap.repeat.set(scale, scale);
-        if (this.material.metalnessMap) this.material.metalnessMap.repeat.set(scale, scale);
-        if (this.material.heightMap) this.material.heightMap.repeat.set(scale, scale);
+        object.material.aoMap.repeat.set(scale, scale);
+        object.material.roughnessMap.repeat.set(scale, scale);
+        if (object.material.displacementMap) object.material.displacementMap.repeat.set(scale, scale);
+        if (object.material.normalMap) object.material.normalMap.repeat.set(scale, scale);
+        if (object.material.metalnessMap) object.material.metalnessMap.repeat.set(scale, scale);
+        if (object.material.heightMap) object.material.heightMap.repeat.set(scale, scale);
     }
 
     /**
@@ -349,18 +348,6 @@ export default class ModelConfigurator {
      * @param {number} textureReplacementDuration - The duration it takes to replace the texture in milliseconds.
      */
     afterTextureLoad(startTime, textureReplacementDuration) {
-        this.material.color.convertSRGBToLinear();
-
-        this.material.needsUpdate = true;
-
-        this.mainMat = this.viewer.createPhysicalMaterial(this.material);
-        this.objects.forEach((object) => {
-            if (object.isMesh) {
-                object.material = this.mainMat;
-                object.setDirty?.();
-            }
-        });
-
         const endTime = new Date();
         const timeDiff = endTime - startTime; //in ms
         if (timeDiff < textureReplacementDuration) {
