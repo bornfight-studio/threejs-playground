@@ -1123,6 +1123,14 @@ body {
 .c-ring-configurator__model canvas.is-loading {
   filter: blur(10px);
 }
+.c-ring-configurator__actions {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+}
 .c-ring-configurator__options {
   list-style: none;
   position: absolute;
@@ -1146,6 +1154,43 @@ body {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+}
+
+.c-action-button {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 6px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  transition: all 0.2s;
+  margin: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  text-align: center;
+}
+.c-action-button.is-active, .c-action-button:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.c-action-button--big {
+  font-size: 24px;
+  padding: 18px 6px;
+}
+
+.is-visually-hidden {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.c-separator {
+  display: block;
+  height: 1px;
+  margin: 0.5em;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .c-color-options {
@@ -1178,7 +1223,7 @@ body {
   pointer-events: none;
 }
 .c-color-option.is-active, .c-color-option:hover {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 .c-color-option span {
   display: inline-block;

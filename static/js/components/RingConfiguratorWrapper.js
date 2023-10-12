@@ -7,6 +7,8 @@ export default class ModelConfiguratorWrapper {
             options: ".js-ring-configurator-options",
             colors: ".js-ring-configurator-colors",
             colorOption: ".js-ring-configurator-color",
+            screenshot: ".js-ring-configurator-screenshot",
+            scene: ".js-ring-configurator-scene",
             states: {
                 isActive: "is-active",
                 isVisible: "is-visible",
@@ -28,12 +30,16 @@ export default class ModelConfiguratorWrapper {
 
         this.options = document.querySelector(this.DOM.options);
         this.colors = document.querySelectorAll(this.DOM.colors);
+        this.screenshot = document.querySelector(this.DOM.screenshot);
+        this.scenes = document.querySelectorAll(this.DOM.scene);
     }
 
     init() {
         if (this.colors && this.colors.length > 0) {
             this.colorController();
             this.keyboardShortcut();
+            this.takeScreenshot("ring-configurator.png");
+            this.sceneToggler();
         }
     }
 
@@ -77,6 +83,36 @@ export default class ModelConfiguratorWrapper {
                     this.options.classList.add(this.DOM.states.isVisible);
                 }
             }
+        });
+    }
+
+    takeScreenshot(fileName) {
+        const canvasElement = document.querySelector(this.DOM.canvas);
+        const MIME_TYPE = "image/png";
+
+        this.screenshot.addEventListener("click", () => {
+            var imgURL = canvasElement.toDataURL(MIME_TYPE);
+
+            var dlLink = document.createElement("a");
+            dlLink.classList.add("is-visually-hidden");
+            dlLink.download = fileName;
+            dlLink.href = imgURL;
+            dlLink.dataset.downloadurl = [MIME_TYPE, dlLink.download, dlLink.href].join(":");
+
+            document.body.appendChild(dlLink);
+            dlLink.click();
+            document.body.removeChild(dlLink);
+        });
+    }
+
+    sceneToggler() {
+        this.scenes.forEach((scene) => {
+            scene.addEventListener("click", (ev) => {
+                this.setActiveClass(ev, this.scenes);
+
+                const cameraPosition = JSON.parse(ev.currentTarget.dataset.cameraPosition);
+                this.modelConfigurator.setCameraPosition(cameraPosition);
+            });
         });
     }
 }

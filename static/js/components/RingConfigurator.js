@@ -1,5 +1,6 @@
 import { ViewerApp, AssetManagerPlugin, addBasePlugins } from "webgi";
 import * as THREE from "three";
+import gsap from "gsap";
 
 export default class RingConfigurator {
     constructor(options) {
@@ -45,6 +46,8 @@ export default class RingConfigurator {
             $this.importer = $this.manager.importer;
 
             await addBasePlugins($this.viewer);
+
+            console.log($this.viewer.scene.activeCamera);
         }
 
         setupViewer().then((r) => {
@@ -72,7 +75,7 @@ export default class RingConfigurator {
     afterInit() {
         const camera = this.viewer.scene.activeCamera;
         const controls = camera.controls;
-        controls.minDistance = 10;
+        controls.minDistance = 2.5;
         controls.maxDistance = 20;
         controls.minZoom = 0;
         controls.maxZoom = 0;
@@ -94,6 +97,32 @@ export default class RingConfigurator {
                     child.setDirty?.();
                 }
             });
+        });
+    }
+
+    setCameraPosition(cameraPosition) {
+        const camera = this.viewer.scene.activeCamera;
+        const position = {
+            x: camera.position.x,
+            y: camera.position.y,
+            z: camera.position.z,
+        };
+        gsap.to(position, {
+            x: cameraPosition.x,
+            y: cameraPosition.y,
+            z: cameraPosition.z,
+            ease: "expo.inOut",
+            duration: 1.2,
+            onStart: () => {
+                camera.setCameraOptions({ controlsEnabled: false });
+            },
+            onComplete: () => {
+                camera.setCameraOptions({ controlsEnabled: true });
+            },
+            onUpdate: () => {
+                camera.position.set(position.x, position.y, position.z);
+                camera.positionTargetUpdated();
+            },
         });
     }
 }

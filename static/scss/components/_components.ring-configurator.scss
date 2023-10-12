@@ -30,6 +30,15 @@
         }
     }
 
+    &__actions {
+        position: absolute;
+        bottom: 40px;
+        right: 40px;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+    }
+
     &__options {
         list-style: none;
         position: absolute;
@@ -56,4 +65,45 @@
             transform: translateY(0);
         }
     }
+}
+
+
+.c-action-button {
+    border: 1px solid $black-20;
+    padding: 6px;
+    cursor: pointer;
+    background-color: $white-20;
+    backdrop-filter: blur(5px);
+    transition: all 0.2s;
+    margin: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    text-align: center;
+
+    &.is-active,
+    &:hover {
+        background-color: $white-80;
+    }
+
+    &--big {
+        font-size: 24px;
+        padding: 18px 6px;
+    }
+}
+
+.is-visually-hidden {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.c-separator {
+    display: block;
+    height: 1px;
+    margin: 0.5em;
+    background-color: $black-50;
 }
