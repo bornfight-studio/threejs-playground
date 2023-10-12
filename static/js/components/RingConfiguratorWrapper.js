@@ -15,8 +15,6 @@ export default class ModelConfiguratorWrapper {
             },
         };
 
-        this.showConfigurator = false;
-
         this.modelConfigurator = new RingConfigurator({
             elementClass: this.DOM.canvas,
             modelUrl: "../static/models/ring-v6.glb",
