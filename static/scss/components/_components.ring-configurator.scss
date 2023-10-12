@@ -37,6 +37,11 @@
         z-index: 3;
         display: flex;
         flex-direction: column;
+
+        @include mq(md) {
+            bottom: 20px;
+            right: 20px;
+        }
     }
 
     &__options {
@@ -64,11 +69,18 @@
             visibility: visible;
             transform: translateY(0);
         }
+
+        @include mq(md) {
+            bottom: 20px;
+            left: 20px;
+        }
     }
 }
 
 
 .c-action-button {
+    flex-shrink: 0;
+    flex-grow: 0;
     border: 1px solid $black-20;
     padding: 6px;
     cursor: pointer;
@@ -81,6 +93,14 @@
     justify-content: center;
     border-radius: 4px;
     text-align: center;
+    color: $black;
+    -webkit-appearance: none;
+    text-transform: uppercase;
+
+    @include mq(md) {
+        margin: 2px;
+        font-size: 10px;
+    }
 
     &.is-active,
     &:hover {
@@ -94,6 +114,7 @@
     &--big {
         font-size: 24px;
         padding: 18px 6px;
+        max-height: 60px;
     }
 }
 
@@ -110,4 +131,8 @@
     height: 1px;
     margin: 0.5em;
     background-color: $black-50;
+
+    @include mq(md) {
+        margin: 0.25em 0.5em;
+    }
 }
