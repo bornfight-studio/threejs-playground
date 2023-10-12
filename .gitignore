@@ -1,6 +1,6 @@
 wp
 .idea/
-.DS_Store
+**/.DS_Store
 *.log
 node_modules
 .idea_modules/
