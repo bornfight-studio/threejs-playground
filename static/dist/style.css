@@ -1104,7 +1104,7 @@ body {
 .c-sofa-configurator__option-tooltip {
   position: absolute;
   bottom: 100%;
-  left: 0;
+  left: -1px;
   width: 100%;
   height: 0;
   padding-top: 100%;
