@@ -176,6 +176,7 @@
             background-color: transparent;
             border: 1px solid rgb(20, 23, 48);
             cursor: pointer;
+            position: relative;
         }
     }
 
@@ -215,6 +216,48 @@
             background-color: #f3f0ed;
             border: 1px solid rgb(20, 23, 48);
             border-radius: 1000px;
+        }
+    }
+
+    &__options {
+        li button {
+            &.is-active {
+                pointer-events: auto;
+            }
+
+            &:hover {
+                .c-sofa-configurator__option-tooltip {
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+        }
+    }
+
+    &__option-tooltip {
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        width: 100%;
+        height: 0;
+        padding-top: 100%;
+        opacity: 0;
+        visibility: hidden;
+        border: 1px solid $black-20;
+        background-color: $white-20;
+        backdrop-filter: blur(5px);
+        pointer-events: none;
+        transition: 0.3s;
+
+        img {
+            display: block;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            max-width: none;
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+            object-fit: cover;
         }
     }
 }
