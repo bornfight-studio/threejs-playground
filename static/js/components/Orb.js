@@ -38,6 +38,8 @@ export default class Orb {
         // Add the particle sphere mesh to the scene
         this.scene.add(this.orb.mesh);
 
+        this.animate = this.animate.bind(this); // Bind the animate method to the class instance
+
         this.animate();
     }
 
@@ -73,8 +75,8 @@ export default class Orb {
         requestAnimationFrame(this.animate);
 
         // Rotate the particle sphere
-        this.orb.mesh.rotation.x += 0.01;
-        this.orb.mesh.rotation.y += 0.01;
+        this.mesh.rotation.x += 0.01;
+        this.mesh.rotation.y += 0.01;
 
         // Render the scene
         this.renderer.render(this.scene, this.camera);
