@@ -33,10 +33,10 @@ export default class Orb {
         this.container.appendChild(this.renderer.domElement);
 
         // Create a particle sphere
-        this.orb = new Orb(scene, 5, 10, 10, 0xff0000);
+        this.orb = new Orb(this.scene, 5, 10, 10, 0xff0000);
 
         // Add the particle sphere mesh to the scene
-        this.scene.add(orb.mesh);
+        this.scene.add(this.orb.mesh);
 
         this.animate();
     }
