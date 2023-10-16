@@ -17,7 +17,7 @@ export default class ModelConfiguratorWrapper {
 
         this.modelConfigurator = new RingConfigurator({
             elementClass: this.DOM.canvas,
-            modelUrl: "../static/models/ring-v6.glb",
+            modelUrl: "../static/models/ring-v8.glb",
             ringOptions: window.ringOptions,
             mouseAnimation: false,
             onLoad: () => {
