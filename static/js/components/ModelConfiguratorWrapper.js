@@ -16,9 +16,9 @@ export default class ModelConfiguratorWrapper {
             elementClass: this.DOM.canvas,
             hideRoom: true,
             textureScale: 1,
-            modelUrl: "../static/models/pixotronics-v4.glb",
-            modelObjects: ["headrest_left", "headrest_right", "seat", "seat_left", "seat_right"],
-            roomObjects: ["tree", "wall_back", "wall_right", "Spot", "floor"],
+            modelUrl: "../static/models/one-seater-pxt-v3.glb",
+            modelObjects: ["body"],
+            roomObjects: [],
             textureAppearanceSets: window.textureAppearance,
             mouseAnimation: false,
             onLoad: () => {

@@ -119,8 +119,8 @@ export default class ModelConfigurator {
     afterInit() {
         const camera = this.viewer.scene.activeCamera;
         const controls = camera.controls;
-        controls.minDistance = 0.25;
-        controls.maxDistance = 1.8;
+        controls.minDistance = 2.5;
+        controls.maxDistance = 15;
         controls.minZoom = 0;
         controls.maxZoom = 0;
         controls.minPolarAngle = 0.9;
