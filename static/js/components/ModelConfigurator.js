@@ -120,13 +120,13 @@ export default class ModelConfigurator {
         const camera = this.viewer.scene.activeCamera;
         const controls = camera.controls;
         controls.minDistance = 2.5;
-        controls.maxDistance = 15;
+        controls.maxDistance = 10;
         controls.minZoom = 0;
         controls.maxZoom = 0;
-        controls.minPolarAngle = 0.9;
-        controls.maxPolarAngle = 1.6;
-        controls.minAzimuthAngle = 3.2;
-        controls.maxAzimuthAngle = -1.2;
+        // controls.minPolarAngle = 0.9;
+        // controls.maxPolarAngle = 1.6;
+        // controls.minAzimuthAngle = 3.2;
+        // controls.maxAzimuthAngle = -1.2;
 
         camera.cameraObject.userData.autoNearFar = false;
 
