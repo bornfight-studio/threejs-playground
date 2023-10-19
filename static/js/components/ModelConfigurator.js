@@ -136,7 +136,7 @@ export default class ModelConfigurator {
         this.roomObjects = this.defaults.roomObjects;
 
         const spotLight = this.viewer.scene.children[0].children[0].getObjectByName("Spot");
-        if (spotLight) spotLight.intensity = 0.5;
+        if (spotLight) spotLight.intensity = 1;
 
         this.addLights();
 

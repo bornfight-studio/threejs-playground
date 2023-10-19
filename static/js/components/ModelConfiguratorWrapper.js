@@ -16,7 +16,7 @@ export default class ModelConfiguratorWrapper {
             elementClass: this.DOM.canvas,
             hideRoom: true,
             textureScale: 1,
-            modelUrl: "../static/models/one-seater-pxt-v6.glb",
+            modelUrl: "../static/models/one-seater-pxt-v9.glb",
             modelObjects: ["body"],
             roomObjects: [],
             textureAppearanceSets: window.textureAppearance,
