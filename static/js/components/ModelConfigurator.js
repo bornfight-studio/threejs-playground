@@ -26,6 +26,7 @@ export default class ModelConfigurator {
             elementClass: "",
             modelUrl: "",
             hideRoom: false,
+            lockView: false,
             modelObjects: [],
             roomObjects: [],
             textureScale: 1,
@@ -58,6 +59,7 @@ export default class ModelConfigurator {
         };
 
         this.roomShown = !this.defaults.hideRoom;
+        this.viewLocked = !this.defaults.lockView;
 
         this.lights = [];
 
@@ -119,14 +121,16 @@ export default class ModelConfigurator {
     afterInit() {
         const camera = this.viewer.scene.activeCamera;
         const controls = camera.controls;
-        controls.minDistance = 2.5;
-        controls.maxDistance = 10;
+        controls.minDistance = 2;
+        controls.maxDistance = 12;
         controls.minZoom = 0;
         controls.maxZoom = 0;
         // controls.minPolarAngle = 0.9;
         // controls.maxPolarAngle = 1.6;
         // controls.minAzimuthAngle = 3.2;
         // controls.maxAzimuthAngle = -1.2;
+
+        camera.setCameraOptions({ controlsEnabled: false });
 
         camera.cameraObject.userData.autoNearFar = false;
 
@@ -177,7 +181,7 @@ export default class ModelConfigurator {
 
         // directionalLight1.castShadow = true;
 
-        const directionalLight2 = new THREE.DirectionalLight(0xf0f0f0, 0.2);
+        const directionalLight2 = new THREE.DirectionalLight(0xf0f0f0, 0.5);
         directionalLight2.position.set(-1, 3, -3);
 
         // directionalLight2.castShadow = true;
@@ -187,7 +191,7 @@ export default class ModelConfigurator {
 
         // pointLight.castShadow = true;
 
-        const light = new THREE.AmbientLight(0x808080, 0.3);
+        const light = new THREE.AmbientLight(0x808080, 0.5);
 
         this.lights.push(directionalLight1);
         this.lights.push(directionalLight2);
@@ -368,6 +372,63 @@ export default class ModelConfigurator {
 
         this.roomShown = true;
         this.showRoom();
+    }
+
+    toggleView() {
+        if (this.viewLocked) {
+            this.viewLocked = false;
+            this.unlockView();
+            return;
+        }
+
+        this.viewLocked = true;
+        this.lockView();
+    }
+
+    lockView() {
+        const camera = this.viewer.scene.activeCamera;
+        const position = {
+            x: camera.position.x,
+            y: camera.position.y,
+            z: camera.position.z,
+        };
+        gsap.to(position, {
+            x: 4.25,
+            y: 0.15,
+            z: 0,
+            ease: "expo.inOut",
+            duration: 2,
+            onComplete: () => {
+                camera.setCameraOptions({ controlsEnabled: false });
+            },
+            onUpdate: () => {
+                camera.position.set(position.x, position.y, position.z);
+                camera.positionTargetUpdated();
+            },
+        });
+    }
+
+    unlockView() {
+        const camera = this.viewer.scene.activeCamera;
+        const position = {
+            x: camera.position.x,
+            y: camera.position.y,
+            z: camera.position.z,
+        };
+        gsap.to(position, {
+            x: -6,
+            y: 2,
+            z: 5,
+            ease: "expo.inOut",
+            duration: 1.2,
+            onComplete: () => {
+                camera.setCameraOptions({ controlsEnabled: true });
+            },
+            onUpdate: () => {
+                camera.position.set(position.x, position.y, position.z);
+                camera.positionTargetUpdated();
+            },
+        });
     }
 
     hideRoom() {

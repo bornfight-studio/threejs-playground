@@ -5,6 +5,7 @@ export default class ModelConfiguratorWrapper {
         this.DOM = {
             canvas: ".js-configurator-viewer",
             roomToggle: ".js-configurator-viewer-toggle-room",
+            viewToggle: ".js-configurator-viewer-toggle-view",
             textureOptions: ".js-furniture-configurator-option",
             envLightOptions: ".js-furniture-configurator-light-option",
             states: {
@@ -16,7 +17,7 @@ export default class ModelConfiguratorWrapper {
             elementClass: this.DOM.canvas,
             hideRoom: true,
             textureScale: 1,
-            modelUrl: "../static/models/one-seater-pxt-v12.glb",
+            modelUrl: "../static/models/one-seater-pxt-v12-a.glb",
             modelObjects: ["body"],
             roomObjects: [],
             textureAppearanceSets: window.textureAppearance,
@@ -32,6 +33,7 @@ export default class ModelConfiguratorWrapper {
         this.envLightOptions = document.querySelectorAll(this.DOM.envLightOptions);
         this.textureOptions = document.querySelectorAll(this.DOM.textureOptions);
         this.roomToggle = document.querySelector(this.DOM.roomToggle);
+        this.viewToggle = document.querySelector(this.DOM.viewToggle);
     }
 
     init() {
@@ -45,6 +47,10 @@ export default class ModelConfiguratorWrapper {
 
         if (this.roomToggle) {
             this.roomToggleController();
+        }
+
+        if (this.viewToggle) {
+            this.viewToggleController();
         }
     }
 
@@ -95,6 +101,12 @@ export default class ModelConfiguratorWrapper {
     roomToggleController() {
         this.roomToggle.addEventListener("click", (ev) => {
             this.modelConfigurator.toggleRoom();
+        });
+    }
+
+    viewToggleController() {
+        this.viewToggle.addEventListener("click", (ev) => {
+            this.modelConfigurator.toggleView();
         });
     }
 }
