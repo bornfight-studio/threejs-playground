@@ -1180,9 +1180,6 @@ body {
   flex-direction: column;
   justify-content: center;
   z-index: 3;
-  transform: translateY(20px);
-  opacity: 0;
-  visibility: hidden;
   transition: all 0.4s;
 }
 .c-ring-configurator__options p {
@@ -1315,13 +1312,13 @@ body {
   background-color: #ffffff;
 }
 .c-color--r {
-  background-color: #ad1010;
+  background-color: #e34778;
 }
 .c-color--g {
-  background-color: #2a8f5f;
+  background-color: #47d382;
 }
 .c-color--b {
-  background-color: #3d3dfc;
+  background-color: #47a3e3;
 }
 
 /**

@@ -1,4 +1,4 @@
-import { ViewerApp, AssetManagerPlugin, addBasePlugins } from "webgi";
+import { ViewerApp, AssetManagerPlugin, addBasePlugins, SimpleTextPlugin } from "webgi";
 import * as THREE from "three";
 import gsap from "gsap";
 
@@ -42,12 +42,18 @@ export default class RingConfigurator {
             });
 
             $this.manager = await $this.viewer.addPlugin(AssetManagerPlugin);
+            $this.text = await $this.viewer.addPlugin(SimpleTextPlugin);
+            $this.fontStyles = await (
+                await fetch(
+                    "https://fonts.googleapis.com/css2?family=Aboreto&family=Dancing+Script&family=Inter&family=Montserrat&family=Nunito&family=Sacramento&display=swap",
+                )
+            ).text();
+            $this.text.applyToAlphaMap = false;
+            $this.text.applyToBumpMap = true;
 
             $this.importer = $this.manager.importer;
 
             await addBasePlugins($this.viewer);
-
-            console.log($this.viewer.scene.activeCamera);
         }
 
         setupViewer().then((r) => {
@@ -95,6 +101,25 @@ export default class RingConfigurator {
                 if (child.isMesh && child.name === objectName) {
                     child.material.color.set(baseColor);
                     child.setDirty?.();
+                }
+            });
+        });
+    }
+
+    setEngravingText(modelObjects, text) {
+        const objects = JSON.parse(modelObjects);
+
+        objects.forEach((engravingObject) => {
+            this.viewer.scene.traverse((child) => {
+                if (child.isMesh && child.name === engravingObject) {
+                    this.text.updateText(engravingObject, {
+                        text: text,
+                        fontFamily: "Inter",
+                        style: this.fontStyles,
+                        fontSize: 117,
+                    });
+
+                    console.log(this.text);
                 }
             });
         });

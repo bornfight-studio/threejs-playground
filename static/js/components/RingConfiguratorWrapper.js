@@ -9,6 +9,7 @@ export default class ModelConfiguratorWrapper {
             colorOption: ".js-ring-configurator-color",
             screenshot: ".js-ring-configurator-screenshot",
             scene: ".js-ring-configurator-scene",
+            engravingText: ".js-ring-configurator-engraving-text",
             states: {
                 isActive: "is-active",
                 isVisible: "is-visible",
@@ -17,7 +18,7 @@ export default class ModelConfiguratorWrapper {
 
         this.modelConfigurator = new RingConfigurator({
             elementClass: this.DOM.canvas,
-            modelUrl: "../static/models/ring-v8.glb",
+            modelUrl: "../static/models/ring-v9.glb",
             ringOptions: window.ringOptions,
             mouseAnimation: false,
             onLoad: () => {
@@ -29,6 +30,7 @@ export default class ModelConfiguratorWrapper {
         });
 
         this.options = document.querySelector(this.DOM.options);
+        this.engravingText = document.querySelector(this.DOM.engravingText);
         this.colors = document.querySelectorAll(this.DOM.colors);
         this.screenshot = document.querySelector(this.DOM.screenshot);
         this.scenes = document.querySelectorAll(this.DOM.scene);
@@ -37,6 +39,7 @@ export default class ModelConfiguratorWrapper {
     init() {
         if (this.colors && this.colors.length > 0) {
             this.colorController();
+            this.engravingController();
             this.keyboardShortcut();
             this.takeScreenshot("ring-configurator.png");
             this.sceneToggler();
@@ -60,6 +63,13 @@ export default class ModelConfiguratorWrapper {
                 });
             });
         });
+    }
+
+    engravingController() {
+        const text = this.engravingText.dataset.engravingText;
+        const engravingObject = this.engravingText.dataset.engravingObject;
+
+        this.modelConfigurator.setEngravingText(engravingObject, text);
     }
 
     setActiveClass(ev, options) {
