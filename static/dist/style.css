@@ -1169,6 +1169,9 @@ body {
     right: 20px;
   }
 }
+.c-ring-configurator__actions p {
+  margin-bottom: 0.5em;
+}
 .c-ring-configurator__options {
   list-style: none;
   position: absolute;
@@ -1180,12 +1183,15 @@ body {
   flex-direction: column;
   justify-content: center;
   z-index: 3;
-  transition: all 0.4s;
+  transform: translateY(10px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s 0.1s;
 }
 .c-ring-configurator__options p {
-  margin-bottom: 0;
+  margin-bottom: 0.5em;
 }
-.c-ring-configurator__options.is-visible {
+.has-options-active .c-ring-configurator__options {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -1194,6 +1200,32 @@ body {
   .c-ring-configurator__options {
     bottom: 20px;
     left: 20px;
+  }
+}
+.c-ring-configurator__text {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(10px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s;
+}
+.c-ring-configurator__text p {
+  margin-bottom: 0.5em;
+}
+.has-options-active .c-ring-configurator__text {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+@media (max-width: 800px) {
+  .c-ring-configurator__text {
+    top: 20px;
+    right: 20px;
   }
 }
 
@@ -1252,6 +1284,52 @@ body {
   .c-separator {
     margin: 0.25em 0.5em;
   }
+}
+
+.c-input,
+.c-select {
+  height: 36px;
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.c-range-wrapper {
+  display: flex;
+  align-items: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.c-range {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.c-range-value {
+  display: inline-flex;
+  margin-left: 10px;
+  font-size: 12px;
+  min-width: 30px;
+  line-height: 1em;
+}
+
+input[type=range] {
+  /* removing default appearance */
+  -webkit-appearance: none;
+  appearance: none;
+  /* creating a custom design */
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  /*  slider progress trick  */
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  cursor: ew-resize;
+  background: #434343;
 }
 
 .c-color-options {

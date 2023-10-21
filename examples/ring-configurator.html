@@ -7,31 +7,57 @@
     <title>Three.js playground — Ring Configurator</title>
     <link rel="stylesheet" href="../static/dist/style.css"/>
 </head>
-<body>
+<body data-show-configurator="false">
 <div class="c-ring-configurator">
 
     <div class="c-ring-configurator__model">
         <canvas class="js-ring-configurator-viewer" style="width: 100%; height: 100%; display: block"></canvas>
     </div>
 
+    <div class="c-ring-configurator__text js-ring-configurator-engraving">
+        <p class="u-b3">Engraving text:</p>
+        <input name="fontText" id="fontText" type="text" maxlength="18"
+               class="c-input js-ring-configurator-engraving-text" data-engraving-object='["engraving"]'
+               value="Zaks x BFS 2023.">
+        <p class="u-b3">Engraving font family:</p>
+        <select name="fontFamily" id="fontFamily" class="c-select js-ring-configurator-engraving-font">
+            <option value="Inter">Inter</option>
+            <option value="Dancing Script">Dancing script</option>
+            <option value="Aboreto">Aboreto</option>
+        </select>
+        <p class="u-b3">Engraving size:</p>
+        <div class="c-range-wrapper">
+            <input name="fontSize" id="fontSize" type="range" min="100" step="2" max="120"
+                   class="c-range js-ring-configurator-engraving-size" value="100">
+            <span class="c-range-value u-text-center js-ring-configurator-engraving-size-value">100</span>
+        </div>
+
+
+    </div>
     <div class="c-ring-configurator__actions">
-        <button class="c-action-button js-ring-configurator-scene" data-camera-position='{"x": 0, "y": 3.65, "z": 2.75}'>
-            <span>Scene 01</span>
+        <p class="u-b3">Scenes:</p>
+        <button class="c-action-button js-ring-configurator-scene"
+                data-camera-position='{"x": 0, "y": 3.65, "z": 2.75}'>
+            <span>Close-up</span>
         </button>
-        <button class="c-action-button js-ring-configurator-scene" data-camera-position='{"x": -0.52, "y": 3.73, "z": 7.89}'>
-            <span>Scene 02</span>
+        <button class="c-action-button js-ring-configurator-scene"
+                data-camera-position='{"x": -0.52, "y": 3.73, "z": 7.89}'>
+            <span>Medium shot</span>
         </button>
-        <button class="c-action-button js-ring-configurator-scene" data-camera-position='{"x": -6.5, "y": 0, "z": 4.24}'>
-            <span>Scene 03</span>
+        <button class="c-action-button js-ring-configurator-scene"
+                data-camera-position='{"x": -1, "y": 2.58, "z": 1.54}'>
+            <span>Engraving</span>
         </button>
-        <button class="c-action-button c-action-button--active js-ring-configurator-scene" data-camera-position='{"x": -2.5, "y": 5, "z": 5}'>
+        <button class="c-action-button c-action-button--active js-ring-configurator-scene"
+                data-camera-position='{"x": -2.5, "y": 5, "z": 5}'>
             <span>Reset</span>
         </button>
         <span class="c-separator"></span>
         <button class="c-action-button c-action-button--big is-active js-ring-configurator-screenshot">
             <i>
                 <?xml version="1.0" ?>
-                <svg class="u-icon u-icon--screenshot" style="enable-background:new 0 0 30 30;" version="1.1" viewBox="0 0 30 30"
+                <svg class="u-icon u-icon--screenshot" style="enable-background:new 0 0 30 30;" version="1.1"
+                     viewBox="0 0 30 30"
                      xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
                      xmlns:xlink="http://www.w3.org/1999/xlink"><g><path d="M6,19V17c0-0.552-0.448-1-1-1H5c-0.552,0-1,0.448-1,1V19c0,0.552,0.448,1,1,1H5C5.552,20,6,19.552,6,19z"/><path
                     d="M10,5L10,5c0,0.553,0.448,1,1,1H13c0.552,0,1-0.448,1-1V5c0-0.552-0.448-1-1-1H11C10.448,4,10,4.448,10,5z"/><path
@@ -48,7 +74,7 @@
         </button>
     </div>
 
-    <div class="c-ring-configurator__options js-ring-configurator-options" data-show="true">
+    <div class="c-ring-configurator__options js-ring-configurator-options">
         <p class="u-b3">Ring color:</p>
         <ul class="c-color-options js-ring-configurator-colors">
             <li>
@@ -119,8 +145,6 @@
                 </button>
             </li>
         </ul>
-
-        <i class="js-ring-configurator-engraving-text" data-engraving-object='["engraving"]' data-engraving-text="Marko x BFS 2023."></i>
     </div>
 </div>
 

@@ -3,22 +3,28 @@ import RingConfigurator from "./RingConfigurator";
 export default class ModelConfiguratorWrapper {
     constructor() {
         this.DOM = {
+            body: "body",
             canvas: ".js-ring-configurator-viewer",
             options: ".js-ring-configurator-options",
             colors: ".js-ring-configurator-colors",
             colorOption: ".js-ring-configurator-color",
             screenshot: ".js-ring-configurator-screenshot",
             scene: ".js-ring-configurator-scene",
+            engraving: ".js-ring-configurator-engraving",
+            engravingFont: ".js-ring-configurator-engraving-font",
             engravingText: ".js-ring-configurator-engraving-text",
+            engravingSize: ".js-ring-configurator-engraving-size",
+            engravingSizeValue: ".js-ring-configurator-engraving-size-value",
             states: {
                 isActive: "is-active",
                 isVisible: "is-visible",
+                optionsActive: "has-options-active",
             },
         };
 
         this.modelConfigurator = new RingConfigurator({
             elementClass: this.DOM.canvas,
-            modelUrl: "../static/models/ring-v9.glb",
+            modelUrl: "../static/models/ring-engraving-v7.glb",
             ringOptions: window.ringOptions,
             mouseAnimation: false,
             onLoad: () => {
@@ -29,8 +35,13 @@ export default class ModelConfiguratorWrapper {
             },
         });
 
+        this.body = document.body;
         this.options = document.querySelector(this.DOM.options);
+        this.engraving = document.querySelector(this.DOM.engraving);
         this.engravingText = document.querySelector(this.DOM.engravingText);
+        this.engravingFont = document.querySelector(this.DOM.engravingFont);
+        this.engravingSize = document.querySelector(this.DOM.engravingSize);
+        this.engravingSizeValue = document.querySelector(this.DOM.engravingSizeValue);
         this.colors = document.querySelectorAll(this.DOM.colors);
         this.screenshot = document.querySelector(this.DOM.screenshot);
         this.scenes = document.querySelectorAll(this.DOM.scene);
@@ -39,10 +50,10 @@ export default class ModelConfiguratorWrapper {
     init() {
         if (this.colors && this.colors.length > 0) {
             this.colorController();
-            this.engravingController();
             this.keyboardShortcut();
             this.takeScreenshot("ring-configurator.png");
             this.sceneToggler();
+            this.engravingController();
         }
     }
 
@@ -57,7 +68,6 @@ export default class ModelConfiguratorWrapper {
                 if (!baseColor) return;
 
                 option.addEventListener("click", (ev) => {
-                    console.log("click");
                     this.setActiveClass(ev, colorOptions);
                     this.modelConfigurator.setModelColor(index + 1, baseColor, modelObject);
                 });
@@ -66,10 +76,28 @@ export default class ModelConfiguratorWrapper {
     }
 
     engravingController() {
-        const text = this.engravingText.dataset.engravingText;
         const engravingObject = this.engravingText.dataset.engravingObject;
+        let text = this.engravingText.value;
+        let font = this.engravingFont.value;
+        let size = this.engravingSize.value;
 
-        this.modelConfigurator.setEngravingText(engravingObject, text);
+        this.engravingText.addEventListener("input", (ev) => {
+            text = ev.target.value;
+
+            this.modelConfigurator.setEngravingText(engravingObject, text, font, size);
+        });
+
+        this.engravingFont.addEventListener("change", (ev) => {
+            font = ev.target.value;
+
+            this.modelConfigurator.setEngravingText(engravingObject, text, font, size);
+        });
+
+        this.engravingSize.addEventListener("change", (ev) => {
+            size = ev.target.value;
+            this.modelConfigurator.setEngravingText(engravingObject, text, font, size);
+            this.engravingSizeValue.innerText = size;
+        });
     }
 
     setActiveClass(ev, options) {
@@ -85,16 +113,17 @@ export default class ModelConfiguratorWrapper {
     }
 
     keyboardShortcut() {
-        if (this.options.dataset.show === "false") {
+        if (this.body.dataset.showConfigurator === "false") {
             this.options.remove();
+            this.engraving.remove();
         }
 
         document.addEventListener("keyup", (ev) => {
             if (ev.keyCode === 79 && ev.altKey) {
-                if (this.options.classList.contains(this.DOM.states.isVisible)) {
-                    this.options.classList.remove(this.DOM.states.isVisible);
+                if (this.body.classList.contains(this.DOM.states.optionsActive)) {
+                    this.body.classList.remove(this.DOM.states.optionsActive);
                 } else {
-                    this.options.classList.add(this.DOM.states.isVisible);
+                    this.body.classList.add(this.DOM.states.optionsActive);
                 }
             }
         });

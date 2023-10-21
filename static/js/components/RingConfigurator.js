@@ -44,9 +44,7 @@ export default class RingConfigurator {
             $this.manager = await $this.viewer.addPlugin(AssetManagerPlugin);
             $this.text = await $this.viewer.addPlugin(SimpleTextPlugin);
             $this.fontStyles = await (
-                await fetch(
-                    "https://fonts.googleapis.com/css2?family=Aboreto&family=Dancing+Script&family=Inter&family=Montserrat&family=Nunito&family=Sacramento&display=swap",
-                )
+                await fetch("https://fonts.googleapis.com/css2?family=Aboreto&family=Dancing+Script&family=Inter&display=swap")
             ).text();
             $this.text.applyToAlphaMap = false;
             $this.text.applyToBumpMap = true;
@@ -106,20 +104,18 @@ export default class RingConfigurator {
         });
     }
 
-    setEngravingText(modelObjects, text) {
+    setEngravingText(modelObjects, text, fontFamily = "Inter", fontSize = 100) {
         const objects = JSON.parse(modelObjects);
 
         objects.forEach((engravingObject) => {
             this.viewer.scene.traverse((child) => {
                 if (child.isMesh && child.name === engravingObject) {
-                    this.text.updateText(engravingObject, {
+                    this.text.updateText(child, {
                         text: text,
-                        fontFamily: "Inter",
+                        fontFamily: fontFamily,
                         style: this.fontStyles,
-                        fontSize: 117,
+                        fontSize: fontSize,
                     });
-
-                    console.log(this.text);
                 }
             });
         });
