@@ -88,7 +88,7 @@ export default class ModelConfigurator {
                 isAntialiased: true,
             });
 
-            $this.viewer.renderManager.displayCanvasScaling = 2;
+            $this.viewer.renderManager.displayCanvasScaling = 2.5;
 
             $this.manager = await $this.viewer.addPlugin(AssetManagerPlugin);
 
@@ -130,6 +130,7 @@ export default class ModelConfigurator {
         controls.maxDistance = 12;
         controls.minZoom = 0;
         controls.maxZoom = 0;
+        // controls.enablePan = true;
         // controls.minPolarAngle = 0.9;
         // controls.maxPolarAngle = 1.6;
         // controls.minAzimuthAngle = 3.2;
