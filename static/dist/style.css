@@ -1220,7 +1220,7 @@ body {
   width: 100%;
   background-color: #ffffff;
   height: 100%;
-  transform: scaleX(0.2);
+  transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.2s;
 }

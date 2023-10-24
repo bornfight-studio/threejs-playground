@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ViewerApp, AssetManagerPlugin, addBasePlugins } from "webgi";
+import { ViewerApp, AssetManagerPlugin, addBasePlugins, EffectComposer2 } from "webgi";
 import * as THREE from "three";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -85,7 +85,10 @@ export default class ModelConfigurator {
             $this.viewer = new ViewerApp({
                 canvas: $this.element,
                 useRgbm: true,
+                isAntialiased: true,
             });
+
+            $this.viewer.renderManager.displayCanvasScaling = 2;
 
             $this.manager = await $this.viewer.addPlugin(AssetManagerPlugin);
 
@@ -252,7 +255,7 @@ export default class ModelConfigurator {
      * @param {string} textureAppearanceSet - The texture appearance set.
      */
     setModelTexture(index, additionalScale, baseTexture, textureAppearanceSet) {
-        const textureReplacementDuration = 500; //ms
+        const textureReplacementDuration = 200; //ms
         const startTime = new Date();
         this.body.classList.add("is-loading");
         if (!additionalScale || isNaN(additionalScale)) additionalScale = 1;
