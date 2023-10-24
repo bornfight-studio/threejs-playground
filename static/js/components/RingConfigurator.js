@@ -39,7 +39,10 @@ export default class RingConfigurator {
             $this.viewer = new ViewerApp({
                 canvas: $this.element,
                 useRgbm: true,
+                isAntialiased: true,
             });
+
+            $this.viewer.renderManager.displayCanvasScaling = 2;
 
             $this.manager = await $this.viewer.addPlugin(AssetManagerPlugin);
             $this.text = await $this.viewer.addPlugin(SimpleTextPlugin);
