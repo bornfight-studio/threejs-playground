@@ -6,7 +6,7 @@
         <title>Three.js playground — Sofa Configurator</title>
         <link rel="stylesheet" href="../static/dist/style.css" />
     </head>
-    <body>
+    <body class="is-loading">
         <div class="c-sofa-configurator">
             <img
                 src="../static/ui/sofa-config-markup-1.svg"
@@ -57,6 +57,9 @@
                 </div>
 
                 <div class="c-sofa-configurator__model-room">
+                    <div class="c-loader">
+                        <i class="c-loader__line js-configurator-viewer-loader-line"></i>
+                    </div>
                     <button class="js-configurator-viewer-toggle-view"><span>3D View</span><i>Material view</i></button>
                 </div>
             </div>

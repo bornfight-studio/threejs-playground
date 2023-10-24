@@ -225,6 +225,19 @@
             border-radius: 1000px;
             width: 140px;
             text-align: center;
+            opacity: 1;
+            visibility: visible;
+            transition: all 0.3s;
+
+            .is-loading & {
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .is-loaded & {
+                opacity: 1;
+                visibility: visible;
+            }
 
             i {
                 font-style: normal;
@@ -323,5 +336,43 @@
     &.is-active {
         opacity: 1;
         visibility: visible;
+    }
+}
+
+.c-loader {
+    z-index: 5;
+    display: block;
+    width: 300px;
+    transform: translateX(-50%);
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    height: 2px;
+    background-color: $white-20;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+
+    .is-loading & {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .is-loaded & {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    &__line {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: $white;
+        height: 100%;
+        transform: scaleX(0.2);
+        transform-origin: left;
+        transition: transform 0.2s;
     }
 }

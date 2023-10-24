@@ -254,7 +254,7 @@ export default class ModelConfigurator {
     setModelTexture(index, additionalScale, baseTexture, textureAppearanceSet) {
         const textureReplacementDuration = 500; //ms
         const startTime = new Date();
-        this.element.classList.add("is-loading");
+        this.body.classList.add("is-loading");
         if (!additionalScale || isNaN(additionalScale)) additionalScale = 1;
         const scale = this.defaults.textureScale * additionalScale;
 
@@ -358,10 +358,10 @@ export default class ModelConfigurator {
         const timeDiff = endTime - startTime; //in ms
         if (timeDiff < textureReplacementDuration) {
             setTimeout(() => {
-                this.element.classList.remove("is-loading");
+                this.body.classList.remove("is-loading");
             }, textureReplacementDuration - timeDiff);
         } else {
-            this.element.classList.remove("is-loading");
+            this.body.classList.remove("is-loading");
         }
     }
 

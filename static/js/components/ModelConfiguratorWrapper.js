@@ -1,14 +1,17 @@
 import ModelConfigurator from "./ModelConfigurator";
+import gsap from "gsap";
 
 export default class ModelConfiguratorWrapper {
     constructor() {
         this.DOM = {
+            body: "body",
             canvas: ".js-configurator-viewer",
             roomToggle: ".js-configurator-viewer-toggle-room",
             viewToggle: ".js-configurator-viewer-toggle-view",
             textureOptions: ".js-furniture-configurator-option",
             texturePreview: ".js-furniture-configurator-preview",
             envLightOptions: ".js-furniture-configurator-light-option",
+            loaderLine: ".js-configurator-viewer-loader-line",
             states: {
                 isActive: "is-active",
             },
@@ -27,10 +30,13 @@ export default class ModelConfiguratorWrapper {
                 this.init();
             },
             onProgress: (progress) => {
-                console.log(progress);
+                gsap.set(this.DOM.loaderLine, {
+                    scaleX: progress / 100,
+                });
             },
         });
 
+        this.body = document.body;
         this.envLightOptions = document.querySelectorAll(this.DOM.envLightOptions);
         this.textureOptions = document.querySelectorAll(this.DOM.textureOptions);
         this.texturePreviews = document.querySelectorAll(this.DOM.texturePreview);
@@ -54,6 +60,8 @@ export default class ModelConfiguratorWrapper {
         if (this.viewToggle) {
             this.viewToggleController();
         }
+
+        this.body.classList.add("is-loaded");
     }
 
     envLightController() {

@@ -1098,6 +1098,17 @@ body {
   border-radius: 1000px;
   width: 140px;
   text-align: center;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.3s;
+}
+.is-loading .c-sofa-configurator__model-room button {
+  opacity: 0;
+  visibility: hidden;
+}
+.is-loaded .c-sofa-configurator__model-room button {
+  opacity: 1;
+  visibility: visible;
 }
 .c-sofa-configurator__model-room button i {
   font-style: normal;
@@ -1177,6 +1188,41 @@ body {
 .c-material.is-active {
   opacity: 1;
   visibility: visible;
+}
+
+.c-loader {
+  z-index: 5;
+  display: block;
+  width: 300px;
+  transform: translateX(-50%);
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+.is-loading .c-loader {
+  opacity: 1;
+  visibility: visible;
+}
+.is-loaded .c-loader {
+  opacity: 0;
+  visibility: hidden;
+}
+.c-loader__line {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  height: 100%;
+  transform: scaleX(0.2);
+  transform-origin: left;
+  transition: transform 0.2s;
 }
 
 .c-ring-configurator {
