@@ -83,6 +83,9 @@ export default class ModelConfiguratorWrapper {
 
         this.engravingText.addEventListener("input", (ev) => {
             text = ev.target.value;
+            // Remove special characters using regex
+            text = text.replace(/[^a-zA-Z0-9 .,:;—&*/$%#!?šđčćž❤-]/g, "");
+            ev.target.value = text;
 
             this.modelConfigurator.setEngravingText(engravingObject, text, font, size);
         });

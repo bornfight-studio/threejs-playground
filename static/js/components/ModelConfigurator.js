@@ -38,6 +38,8 @@ export default class ModelConfigurator {
 
         this.defaults = Object.assign({}, _defaults, options);
 
+        this.body = document.body;
+
         this.onLoad = this.defaults.onLoad;
         this.onProgress = this.defaults.onProgress;
 
@@ -387,17 +389,22 @@ export default class ModelConfigurator {
 
     lockView() {
         const camera = this.viewer.scene.activeCamera;
+
         const position = {
             x: camera.position.x,
             y: camera.position.y,
             z: camera.position.z,
         };
+
         gsap.to(position, {
             x: 4.25,
             y: 0.15,
             z: 0,
             ease: "expo.inOut",
             duration: 2,
+            onStart: () => {
+                this.body.classList.remove("is-preview-hidden");
+            },
             onComplete: () => {
                 camera.setCameraOptions({ controlsEnabled: false });
             },
@@ -410,17 +417,22 @@ export default class ModelConfigurator {
 
     unlockView() {
         const camera = this.viewer.scene.activeCamera;
+
         const position = {
             x: camera.position.x,
             y: camera.position.y,
             z: camera.position.z,
         };
+
         gsap.to(position, {
             x: -6,
             y: 2,
             z: 5,
             ease: "expo.inOut",
             duration: 1.2,
+            onStart: () => {
+                this.body.classList.add("is-preview-hidden");
+            },
             onComplete: () => {
                 camera.setCameraOptions({ controlsEnabled: true });
             },

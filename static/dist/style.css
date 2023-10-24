@@ -877,10 +877,12 @@ body {
 .c-sofa-configurator__model {
   width: 62.5%;
   overflow: hidden;
-  cursor: grab;
   position: relative;
 }
-.c-sofa-configurator__model:active {
+.is-preview-hidden .c-sofa-configurator__model {
+  cursor: grab;
+}
+.is-preview-hidden .c-sofa-configurator__model:active {
   cursor: grabbing;
 }
 .c-sofa-configurator__model-inner {
@@ -1084,6 +1086,7 @@ body {
   transform: translateX(-50%);
   height: auto;
   padding-bottom: 10px;
+  z-index: 4;
 }
 .c-sofa-configurator__model-room button {
   display: inline-block;
@@ -1091,8 +1094,20 @@ body {
   cursor: pointer;
   padding: 15px;
   background-color: #f3f0ed;
-  border: 1px solid rgb(20, 23, 48);
+  border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 1000px;
+  width: 140px;
+  text-align: center;
+}
+.c-sofa-configurator__model-room button i {
+  font-style: normal;
+  display: none;
+}
+.is-preview-hidden .c-sofa-configurator__model-room button i {
+  display: block;
+}
+.is-preview-hidden .c-sofa-configurator__model-room button span {
+  display: none;
 }
 .c-sofa-configurator__options li button.is-active {
   pointer-events: auto;
@@ -1125,6 +1140,43 @@ body {
   width: calc(100% - 10px);
   height: calc(100% - 10px);
   object-fit: cover;
+}
+.c-sofa-configurator__preview {
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  transition: 0.8s 1s;
+  transform: scale(1);
+}
+.is-preview-hidden .c-sofa-configurator__preview {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.8s 0s;
+  transform: scale(1.05);
+}
+
+.c-material {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+  background-size: cover;
+  background-position: center;
+}
+.c-material.is-active {
+  opacity: 1;
+  visibility: visible;
 }
 
 .c-ring-configurator {
@@ -1184,8 +1236,6 @@ body {
   justify-content: center;
   z-index: 3;
   transform: translateY(10px);
-  opacity: 0;
-  visibility: hidden;
   transition: all 0.4s 0.1s;
 }
 .c-ring-configurator__options p {
@@ -1210,8 +1260,6 @@ body {
   display: flex;
   flex-direction: column;
   transform: translateY(10px);
-  opacity: 0;
-  visibility: hidden;
   transition: all 0.4s;
 }
 .c-ring-configurator__text p {
