@@ -42,7 +42,7 @@ export default class RingConfigurator {
                 isAntialiased: true,
             });
 
-            $this.viewer.renderManager.displayCanvasScaling = 2;
+            $this.viewer.renderManager.displayCanvasScaling = 1;
 
             $this.manager = await $this.viewer.addPlugin(AssetManagerPlugin);
             $this.text = await $this.viewer.addPlugin(SimpleTextPlugin);
