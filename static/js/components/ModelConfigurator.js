@@ -124,8 +124,8 @@ export default class ModelConfigurator {
      * Initializes the settings and objects after the viewer is initialized.
      */
     afterInit() {
-        //#F3F0ED
-        //#E2E2E2
+        //page bg #F3F0ED
+        //config bg (from #FFFFFF) #E2E2E2
         this.viewer.scene.setBackgroundColor("#FFFFFF");
 
         const camera = this.viewer.scene.activeCamera;
