@@ -878,6 +878,7 @@ body {
   width: 62.5%;
   overflow: hidden;
   position: relative;
+  box-shadow: 0 0 40px 40px #e2e2e2;
 }
 .is-preview-hidden .c-sofa-configurator__model {
   cursor: grab;

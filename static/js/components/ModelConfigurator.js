@@ -124,6 +124,10 @@ export default class ModelConfigurator {
      * Initializes the settings and objects after the viewer is initialized.
      */
     afterInit() {
+        //#F3F0ED
+        //#E2E2E2
+        this.viewer.scene.setBackgroundColor("#FFFFFF");
+
         const camera = this.viewer.scene.activeCamera;
         const controls = camera.controls;
         controls.minDistance = 2;
