@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ViewerApp, AssetManagerPlugin, addBasePlugins, EffectComposer2 } from "webgi";
+import { ViewerApp, AssetManagerPlugin, addBasePlugins } from "webgi";
 import * as THREE from "three";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -88,7 +88,7 @@ export default class ModelConfigurator {
                 isAntialiased: true,
             });
 
-            $this.viewer.renderManager.displayCanvasScaling = 2.5;
+            $this.viewer.renderManager.displayCanvasScaling = 2;
 
             $this.manager = await $this.viewer.addPlugin(AssetManagerPlugin);
 
@@ -146,7 +146,7 @@ export default class ModelConfigurator {
         this.roomObjects = this.defaults.roomObjects;
 
         const spotLight = this.viewer.scene.children[0].children[0].getObjectByName("Spot");
-        if (spotLight) spotLight.intensity = 1;
+        // if (spotLight) spotLight.intensity = 1;
 
         this.addLights();
 
@@ -183,14 +183,23 @@ export default class ModelConfigurator {
 
     addLights() {
         const directionalLight1 = new THREE.DirectionalLight(0xf0f0f0, 1);
-        directionalLight1.position.set(0, 6, 3);
-
-        // directionalLight1.castShadow = true;
+        directionalLight1.position.set(0, 4, 6);
+        directionalLight1.castShadow = true;
+        directionalLight1.shadow.camera.top = 20;
+        directionalLight1.shadow.camera.bottom = -20;
+        directionalLight1.shadow.camera.left = -20;
+        directionalLight1.shadow.camera.right = 20;
+        directionalLight1.shadow.camera.near = 0.5;
+        directionalLight1.shadow.camera.far = 20;
+        directionalLight1.shadow.mapSize.width = 4096;
+        directionalLight1.shadow.mapSize.height = 4096;
+        directionalLight1.shadow.bias = 0.005;
+        directionalLight1.shadow.radius = 1;
+        directionalLight1.shadow.autoUpdate = false;
+        directionalLight1.shadow.needsUpdate = true;
 
         const directionalLight2 = new THREE.DirectionalLight(0xf0f0f0, 0.5);
         directionalLight2.position.set(-1, 3, -3);
-
-        // directionalLight2.castShadow = true;
 
         const pointLight = new THREE.PointLight(0xf0f0f0, 0.2);
         pointLight.position.set(-5, 3, 0);

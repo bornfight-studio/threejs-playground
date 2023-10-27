@@ -37,6 +37,7 @@
         "@bornfight/b-reset": "^1.0.8",
         "@bornfight/b-scroll-lock": "^1.0.7",
         "@namics/stylelint-bem": "^8.1.0",
+        "@types/webgi": "https://dist.pixotronics.com/webgi/runtime/bundle-types-0.8.6.tgz",
         "babel-loader": "^9.1.2",
         "babelify": "^10.0.0",
         "browser-sync": "^2.29.1",
@@ -68,11 +69,10 @@
         "vinyl-buffer": "^1.0.1",
         "vinyl-source-stream": "^2.0.0",
         "watchify": "^4.0.0",
+        "webgi": "https://dist.pixotronics.com/webgi/runtime/bundle-0.8.6.tgz",
         "webpack": "^5.76.1",
         "webpack-cli": "^5.0.1",
-        "webpack-remove-empty-scripts": "^1.0.1",
-        "webgi": "https://dist.pixotronics.com/webgi/runtime/bundle-0.8.3.tgz",
-        "@types/webgi": "https://dist.pixotronics.com/webgi/runtime/bundle-types-0.8.3.tgz"
+        "webpack-remove-empty-scripts": "^1.0.1"
     },
     "engines": {
         "node": "16.x",
