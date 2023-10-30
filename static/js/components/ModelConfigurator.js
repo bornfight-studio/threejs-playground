@@ -86,8 +86,10 @@ export default class ModelConfigurator {
                 canvas: $this.element,
                 useRgbm: true,
                 isAntialiased: true,
+                // caching: true,
             });
 
+            // $this.viewer.renderManager.displayCanvasScaling = Math.min(2, window.devicePixelRatio) * 1.25;
             $this.viewer.renderManager.displayCanvasScaling = 2.5;
 
             $this.manager = await $this.viewer.addPlugin(AssetManagerPlugin);
@@ -95,9 +97,19 @@ export default class ModelConfigurator {
             $this.importer = $this.manager.importer;
 
             await addBasePlugins($this.viewer);
+
+            $this.viewer.renderer.refreshPipeline();
         }
 
         setupViewer().then((r) => {
+            this.importer.importSinglePath("../static/models/lights/neutral.hdr").then((v) => {
+                this.lights.neutral = v;
+            });
+
+            this.importer.importSinglePath("../static/models/lights/warm_3.hdr").then((v) => {
+                this.lights.warm = v;
+            });
+
             this.manager.addFromPath(this.defaults.modelUrl).then((r) => {});
 
             this.importer.addEventListener("onProgress", (ev) => {
@@ -227,21 +239,12 @@ export default class ModelConfigurator {
     /**
      * Sets the environment light of the viewer scene.
      *
-     * @param {object} light - The light to set as the environment light.
+     * @param {object} color - The light to set as the environment light.
      */
-    setEnvLight(light) {
-        let color = 0xf0f0f0;
+    setEnvLight(color) {
+        this.viewer.scene.environment = this.lights[color];
 
-        if (light === "warm") {
-            color = 0xf0f0e0;
-        }
-
-        this.lights.forEach((light) => {
-            light.color.set(color);
-            light.setDirty?.();
-        });
-
-        // this.viewer.scene.setDirty();
+        this.viewer.scene.setDirty("environment");
     }
 
     /**
