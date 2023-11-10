@@ -38,6 +38,7 @@ export default class ModelConfigurator {
 
         this.defaults = Object.assign({}, _defaults, options);
 
+        console.log(this.defaults.modelUrl);
         this.body = document.body;
 
         this.onLoad = this.defaults.onLoad;
