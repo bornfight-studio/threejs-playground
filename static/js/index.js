@@ -24,6 +24,7 @@ import SplineExportTest from "./components/SplineExportTest";
 import SplineExportTestV2 from "./components/SplineExportTestV2";
 import SplineExportTestV3 from "./components/SplineExportTestV3";
 import MarchingOrb from "./components/MarchingOrb";
+import RedNeckOrb from "./components/RedNeckOrb";
 
 /**
  * Check if document is ready cross-browser
@@ -111,4 +112,6 @@ ready(() => {
     splineExportTestV3.init();
 
     const marchingOrb = new MarchingOrb();
+
+    const redneckOrb = new RedNeckOrb();
 });
