@@ -594,7 +594,7 @@ export default class RedNeckOrb {
             aspect = appW / appH;
 
             scene = new THREE.Scene();
-            scene.background = new THREE.Color("#DEE7EE");
+            scene.background = new THREE.Color("#000000");
             camera = new THREE.OrthographicCamera(
                 (frustumSize * aspect) / -2,
                 (frustumSize * aspect) / 2,
@@ -625,6 +625,7 @@ export default class RedNeckOrb {
             /* scene container */
             sceneContainer = new THREE.Object3D();
             sceneContainer.position.x = 0;
+            sceneContainer.rotation.y = THREE.MathUtils.degToRad(10);
             scene.add(sceneContainer);
 
             /* lights */
