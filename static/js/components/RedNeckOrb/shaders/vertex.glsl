@@ -17,7 +17,6 @@ void main () {
 
     vec3 pos = position;
 
-    float i = index;
     float xzModifier = uSineModify;
 
     pos.z += sin(time + (sin(pos.y * uModifier) * xzModifier) + (sin(pos.x * uModifier) * xzModifier)) * 0.05;
@@ -32,10 +31,10 @@ void main () {
 
     /* big white dots size */
     if (index == 110.0 || index == 220.0 || index == 300.0) {
-        gl_PointSize = (15.0 + abs(sin(uTime)) * 5.0) / (abs(uFrustum) / 1.5);
+        gl_PointSize = (15.0 + abs(sin(uTime)) * 5.0) / (abs(uFrustum) / 2.0);
     }
     /* default dots size */
     else {
-        gl_PointSize = 8.0 / (abs(uFrustum) / 1.5);
+        gl_PointSize = 8.0 / (abs(uFrustum) / 1.0);
     }
 }

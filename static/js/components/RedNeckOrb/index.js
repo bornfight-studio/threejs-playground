@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
 
 /* shaders */
@@ -62,7 +61,7 @@ export default class RedNeckOrb {
         const aspect = this.appW / this.appH;
 
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color("#000000");
+        this.scene.background = new THREE.Color("#e3ecf2");
         this.camera = new THREE.OrthographicCamera(
             (this.frustumSize * aspect) / -2,
             (this.frustumSize * aspect) / 2,
@@ -109,7 +108,7 @@ export default class RedNeckOrb {
         /* init dot rings */
         this.mainModel = this.initMainModel();
         this.mainModel.position.set(0, 0, 0);
-        this.mainModel.scale.setScalar(1.2);
+        this.mainModel.scale.setScalar(1.15);
 
         /* create transform container */
         this.transformContainer = new THREE.Object3D();
@@ -118,10 +117,10 @@ export default class RedNeckOrb {
         this.transformContainer.add(this.mainModel);
 
         /* add plane */
-        this.plane = this.addPlane(1, 1);
-        this.plane.position.set(0, -1.2, 0);
+        this.plane = this.addPlane(1.1, 1.1);
+        this.plane.position.set(0, -1.5, 0);
         this.plane.scale.setScalar(10);
-        this.plane.rotation.x = THREE.MathUtils.degToRad(65);
+        this.plane.rotation.x = THREE.MathUtils.degToRad(70);
         this.sceneContainer.add(this.plane);
 
         /* HDR loader */
