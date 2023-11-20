@@ -138,7 +138,7 @@ export default class RedNeckOrb {
         });
 
         /* start */
-        window.addEventListener("resize", this.handleResize);
+        window.addEventListener("resize", () => this.handleResize());
         this.run();
     }
 
