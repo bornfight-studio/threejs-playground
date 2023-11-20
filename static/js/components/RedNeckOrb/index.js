@@ -9,6 +9,7 @@ import fragmentShader from "./shaders/fragment.glsl";
 
 import vertexPlaneShader from "./shaders/vertexPlane.glsl";
 import fragmentPlaneShader from "./shaders/fragmentPlane.glsl";
+import GuiSetup from "./GuiSetup";
 
 export default class RedNeckOrb {
     constructor() {
@@ -16,9 +17,10 @@ export default class RedNeckOrb {
 
         if (!this.el) return;
 
-        /* vars */
         this.scene = null;
         this.renderer = null;
+
+        this.guiSetup = new GuiSetup();
 
         this.appW = this.el.clientWidth;
         this.appH = this.el.clientHeight;
@@ -134,7 +136,25 @@ export default class RedNeckOrb {
             this.sceneContainer.add(this.ball);
 
             /* init gui */
-            this.initGui();
+            this.guiSetup.initGui(
+                this.el,
+                this.camera,
+                this.renderer,
+                this.transformContainer,
+                this.ball,
+                this.sprite,
+                this.scene,
+                this.plane,
+                this.sceneContainer,
+                this.frustumSize,
+                this.autoTime,
+                this.areRandomizedSegments,
+                this.ambient,
+                this.directional,
+                this.directional2,
+                this.directional3,
+                this.mainModel,
+            );
         });
 
         /* start */
@@ -149,7 +169,7 @@ export default class RedNeckOrb {
         /* segments rotation */
         this.mainModel.children.forEach((child, index) => {
             let direction = this.areRandomizedSegments ? (index % 2 === 0 ? 1 : -1) : 1;
-            child.rotation.z += direction * (0.5 * dt); // Z insted of Y is here because we rotated it at creation
+            child.rotation.z += direction * (0.5 * dt); // Z instead of Y is here because we rotated it at creation
         });
 
         /* uniform update */
@@ -320,417 +340,5 @@ export default class RedNeckOrb {
         ring.rotateX(THREE.MathUtils.degToRad(90));
 
         return ring;
-    }
-
-    /// GUI
-
-    initGui() {
-        const gui = new GUI();
-        const generalFolder = gui.addFolder("General");
-        const rendererFolder = gui.addFolder("Renderer");
-        const matFolder = gui.addFolder("Material");
-        const sceneFolder = gui.addFolder("Scene");
-        const spriteFolder = gui.addFolder("Sprite");
-        const lightFolder = gui.addFolder("Lights");
-        const shaderFolder = gui.addFolder("Shaders");
-        const segmentsFolder = gui.addFolder("Segments");
-        const planeFolder = gui.addFolder("Plane");
-
-        const params = {
-            /* renderer */
-            toneMapping: this.renderer.toneMapping,
-            outputColorSpace: this.renderer.outputColorSpace,
-
-            /* transform container */
-            dotSphereRotation: THREE.MathUtils.radToDeg(this.transformContainer.rotation.z),
-
-            /* ball */
-            baseColor: this.ball.material.color.getHex(),
-            emissiveColor: this.ball.material.emissive.getHex(),
-            emissiveIntensity: this.ball.material.emissiveIntensity,
-            roughness: this.ball.material.roughness,
-            metalness: this.ball.material.metalness,
-            clearcoat: this.ball.material.clearcoat,
-            clearcoatRoughness: this.ball.material.clearcoatRoughness,
-            envMapIntensity: this.ball.material.envMapIntensity,
-            opacity: this.ball.material.opacity,
-            ballScale: this.ball.scale.x,
-
-            /* scene */
-            sceneBackgroundColor: this.scene.background.getHex(),
-            scenePositionX: this.sceneContainer.position.x,
-            scenePositionY: this.sceneContainer.position.y,
-            cameraFrustum: this.frustumSize, // we are going with frustum and not position Z, because positions Z is irelevant on orthographic camera
-
-            /* sprite */
-            spriteScale: this.sprite.scale.x,
-            positionZ: this.sprite.position.z,
-            depthTest: this.sprite.material.depthTest,
-            depthWrite: this.sprite.material.depthWrite,
-            /* alpha: sprite.material.alphaTest */
-
-            /* lights */
-            ambientIntensity: this.ambient.intensity,
-            ambientColor: this.ambient.color.getHex(),
-            directional1Intensity: this.directional.intensity,
-            directional1Color: this.directional.color.getHex(),
-            directional2Intensity: this.directional2.intensity,
-            directional2Color: this.directional2.color.getHex(),
-            directional3Intensity: this.directional3.intensity,
-            directional3Color: this.directional3.color.getHex(),
-
-            /* shaders */
-            uModifier: this.mainModel.children[0].material.uniforms.uModifier.value,
-            uSineModify: this.mainModel.children[0].material.uniforms.uSineModify.value,
-            uYStrech: this.mainModel.children[0].material.uniforms.uYStrech.value,
-            uNear: this.mainModel.children[0].material.uniforms.uNear.value,
-            uFar: this.mainModel.children[0].material.uniforms.uFar.value,
-            uCamZ: this.mainModel.children[0].material.uniforms.uCamZ.value,
-            areRandomizedSegments: this.areRandomizedSegments,
-
-            /* segments */
-            segment1: this.mainModel.children[10].material.uniforms.uYStrech.value,
-            segment2: this.mainModel.children[9].material.uniforms.uYStrech.value,
-            segment3: this.mainModel.children[8].material.uniforms.uYStrech.value,
-            segment4: this.mainModel.children[7].material.uniforms.uYStrech.value,
-            segment5: this.mainModel.children[6].material.uniforms.uYStrech.value,
-            segment6: this.mainModel.children[5].material.uniforms.uYStrech.value,
-            segment7: this.mainModel.children[0].material.uniforms.uYStrech.value,
-            segment8: this.mainModel.children[1].material.uniforms.uYStrech.value,
-            segment9: this.mainModel.children[2].material.uniforms.uYStrech.value,
-            segment10: this.mainModel.children[3].material.uniforms.uYStrech.value,
-            segment11: this.mainModel.children[4].material.uniforms.uYStrech.value,
-
-            /* plane */
-            uFrequency: this.plane.material.uniforms.uFrequency.value,
-            uSpeed: this.plane.material.uniforms.uSpeed.value,
-            uHeight: this.plane.material.uniforms.uHeight.value,
-            uAnchorX: this.plane.material.uniforms.uAnchor.value.x,
-            uAnchorY: this.plane.material.uniforms.uAnchor.value.y,
-            uTime: this.plane.material.uniforms.uTime.value,
-            AutoTime: this.autoTime,
-        };
-
-        /* renderer */
-        rendererFolder.add(this.renderer, "toneMapping", {
-            No: THREE.NoToneMapping,
-            Linear: THREE.LinearToneMapping,
-            Reinhard: THREE.ReinhardToneMapping,
-            Cineon: THREE.CineonToneMapping,
-            ACESFilmic: THREE.ACESFilmicToneMapping,
-        });
-
-        rendererFolder.add(this.renderer, "outputColorSpace", {
-            LinearSRGB: THREE.LinearSRGBColorSpace,
-            sRGB: THREE.SRGBColorSpace,
-        });
-
-        generalFolder
-            .add(params, "dotSphereRotation", 0.0, 90.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.transformContainer.rotation.z = THREE.MathUtils.degToRad(value);
-            });
-
-        matFolder.addColor(params, "baseColor").onChange((value) => {
-            this.ball.material.color.setHex(value);
-        });
-        matFolder.addColor(params, "emissiveColor").onChange((value) => {
-            this.ball.material.emissive.setHex(value);
-        });
-        matFolder
-            .add(params, "metalness", 0.0, 1.0)
-            .step(0.01)
-            .onChange(function (value) {
-                this.ball.material.metalness = value;
-            });
-        matFolder
-            .add(params, "roughness", 0.0, 1.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.ball.material.roughness = value;
-            });
-        matFolder
-            .add(params, "clearcoat", 0.0, 1.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.ball.material.clearcoat = value;
-            });
-        matFolder
-            .add(params, "clearcoatRoughness", 0.0, 1.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.ball.material.clearcoatRoughness = value;
-            });
-        matFolder
-            .add(params, "envMapIntensity", 0.0, 1.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.ball.material.envMapIntensity = value;
-            });
-        matFolder
-            .add(params, "opacity", 0.0, 1.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.ball.material.opacity = value;
-            });
-        matFolder
-            .add(params, "ballScale", 0.0, 5.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.ball.scale.setScalar(value);
-            });
-
-        /* scene */
-        sceneFolder.addColor(params, "sceneBackgroundColor").onChange((value) => {
-            this.scene.background.setHex(value);
-        });
-        sceneFolder
-            .add(params, "scenePositionX", -10.0, 10.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.sceneContainer.position.x = value;
-            });
-        sceneFolder
-            .add(params, "scenePositionY", -10.0, 10.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.sceneContainer.position.y = value;
-            });
-        sceneFolder
-            .add(params, "cameraFrustum", -10.0, 10.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.frustumSize = value;
-                this.mainModel.children.forEach((child) => {
-                    child.material.uniforms.uFrustum.value = value;
-                });
-                this.plane.material.uniforms.uFrustum.value = value;
-                this.handleResize();
-            });
-
-        /* sprite */
-        spriteFolder
-            .add(params, "spriteScale", 0.0, 10.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.sprite.scale.setScalar(value);
-            });
-        spriteFolder
-            .add(params, "positionZ", -2.0, 2.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.sprite.position.z = value;
-            });
-        spriteFolder.add(params, "depthTest", false, true).onChange((value) => {
-            this.sprite.material.depthTest = value;
-        });
-        spriteFolder.add(params, "depthWrite", false, true).onChange((value) => {
-            this.sprite.material.depthWrite = value;
-        });
-
-        /* lights */
-        lightFolder
-            .add(params, "ambientIntensity", 0.0, 10.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.ambient.intensity = value;
-            });
-        lightFolder.addColor(params, "ambientColor").onChange((value) => {
-            this.ambient.color.setHex(value);
-        });
-        lightFolder
-            .add(params, "directional1Intensity", 0.0, 10.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.directional.intensity = value;
-            });
-        lightFolder.addColor(params, "directional1Color").onChange((value) => {
-            this.directional.color.setHex(value);
-        });
-        lightFolder
-            .add(params, "directional2Intensity", 0.0, 10.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.directional2.intensity = value;
-            });
-        lightFolder.addColor(params, "directional2Color").onChange((value) => {
-            this.directional2.color.setHex(value);
-        });
-        lightFolder
-            .add(params, "directional3Intensity", 0.0, 10.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.directional3.intensity = value;
-            });
-        lightFolder.addColor(params, "directional3Color").onChange((value) => {
-            this.directional3.color.setHex(value);
-        });
-
-        /* shaders */
-        shaderFolder
-            .add(params, "uModifier", 0.0, 5.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children.forEach((child) => {
-                    child.material.uniforms.uModifier.value = value;
-                });
-            });
-        shaderFolder
-            .add(params, "uSineModify", 0.0, 10.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children.forEach((child) => {
-                    child.material.uniforms.uSineModify.value = value;
-                });
-            });
-        shaderFolder
-            .add(params, "uYStrech", 0.0, 1.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children.forEach((child) => {
-                    child.material.uniforms.uYStrech.value = value;
-                });
-            });
-        shaderFolder
-            .add(params, "uNear", -5.0, 5.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children.forEach((child) => {
-                    child.material.uniforms.uNear.value = value;
-                });
-            });
-        shaderFolder
-            .add(params, "uFar", -5.0, 5.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children.forEach((child) => {
-                    child.material.uniforms.uFar.value = value;
-                });
-            });
-        shaderFolder.add(params, "areRandomizedSegments", false, true).onChange((value) => {
-            this.areRandomizedSegments = value;
-        });
-
-        /* segments */
-        segmentsFolder
-            .add(params, "segment1", 0.0, 1.5)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children[10].material.uniforms.uYStrech.value = value;
-            });
-        segmentsFolder
-            .add(params, "segment2", 0.0, 1.5)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children[9].material.uniforms.uYStrech.value = value;
-            });
-        segmentsFolder
-            .add(params, "segment3", 0.0, 1.5)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children[8].material.uniforms.uYStrech.value = value;
-            });
-        segmentsFolder
-            .add(params, "segment4", 0.0, 1.5)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children[7].material.uniforms.uYStrech.value = value;
-            });
-        segmentsFolder
-            .add(params, "segment5", 0.0, 1.5)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children[6].material.uniforms.uYStrech.value = value;
-            });
-        segmentsFolder
-            .add(params, "segment6", 0.0, 1.5)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children[5].material.uniforms.uYStrech.value = value;
-            });
-        segmentsFolder
-            .add(params, "segment7", 0.0, 1.5)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children[0].material.uniforms.uYStrech.value = value;
-            });
-        segmentsFolder
-            .add(params, "segment8", 0.0, 1.5)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children[1].material.uniforms.uYStrech.value = value;
-            });
-        segmentsFolder
-            .add(params, "segment9", 0.0, 1.5)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children[2].material.uniforms.uYStrech.value = value;
-            });
-        segmentsFolder
-            .add(params, "segment10", 0.0, 1.5)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children[3].material.uniforms.uYStrech.value = value;
-            });
-        segmentsFolder
-            .add(params, "segment11", 0.0, 1.5)
-            .step(0.01)
-            .onChange((value) => {
-                this.mainModel.children[4].material.uniforms.uYStrech.value = value;
-            });
-
-        /* plane */
-        planeFolder
-            .add(params, "uFrequency", 0.0, 50.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.plane.material.uniforms.uFrequency.value = value;
-            });
-        planeFolder
-            .add(params, "uSpeed", 0.0, 2.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.plane.material.uniforms.uSpeed.value = value;
-            });
-        planeFolder
-            .add(params, "uHeight", 0.0, 0.1)
-            .step(0.001)
-            .onChange((value) => {
-                this.plane.material.uniforms.uHeight.value = value;
-            });
-        planeFolder
-            .add(params, "uAnchorX", 0.0, 1.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.plane.material.uniforms.uAnchor.value.x = value;
-            });
-        planeFolder
-            .add(params, "uAnchorY", 0.0, 1.0)
-            .step(0.01)
-            .onChange((value) => {
-                this.plane.material.uniforms.uAnchor.value.y = value;
-            });
-        planeFolder
-            .add(params, "uTime", 0.0, 10.0)
-            .step(0.01)
-            .onChange((value) => {
-                if (!this.autoTime) {
-                    this.plane.material.uniforms.uTime.value = value;
-                }
-            });
-        planeFolder.add(params, "AutoTime", false, true).onChange((value) => {
-            this.autoTime = value;
-        });
-
-        generalFolder.close();
-        rendererFolder.close();
-        matFolder.close();
-        sceneFolder.close();
-        spriteFolder.close();
-        lightFolder.close();
-        shaderFolder.close();
-        segmentsFolder.close();
-        gui.close();
     }
 }
