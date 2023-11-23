@@ -70,8 +70,8 @@
         "vinyl-buffer": "^1.0.1",
         "vinyl-source-stream": "^2.0.0",
         "watchify": "^4.0.0",
-        "webgi": "https://dist.pixotronics.com/webgi/runtime/bundle-0.8.7.tgz",
         "webpack": "^5.76.1",
+      "webgi": "https://dist.pixotronics.com/webgi/runtime/bundle-0.8.6.tgz",
         "webpack-cli": "^5.0.1",
         "webpack-remove-empty-scripts": "^1.0.1"
     },
