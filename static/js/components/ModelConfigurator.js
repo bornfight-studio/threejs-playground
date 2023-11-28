@@ -81,12 +81,13 @@ export default class ModelConfigurator {
      */
     init() {
         const $this = this;
+        this.isAntialiased = true;
 
         async function setupViewer() {
             $this.viewer = new ViewerApp({
                 canvas: $this.element,
                 useRgbm: true,
-                isAntialiased: true,
+                isAntialiased: $this.isAntialiased,
                 // caching: true,
             });
 
@@ -477,5 +478,18 @@ export default class ModelConfigurator {
             object.visible = true;
             object.setDirty?.();
         });
+    }
+
+    switchQuality(quality = "low") {
+        console.log(quality);
+        if (quality === "high") {
+            this.viewer.renderManager.displayCanvasScaling = 2.5;
+            this.isAntialiased = true;
+            this.viewer.setDirty();
+        } else {
+            this.viewer.renderManager.displayCanvasScaling = 1;
+            this.isAntialiased = false;
+            this.viewer.setDirty();
+        }
     }
 }
