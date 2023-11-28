@@ -48,13 +48,6 @@ export default class ModelConfigurator {
 
         if (!this.element) return;
 
-        this.elementDimensions = {
-            width: this.element.offsetWidth,
-            height: this.element.offsetHeight,
-            widthHalf: this.element.offsetWidth / 2,
-            heightHalf: this.element.offsetHeight / 2,
-        };
-
         this.lights = {
             neutral: null,
             warm: null,
