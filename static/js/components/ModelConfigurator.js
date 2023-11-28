@@ -88,7 +88,7 @@ export default class ModelConfigurator {
                 canvas: $this.element,
                 useRgbm: true,
                 isAntialiased: $this.isAntialiased,
-                // caching: true,
+                caching: true,
             });
 
             // $this.viewer.renderManager.displayCanvasScaling = Math.min(2, window.devicePixelRatio) * 1.25;
@@ -148,53 +148,17 @@ export default class ModelConfigurator {
         controls.maxDistance = 12;
         controls.minZoom = 0;
         controls.maxZoom = 0;
-        // controls.enablePan = true;
-        // controls.minPolarAngle = 0.9;
-        // controls.maxPolarAngle = 1.6;
-        // controls.minAzimuthAngle = 3.2;
-        // controls.maxAzimuthAngle = -1.2;
 
-        camera.setCameraOptions({ controlsEnabled: false });
-
-        camera.cameraObject.userData.autoNearFar = false;
+        camera.setCameraOptions({
+            controlsEnabled: false,
+        });
 
         this.texture = new THREE.TextureLoader();
         this.modelObjects = this.defaults.modelObjects;
 
         this.roomObjects = this.defaults.roomObjects;
 
-        const spotLight = this.viewer.scene.children[0].children[0].getObjectByName("Spot");
-        // if (spotLight) spotLight.intensity = 1;
-
         this.addLights();
-
-        if (spotLight && this.defaults.mouseAnimation) {
-            const initialPosition = {
-                positionX: spotLight.position.x,
-                positionY: spotLight.position.y,
-                positionZ: spotLight.position.z,
-            };
-
-            const cursor = {
-                x: 0,
-                y: 0,
-            };
-
-            this.element.addEventListener("mousemove", (ev) => {
-                cursor.x = (this.elementDimensions.widthHalf - ev.clientX) * 0.00005;
-                cursor.y = (this.elementDimensions.heightHalf - ev.clientY) * 0.00005;
-
-                gsap.to(spotLight.position, {
-                    x: initialPosition.positionX - cursor.x,
-                    y: initialPosition.positionY + cursor.y,
-                    duration: 1,
-                    onUpdate: () => {
-                        spotLight.setDirty?.("position");
-                        camera.setDirty?.();
-                    },
-                });
-            });
-        }
 
         this.controller();
     }
@@ -202,28 +166,12 @@ export default class ModelConfigurator {
     addLights() {
         const directionalLight1 = new THREE.DirectionalLight(0xf0f0f0, 1);
         directionalLight1.position.set(0, 6, 3);
-        // directionalLight1.position.set(0, 4, 6);
-        // directionalLight1.castShadow = true;
-        // directionalLight1.shadow.camera.top = 20;
-        // directionalLight1.shadow.camera.bottom = -20;
-        // directionalLight1.shadow.camera.left = -20;
-        // directionalLight1.shadow.camera.right = 20;
-        // directionalLight1.shadow.camera.near = 0.5;
-        // directionalLight1.shadow.camera.far = 20;
-        // directionalLight1.shadow.mapSize.width = 4096;
-        // directionalLight1.shadow.mapSize.height = 4096;
-        // directionalLight1.shadow.bias = 0.0001;
-        // directionalLight1.shadow.radius = 1;
-        // directionalLight1.shadow.autoUpdate = false;
-        // directionalLight1.shadow.needsUpdate = true;
 
         const directionalLight2 = new THREE.DirectionalLight(0xf0f0f0, 0.5);
         directionalLight2.position.set(-1, 3, -3);
 
         const pointLight = new THREE.PointLight(0xf0f0f0, 0.2);
         pointLight.position.set(-5, 3, 0);
-
-        // pointLight.castShadow = true;
 
         const light = new THREE.AmbientLight(0x808080, 0.5);
 
@@ -346,6 +294,7 @@ export default class ModelConfigurator {
      * Sets the appearance of the material based on the given materialObject and scale.
      *
      * @param {Object} materialObject - The material object containing appearance properties.
+     * @param {Object} object
      * @param {number} scale - The scale factor for the appearance.
      */
     tweakAppearanceSet(materialObject, scale, object) {
@@ -484,6 +433,10 @@ export default class ModelConfigurator {
         console.log(quality);
         if (quality === "high") {
             this.viewer.renderManager.displayCanvasScaling = 2.5;
+            this.isAntialiased = true;
+            this.viewer.setDirty();
+        } else if (quality === "medium") {
+            this.viewer.renderManager.displayCanvasScaling = 1.7;
             this.isAntialiased = true;
             this.viewer.setDirty();
         } else {
