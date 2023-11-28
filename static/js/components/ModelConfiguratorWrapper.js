@@ -12,6 +12,7 @@ export default class ModelConfiguratorWrapper {
             texturePreview: ".js-furniture-configurator-preview",
             envLightOptions: ".js-furniture-configurator-light-option",
             loaderLine: ".js-configurator-viewer-loader-line",
+            qualityButton: ".js-furniture-configurator-quality-option",
             states: {
                 isActive: "is-active",
             },
@@ -40,6 +41,7 @@ export default class ModelConfiguratorWrapper {
         this.envLightOptions = document.querySelectorAll(this.DOM.envLightOptions);
         this.textureOptions = document.querySelectorAll(this.DOM.textureOptions);
         this.texturePreviews = document.querySelectorAll(this.DOM.texturePreview);
+        this.qualityButtons = document.querySelectorAll(this.DOM.qualityButton);
         this.roomToggle = document.querySelector(this.DOM.roomToggle);
         this.viewToggle = document.querySelector(this.DOM.viewToggle);
     }
@@ -59,6 +61,10 @@ export default class ModelConfiguratorWrapper {
 
         if (this.viewToggle) {
             this.viewToggleController();
+        }
+
+        if (this.qualityButtons?.length > 0) {
+            this.qualityController();
         }
 
         this.body.classList.add("is-loaded");
@@ -126,6 +132,15 @@ export default class ModelConfiguratorWrapper {
     viewToggleController() {
         this.viewToggle.addEventListener("click", (ev) => {
             this.modelConfigurator.toggleView();
+        });
+    }
+
+    qualityController() {
+        this.qualityButtons.forEach((button) => {
+            button.addEventListener("click", (ev) => {
+                this.setActiveClass(ev, this.qualityButtons);
+                this.modelConfigurator.switchQuality(button.dataset.quality);
+            });
         });
     }
 }
